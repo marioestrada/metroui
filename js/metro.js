@@ -9,6 +9,12 @@ $(function()
 		$('#torrent_controls').toggleClass('open', $('.torrent.selected', '#torrents').length > 0)
 	})
 
+	$('#controls_top').on('click', '.sub ul a', function(e)
+	{
+		e.preventDefault()
+		$(this).closest('.sub').removeClass('open')
+	})
+
 	$('#controls_top').on('click', '.sub > a:first', function(e)
 	{
 		e.preventDefault()

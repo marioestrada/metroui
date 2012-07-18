@@ -168,9 +168,12 @@
 					</div>
 
 					<div class="byline">
+						<span class="details">
+							Downloading from 10 peers - D: 563 b/s U: 6 b/s ETA: 2w 2d
+						</span><br />
 						<span class="icon downloaded">Downloaded</span> 400 MB of 1.73 GB
-						<span class="icon uplooaded">Uploaded</span> 10.27 MB
-						<span class="icon ratio"></span> Ratio: 0.02
+						<span class="icon uploaded">Uploaded</span> 10.27 MB
+						<span class="icon ratio">Ratio</span> Ratio: 0.02
 					</div>
 					</div>
 				</div>
@@ -182,15 +185,13 @@
 					</div>
 
 					<div class="byline">
+						<span class="details">
+							Downloading from 10 peers - D: 563 b/s U: 6 b/s ETA: 2w 2d
+						</span><br />
 						<span class="icon downloaded">Downloaded</span> 400 MB of 1.73 GB
-						<span class="icon uplooaded">Uploaded</span> 10.27 MB
-						<span class="icon ratio"></span> Ratio: 0.02
+						<span class="icon uploaded">Uploaded</span> 10.27 MB
+						<span class="icon ratio">Ratio</span> Ratio: 0.02
 					</div>
-					
-					<!-- <div class="progress">
-						<span class="in_text">{{ _compact_byline }}</span>
-						<div class="bar" style="width: {{ percent }}%"><span>{{ _compact_byline }}</span></div>
-					</div> -->
 				</div>
 			</div>
 
@@ -203,9 +204,12 @@
 					</div>
 
 					<div class="byline">
+						<span class="details">
+							Seeding to 8 peers - U: 3.2 Kb/s ETA: 5d
+						</span><br />
 						<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
-						<span class="icon uplooaded">Uploaded</span> 8.57 MB
-						<span class="icon ratio"></span> Ratio: 0.13
+						<span class="icon uploaded">Uploaded</span> 8.57 MB
+						<span class="icon ratio">Ratio</span> Ratio: 0.13
 					</div>
 					</div>
 				</div>
@@ -217,9 +221,12 @@
 					</div>
 
 					<div class="byline">
+						<span class="details">
+							Seeding to 8 peers - U: 3.2 Kb/s ETA: 5d
+						</span><br />
 						<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
-						<span class="icon uplooaded">Uploaded</span> 8.57 MB
-						<span class="icon ratio"></span> Ratio: 0.13
+						<span class="icon uploaded">Uploaded</span> 8.57 MB
+						<span class="icon ratio">Ratio</span> Ratio: 0.13
 					</div>
 				</div>
 		</div>
@@ -233,9 +240,12 @@
 				</div>
 
 				<div class="byline">
+					<span class="details">
+						Completed
+					</span><br />
 					<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
-					<span class="icon uplooaded">Uploaded</span> 8.57 MB
-					<span class="icon ratio"></span> Ratio: 0.13
+					<span class="icon uploaded">Uploaded</span> 8.57 MB
+					<span class="icon ratio">Ratio</span> Ratio: 0.13
 				</div>
 				</div>
 			</div>
@@ -247,34 +257,41 @@
 				</div>
 
 				<div class="byline">
+					<span class="details">
+						Completed
+					</span><br />
 					<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
-					<span class="icon uplooaded">Uploaded</span> 8.57 MB
-					<span class="icon ratio"></span> Ratio: 0.13
+					<span class="icon uploaded">Uploaded</span> 8.57 MB
+					<span class="icon ratio">Ratio</span> Ratio: 0.13
 				</div>
 			</div>
 		</div>
 	</section>
 	
-	<div id="torrent_controls" class="panel">
+	<footer id="status">
+		D: 5 Kb/s U: 3 Kb/s
+	</footer>
+
+	<section id="torrent_controls" class="panel">
 		<ul class="start">
-			<li><a href="#"><span class="icon"></span><br />Pause</a></li>
-			<li><a href="#"><span class="icon"></span><br />Remove</a></li>
-			<li><a href="#"><span class="icon"></span><br />Queue Up</a></li>
-			<li><a href="#"><span class="icon"></span><br />Queue Down</a></li>
+			<li><a href="#" class="pause"><span class="icon"></span><br />Pause</a></li>
+			<li><a href="#" class="remove"><span class="icon"></span><br />Remove</a></li>
+			<li><a href="#" class="queue-up"><span class="icon"></span><br />Queue Up</a></li>
+			<li><a href="#" class="queue-down"><span class="icon"></span><br />Queue Down</a></li>
 		</ul>
 		<ul class="end">
-			<li><a href="#"><span class="icon"></span><br />Label</a></li>
-			<li><a href="#"><span class="icon"></span><br />Share</a></li>
-			<li><a href="#"><span class="icon"></span><br />Info</a></li>
+			<li><a href="#" class="label"><span class="icon"></span><br />Label</a></li>
+			<li><a href="#" class="share"><span class="icon"></span><br />Share</a></li>
+			<li><a href="#" class="info"><span class="icon"></span><br />Info</a></li>
 		</ul>
-	</div>
+	</section>
 
 	<!-- <section id="feeds" class="main_content hidden">
 		<div class="scrollable vertical content">
 			
 		</div>
 	</section> -->
-	
+
 	<section id="panels" class="">
 		<header class="tabs">
 			<ul>
