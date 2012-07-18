@@ -216,14 +216,44 @@ a {
 #controls_top {
   height: 130px;
   position: relative;
+  z-index: 100;
 }
 #controls_top li {
   float: left;
   line-height: 30px;
 }
+#controls_top li.sub {
+  position: relative;
+}
+#controls_top li.sub.open ul {
+  display: block;
+}
+#controls_top li.sub ul {
+  position: absolute;
+  display: none;
+  top: 35px;
+  border: 2px solid #000;
+  background: #fff;
+  min-width: 200px;
+}
 #controls_top li a {
   font-size: 25px;
   font-weight: 300;
+}
+#controls_top li li {
+  float: none;
+}
+#controls_top li li a {
+  font-weight: 400;
+  font-size: 14px;
+  display: block;
+  height: 30px;
+  padding: 3px 10px;
+  line-height: 25px;
+  color: #000;
+}
+#controls_top li li a:hover {
+  background: #ddd;
 }
 #controls_top .controls_first,
 #controls_top .controls_middle,

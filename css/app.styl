@@ -228,14 +228,45 @@ $side_width = 240px
 #controls_top
     height $top_height
     position relative
+    z-index 100
 
     li
         float left
         line-height 30px
 
+        &.sub
+            position relative
+
+            &.open
+                ul
+                    display block
+
+            ul
+                position absolute
+                display none
+                top 35px
+                border 2px solid #000
+                background #fff
+                min-width 200px
+
         a
             font-size 25px
             font-weight 300
+
+        li
+            float none
+
+            a
+                font-weight 400
+                font-size 14px
+                display block
+                height 30px
+                padding 3px 10px
+                line-height 25px
+                color #000
+
+                &:hover
+                    background #ddd
 
     .controls_first,
     .controls_middle,
