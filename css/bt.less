@@ -1,0 +1,185 @@
+@color_purple: #639;
+@app_main_color: @color_purple;
+
+.linear_gradient(@start, @stop){
+	background-image: -webkit-gradient(linear, left top, left bottom, from(@start), to(@stop));
+    background-image: -webkit-linear-gradient(top, @start, @stop);
+	background-image: -moz-linear-gradient(top, @start, @stop);
+	background-image: -ms-linear-gradient(top, @start, @stop);
+	background-image: -o-linear-gradient(top, @start, @stop);
+	background-image: linear-gradient(to bottom, @start, @stop);
+}
+
+#waiting_logo{
+	background-image: url(../images/body_intro_bittorrent.png) !important;
+}
+
+
+.loading_24{
+	background-image: url(../images/loading_24.png);
+}
+
+.loading_48{
+	background-image: url(../images/loading_48.png);
+}
+
+/*
+body{
+	&.waiting{
+		background-image: url(../images/body_intro_bittorrent.png) !important;
+	}
+}
+*/
+
+#controls_main{
+	background-color: @app_main_color;
+
+	.controls_side{
+		border-right-color: darken(@app_main_color, 5%);
+		
+		#app_title{
+			background-image: url(../images/bittorrent_title.png);
+		}
+	}
+	
+	#search_field{
+		input{
+			border-color: darken(@app_main_color, 5%) !important;
+		}
+		
+		button{
+			border-color: darken(@app_main_color, 5%);
+			border-left-color: transparent;
+			background-color: lighten(@app_main_color, 15%);
+		}
+	}
+	
+	#user_controls{
+	}
+	
+	.buttons{
+		a{
+/* 			background-color: lighten(@app_main_color, 15%); */
+			.linear_gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+			border-color: darken(@app_main_color, 5%);
+		}
+	}
+}
+
+#options,
+.popover{
+	.options{
+		a{
+			color: #444 !important;
+		}	
+		h3.sub{
+			color: lighten(@app_main_color, 40%);
+		}
+	}
+}
+
+#sidebar{
+	section{
+	
+		h2 .toggle{
+			background-position: right -32px;
+		}
+	
+		li.all .img{
+			background-position: -(16px * 0) -32px; 
+		}
+		li.seeding .img{
+			background-position: -(16px * 2) -32px;
+		}
+		li.downloading .img{
+			background-position: -(16px * 1) -32px; 
+		}
+		li.completed .img{
+			background-position: -(16px * 3) -32px;
+		}
+		li.label .img{
+			background-position: -(16px * 4) -32px;
+		}
+		li.feed .img{
+			background-position: -(16px * 5) -32px;
+		}
+	}
+}
+
+#sidebar_footer{
+	background-color: @app_main_color;
+	border-right-color: darken(@app_main_color, 5%);
+	
+	.popover > a{
+		border-right-color: darken(@app_main_color, 5%);
+	}
+	
+	button{
+		background-color: @app_main_color;
+		border-color: darken(@app_main_color, 5%);
+	}
+}
+
+#feeds{
+	.feedtorrent{
+		.controls{
+			a{
+				&.added{
+					color: @app_main_color;
+				}
+			}
+		}
+	}
+}
+
+#panels{
+	background-color: @app_main_color;
+	border-color: darken(@app_main_color, 5%);
+	
+	&.open{
+		.tabs{
+			a{
+				background-color: darken(@app_main_color, 10%);
+				
+				&.current{
+					background-color: @app_main_color;
+				}
+			}
+		}
+	}
+	
+	.tabs{
+		a{
+			background-color: @app_main_color;
+			border-color: darken(@app_main_color, 5%);
+		}
+	}
+	
+	.panel{
+		header{
+			ul{
+				li{
+					a{
+						color: darken(@app_main_color, 20%);
+						background-color: lighten(@app_main_color, 15%);
+						border-color: darken(@app_main_color, 5%);
+						
+						&:active{
+							background-color: lighten(@app_main_color, 35%);
+						}
+					}
+				}
+			}
+		}
+		
+		.container{
+			border-top-color: darken(@app_main_color, 5%);
+			
+			section{
+				a{
+					color: darken(@app_main_color, 5%);
+				}
+			}
+		}
+	}
+}

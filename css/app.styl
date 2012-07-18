@@ -1,0 +1,480 @@
+vendors = webkit ms official
+
+@import 'reset'
+
+/* Generic classes */
+.smallscreen
+    display none !important
+
+.hidden
+    display none
+
+/* Mixins: CSS3 */
+border-box()
+    -webkit-box-sizing border-box
+    -moz-box-sizing border-box
+    -ms-box-sizing border-box
+    -o-box-sizing border-box
+    box-sizing border-box
+
+rounded(n)
+    -webkit-border-radius n
+    -moz-border-radius n
+    -ms-border-radius n
+    -o-border-radius n
+    border-radius n
+    -webkit-background-clip padding-box
+
+box_shadow()
+    -webkit-box-shadow arguments
+    -moz-box-shadow arguments
+    -ms-box-shadow arguments
+    -o-box-shadow arguments
+    box-shadow arguments
+
+bg_size()
+    -webkit-background-size arguments
+    -moz-background-size arguments
+    -ms-background-size arguments
+    -o-background-size arguments
+    background-size arguments
+
+linear_gradient(start, stop)
+    background-image -webkit-gradient(linear, left top, left bottom, from(start), to(stop))
+    background-image -webkit-linear-gradient(top, start, stop)
+    background-image -moz-linear-gradient(top, start, stop)
+    background-image -ms-linear-gradient(top, start, stop)
+    background-image -o-linear-gradient(top, start, stop)
+    background-image linear-gradient(to bottom, start, stop)
+
+angled_gradient(angle, start, stop)
+    background-image -webkit-linear-gradient(angle, start, stop)
+    background-image -moz-linear-gradient(angle, start, stop)
+    background-image -ms-linear-gradient(180 + angle, start, stop)
+    background-image -o-linear-gradient(angle, start, stop)
+    background-image linear-gradient(180 + angle, start, stop)
+
+trans()
+    -webkit-transition: arguments
+    -moz-transition: arguments
+    -ms-transition: arguments
+    -o-transition: arguments
+    transition: arguments
+
+vendor_transition(property, args...)
+    -webkit-transition: s('-webkit-%s', property)args
+    -moz-transition: s('-moz-%s', property)args
+    -ms-transition: s('-ms-%s', property) args
+    -o-transition: s('-o-%s', property)args
+    transition: s('%s', property) args
+
+transform()
+    -webkit-transform: arguments
+    -moz-transform: arguments
+    -ms-transform: arguments
+    -o-transform: arguments
+    transform: arguments
+
+translate(x, y, z)
+    -webkit-transform:  translate(x, y)
+    -moz-transform:     translate(x, y)
+    -ms-transform:      translate(x, y)
+    -o-transform:       translate(x, y)
+    transform:          translate(x, y)
+
+unselectable()
+    -webkit-user-select none
+    -moz-user-select -moz-none
+    -ms-user-select none
+    -o-user-select none
+    user-select none
+
+pers()
+    -webkit-perspective arguments
+    -moz-perspective arguments
+    -ms-perspective arguments
+    -o-perspective arguments
+    perspective arguments
+
+transform_origin()
+    -webkit-transform-origin arguments
+    -moz-transform-origin arguments
+    -ms-transform-origin arguments
+    -o-transform-origin arguments
+    transform-origin arguments
+
+anim()
+    -webkit-animation arguments
+    -moz-animation arguments
+    -ms-animation arguments
+    -o-animation arguments
+    animation arguments
+
+/* Animations */
+@keyframes metroin
+    0%
+        transform rotateY(90deg) translateX(200px)
+        opacity 0
+    
+    100%
+        transform rotateY(0) translateX(0)
+        opacity 1
+
+@keyframes metrointop
+    0%
+        opacity 0
+    
+    20%
+        transform rotateY(110deg) translateX(150px)
+        opacity 0
+    
+    100%
+        transform rotateY(0) translateX(0)
+        opacity 1
+
+@keyframes progress-bg-in
+    0%
+        background-position 0 0
+    100%
+        background-position -40px 0
+
+@keyframes progress-bg-out
+    0%
+        background-position 0 0
+    100%
+        background-position 40px 0
+
+/* Variables */
+
+//$color_bg = #2c0e2c
+$color_bg = #01210B
+
+$color_green = #00853F
+$color_lime = #86C440
+$color_purple = #639
+$color_red = #900
+$color_orange = #f90
+$color_light_blue = #39f
+
+$color_bt = $color_purple
+$color_ut = $color_green
+
+$sidebar_width = 250px
+$sidebar_footer_height = 35px
+$controls_height = 45px
+
+// $main_fonts = 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif
+$main_fonts = 'Segoe UI', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+
+/* Application */
+html
+    font-family $main_fonts
+    font-size 14px
+    -webkit-text-size-adjust none
+
+*
+    border-box()
+
+html,
+body
+    height 100%
+    overflow hidden
+
+.perspective
+    pers(3200px)
+
+body
+    background-color $color_bg
+    angled_gradient -45deg, rgba(255,255,255,0), rgba(255,255,255,0.2)
+    color #fff
+    unselectable()
+
+input,
+select,
+textarea,
+button
+    font-family $main_fonts
+
+button
+    font-size 16px
+    background $color_green
+    color #fff
+    border 0
+    height 28px
+
+input
+    border 0
+    height 30px
+    font-size: 14px
+    padding-left 5px
+
+    &:focus
+        outline none
+        box_shadow 0 0 0 2px $color_green //lighten($color_purple, 40%)
+
+
+    &:-ms-input-placeholder
+        color $color_bg
+    &::-webkit-input-placeholder
+        color $color_green
+
+a
+    color #fff
+    text-decoration none
+
+$top_height = 130px
+$side_width = 240px
+
+#controls_top
+    height $top_height
+    position relative
+
+    li
+        float left
+        line-height 30px
+
+        a
+            font-size 25px
+            font-weight 300
+
+    .controls_first,
+    .controls_middle,
+    .controls_last
+        anim(metrointop 0.35s ease-out)
+        transform_origin(left center)
+
+    .controls_first
+        position absolute
+        left 20px
+        top 48px
+
+    .controls_middle
+        position absolute
+        top 50px
+        bottom 0
+        left $side_width + 20
+
+    .controls_last
+        right 0
+        bottom 0
+        top 50px
+        position absolute
+
+        ul
+            margin-right 20px
+
+    #search_field
+        #search
+            width 250px
+
+        button
+            width 30px
+            position relative
+            left -31px
+
+#app_title
+    font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
+    // font-weight bold
+    font-size 38px !important
+
+    .logo
+        background-image url(../images/ut_logo_128.png)
+        width 48px
+        height 48px
+        float left
+        margin-right 15px
+        margin-top -5px
+        bg_size(48px, 48px)
+
+#sidebar
+    position absolute
+    top $top_height
+    left 0
+    bottom 0
+    width $side_width
+
+    .content
+        anim(metroin 0.3s ease-out)
+        transform_origin(left center)
+
+    h2
+        font-size 28px
+        padding 3px 20px
+        margin-bottom 10px
+        font-weight 300
+        color #ccc
+        text-transform lowercase
+
+    ul
+        margin-bottom 20px
+
+    li
+        padding 2px 5px 2px 30px
+        margin-bottom 5px
+        font-size 17px
+
+        a
+            font-size 17px
+
+#panels
+    display none
+
+.main_content
+    position absolute
+    left $sidebar_width
+    bottom 0
+    top $top_height - 20px
+    right 0
+
+    .name
+        font-size 32px
+        font-weight 300
+        margin-bottom 10px
+        color #ccc
+
+    .name,
+    .content
+        anim(metroin 0.3s ease-out)
+        -webkit-animation-delay 0.15s
+        -webkit-animation-fill-mode both
+        -ms-animation-delay 0.15s
+        -ms-animation-fill-mode both
+        transform_origin(left center)
+
+#torrents
+    .torrent
+        border-right 5px solid $color_light_blue
+        margin-right 10px
+        margin-bottom 5px
+        position relative
+        overflow hidden
+        height 60px
+        cursor pointer
+        vendor_transition(transform, 0.05s linear)
+
+        &:active
+            transform(scale(0.985))
+
+        &:hover
+            background-color rgba(#fff, 0.05)
+
+        h1
+            font-size 18px
+            margin-bottom 6px
+            white-space nowrap
+            // color $color_lime
+
+        .byline
+            font-size 13px
+            white-space nowrap  
+
+        .tag
+            position absolute
+            right 10px
+            top 10px
+            font-weight 300
+
+        .back
+            // position absolute
+            // bottom 0
+            // top 0
+
+        .progress
+            background-color $color_light_blue
+            position absolute
+            bottom 0
+            top 0
+            z-index 9
+            color #000
+            overflow hidden
+            background-image -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
+            background-image -ms-linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
+            background-image linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
+            bg_size(40px 40px)
+            anim(progress-bg-in 1s linear infinite)
+
+            .spacer
+                padding-top 10px
+                padding-left 10px
+                width 100%
+
+        &.completed
+            border-color #fff
+
+            .progress
+                background #fff
+                anim(none)
+
+        &.seeding
+            border-color $color_lime
+
+            .progress
+                background-color $color_lime
+                anim(progress-bg-out 1s linear infinite)
+
+        &.selected
+            &::before
+                content ''
+                position absolute
+                right 0
+                left 0
+                top 0
+                bottom 0
+                border 2px solid #fff
+                z-index 10
+
+            &::after
+                content ''
+                position absolute
+                right 2px
+                top 2px
+                border-left 15px solid transparent
+                border-bottom 15px solid transparent
+                border-top 15px solid #fff
+                border-right 15px solid #fff
+
+        .back
+            padding-top 10px
+            padding-left 10px
+
+.panel
+    position absolute
+    right 0
+    bottom -90px
+    left 0
+    height 90px
+    border-top 2px solid #000
+    background $color_lime
+    font-size 12px
+    trans(bottom 0.2s ease-out)
+
+    &.open
+        bottom 0
+
+    .start
+        margin-left 30px
+        float left
+
+    li
+        text-align center
+        display inline-block
+        height 90px
+        // float left
+        margin-right 30px
+        // line-height 90px
+
+        a
+            &:hover
+                .icon
+                    background rgba(#fff, 0.15)
+
+        .icon
+            display inline-block
+            margin 15px auto 5px
+            border 2px solid #fff
+            rounded(40px)
+            width 40px
+            height 40px
+
+    .end
+        float right

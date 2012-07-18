@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>&micro;Torrent</title>
+	
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<meta name="msapplication-TileImage" content="{NONE YET}" />
+	<meta name="msapplication-TileColor" content="#86C440" />
+	
+	<link id="favicon" rel="shortcut icon" href="favicon.ico" />
+	
+	<link href="//get.pictos.cc/fonts/2353/2" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>
+	<!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'> -->
+
+	<link rel="stylesheet" href="css/app.css" />
+	<link id="bt_branding" rel="stylesheet/alt" href="css/bt.css" />
+
+	<script>
+	// !Branding
+	if(window.location.href.indexOf('bittorrent.com') > 0 || window.location.href.indexOf('bittorrent') > 0)
+	{
+		// Set BitTorrent Homescreen Icon and Favicon
+		document.getElementById("app_icon").setAttribute('href', 'bt-apple-touch-icon.png');
+		document.getElementById("favicon").setAttribute('href', 'bt-favicon.ico');
+		
+		// Use BitTorrent Stylesheet
+		document.getElementById("bt_branding").setAttribute('rel', 'stylesheet');
+		
+		// Set title to BitTorrent
+		document.title = 'BitTorrent';
+	}
+	</script>
+
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="js/metro.js"></script>
+	<!--<script src="js/vendor/lab.js"></script>
+	<script>
+	window.config = {
+	  falcon: true,
+	  ipad_ui: true
+	};
+	var cb = '?v=' + (new Date()).getTime();
+	
+	$LAB.script('js/app/loader.js' + cb);
+	</script>-->
+	
+</head>
+<body id="body" class="waiting">
+	
+	<nav id="controls_top" class="perspective">
+		<section class="controls_first no_smallscreen">
+			<ul>
+				<li><a href="#" id="app_title"><span class="logo"></span>&micro;Torrent</a></li>
+			</ul>
+		</section>
+		<section class="controls_middle">
+			<ul>
+				<li><a href="#"><span class="icon" style="font-weight: 600; font-size: 44px; float: left; margin-right: 10px">+</span>Add</a> </li>
+			</ul>
+		</section>
+		<section class="controls_last">
+			<ul>
+				<li id="search_field" class="small_on_landscape">
+					<form action="http://search.utorrent.com/search.php" method="get" target="_blank">
+						<input type="text" name="q" id="search" placeholder="Search" value="" /><button type="submit"><span class="img"></span>S</button>
+						<input type="hidden" name="e" id="" value="http://www.bittorrent.com/search?client=utorrent154B&amp;search=" />
+					</form>
+				</li>
+				<li id="options_toggle" class="small_on_portrait">
+					<a href="#" id="app_settings"><span class="icon"></span>Settings</a>
+				</li>
+			</ul>
+		</section>
+	</nav>
+		
+	<nav id="sidebar" class="perspective">
+		<div class="scrollable vertical content">
+			<section class="torrents" data-section="torrents">
+				<h2>Torrents</h2>
+				<ul>
+					<li class="all"><a data-show="" href="#" class="current"><span class="img"></span>All <span class="count hidden">0</span></a></li>
+					<li class="downloading"><a data-show=".downloading" href="#"><span class="img"></span>Downloading <span class="count hidden">0</span></a></li>
+					<li class="seeding"><a data-show=".seeding" href="#"><span class="img"></span>Seeding <span class="count hidden">0</span></a></li>
+					<li class="completed"><a data-show="[data-percent=100]" href="#"><span class="img"></span>Completed <span class="count hidden">0</span></a></li>
+				</ul>
+			</section>
+			
+			<section class="labels" data-section="labels">
+				<h2 class="collapsable">Labels<span class="toggle"></span></h2>
+				<ul>
+					<li class="label"><a href="#" data-label=""><span class="img"></span>No Label</a></li>
+				</ul>
+			</section>
+			
+			<section class="feeds" data-section="feeds">
+				<h2 class="collapsable">Feeds<span class="toggle"></span></h2>
+				<ul>
+					<li class="feed"><span class="img"></span>No Feeds</li>
+				</ul>
+			</section>
+		</div>
+	</nav>
+	
+	<!--<section id="options">
+		<div class="scrollable vertical content">
+			<div class="options">
+				<h3 class="title" data-title="Options">
+					<span class="go_back"><em></em>Options</span>
+					<span class="text">Options</span>
+				</h3>
+				
+				<div class="settings_content">
+					<div id="top_settings">
+						<div id="menu_settings">
+							<ul>
+								<li><a href="#" class="parent" data-content="general">General</a></li>
+								<li><a href="#" class="parent" data-content="ui_settings">UI Settings</a></li>
+								<li><a href="#" class="parent" data-content="directories">Directories</a></li>
+								<li><a href="#" class="parent" data-content="connection">Connection</a></li>
+								<li><a href="#" class="parent" data-content="bandwidth">Bandwidth</a></li>
+								<li><a href="#" class="parent" data-content="bittorrent">BitTorrent</a></li>
+								<li><a href="#" class="parent" data-content="transfer_cap">Transfer Cap</a></li>
+								<li><a href="#" class="parent" data-content="queuing">Queuing</a></li>
+								<li><a href="#" class="parent" data-content="scheduler">Scheduler</a></li>
+								<li><a href="#" class="parent" data-content="web_ui">Web UI</a></li>
+							</ul>
+							
+							<h3 class="sub">Advanced</h3>
+							<ul>
+								<li><a href="#" class="parent" data-content="ui_extras">UI Extras</a></li>
+								<li><a href="#" class="parent" data-content="disk_cache">Disk Cache</a></li>
+								<li><a href="#" class="parent" data-content="run_program">Run Program</a></li>
+							</ul>
+							<ul>
+								<li><a href="#" class="parent" data-content="about">About <span class="app_version"></span></a></li>							
+							</ul>
+						</div>
+					</div>
+					
+					<div id="inner_settings">
+					</div>
+				</div>
+				
+				<div style="clear: left"></div>
+			</div>
+		</div>
+	</section>-->
+	
+	<section id="torrents" class="main_content loading perspective">
+		<h1 class="name">All Torrents</h1>
+		<div class="scrollable vertical content">
+			<!-- Torrent list will be here -->
+			<div class="torrent">
+				<div class="progress" style="width: 35%">
+					<div class="spacer">
+					<h1>Zeitgeist Moving Forward, 2011</h1>
+					<div class="tag">
+						<!-- <span class="icon tag"></span> VODO -->
+					</div>
+
+					<div class="byline">
+						<span class="icon downloaded">Downloaded</span> 400 MB of 1.73 GB
+						<span class="icon uplooaded">Uploaded</span> 10.27 MB
+						<span class="icon ratio"></span> Ratio: 0.02
+					</div>
+					</div>
+				</div>
+
+				<div class="back">
+					<h1>Zeitgeist Moving Forward, 2011</h1>
+					<div class="tag">
+						<span class="icon tag"></span> VODO
+					</div>
+
+					<div class="byline">
+						<span class="icon downloaded">Downloaded</span> 400 MB of 1.73 GB
+						<span class="icon uplooaded">Uploaded</span> 10.27 MB
+						<span class="icon ratio"></span> Ratio: 0.02
+					</div>
+					
+					<!-- <div class="progress">
+						<span class="in_text">{{ _compact_byline }}</span>
+						<div class="bar" style="width: {{ percent }}%"><span>{{ _compact_byline }}</span></div>
+					</div> -->
+				</div>
+			</div>
+
+			<div class="torrent seeding">
+				<div class="progress seeding" style="width: 15%">
+					<div class="spacer">
+					<h1>A Joyful Slog, 2012</h1>
+					<div class="tag">
+						<!-- <span class="icon tag"></span> VODO -->
+					</div>
+
+					<div class="byline">
+						<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
+						<span class="icon uplooaded">Uploaded</span> 8.57 MB
+						<span class="icon ratio"></span> Ratio: 0.13
+					</div>
+					</div>
+				</div>
+
+				<div class="back">
+					<h1>A Joyful Slog, 2012</h1>
+					<div class="tag">
+						<span class="icon tag"></span> ClearBits
+					</div>
+
+					<div class="byline">
+						<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
+						<span class="icon uplooaded">Uploaded</span> 8.57 MB
+						<span class="icon ratio"></span> Ratio: 0.13
+					</div>
+				</div>
+		</div>
+
+		<div class="torrent completed">
+			<div class="progress seeding" style="width: 100%">
+				<div class="spacer">
+				<h1>Kumar&eacute;, 2012</h1>
+				<div class="tag">
+					<span class="icon tag"></span> VODO
+				</div>
+
+				<div class="byline">
+					<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
+					<span class="icon uplooaded">Uploaded</span> 8.57 MB
+					<span class="icon ratio"></span> Ratio: 0.13
+				</div>
+				</div>
+			</div>
+
+			<div class="back">
+				<h1>Kumar&eacute;, 2012</h1>
+				<div class="tag">
+					<span class="icon tag"></span> ClearBits
+				</div>
+
+				<div class="byline">
+					<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
+					<span class="icon uplooaded">Uploaded</span> 8.57 MB
+					<span class="icon ratio"></span> Ratio: 0.13
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<div id="torrent_controls" class="panel">
+		<ul class="start">
+			<li><a href="#"><span class="icon"></span><br />Pause</a></li>
+			<li><a href="#"><span class="icon"></span><br />Remove</a></li>
+			<li><a href="#"><span class="icon"></span><br />Queue Up</a></li>
+			<li><a href="#"><span class="icon"></span><br />Queue Down</a></li>
+		</ul>
+		<ul class="end">
+			<li><a href="#"><span class="icon"></span><br />Label</a></li>
+			<li><a href="#"><span class="icon"></span><br />Share</a></li>
+			<li><a href="#"><span class="icon"></span><br />Info</a></li>
+		</ul>
+	</div>
+
+	<!-- <section id="feeds" class="main_content hidden">
+		<div class="scrollable vertical content">
+			
+		</div>
+	</section> -->
+	
+	<section id="panels" class="">
+		<header class="tabs">
+			<ul>
+				<li><a href="#" id="torrent_info" data-content="torrent_info" data-target="torrent" class="disabled only"><span class="icon"></span></a></li>
+			</ul>
+		</header>
+		<div class="panel torrent_info">
+			<header>
+				<div id="close_panels" class="smallscreen"></div>
+				<ul>
+					<li><a href="#subpanel_files" class="first current">Files</a></li>
+					<li><a href="#subpanel_info">Info</a></li>
+					<li><a href="#subpanel_peers">Peers</a></li>
+					<li><a href="#subpanel_speed" class="last">Speed</a></li>
+				</ul>
+			</header>
+			
+			<div class="container" id="subpanel_files">
+				<div class="loading_24"></div>
+				<div class="scrollable vertical content">
+					<!-- placeholder -->
+				</div>
+			</div>
+			
+			<div class="container hidden" id="subpanel_info">
+				<div class="scrollable vertical content">
+					<!-- placeholder -->
+				</div>
+			</div>
+			
+			<div class="container peers hidden" id="subpanel_peers">
+				<div class="loading_24"></div>
+				<div class="scrollable vertical content">
+					<!-- placeholder -->
+				</div>
+			</div>
+			
+			<div class="container hidden" id="subpanel_speed">
+				<div class="loading_24"></div>
+				<div id="speed_canvas"></div>
+			</div>
+		</div>
+		
+		<div class="panel media_player hidden">
+			<header>&nbsp;</header>
+			<div class="container">
+				<div class="scrollable vertical">
+				</div>
+			</div>
+			<footer class="controls">
+				<ul>
+					<li>
+						<a href="#" class="button">Play</a>
+					</li>
+					<li class="display">
+						
+					</li>
+					<li><a href="#" class="button">Prev</a></li>
+					<li><a href="#" class="button">Next</a></li>
+				</ul>
+			</footer>
+		</div>
+	</section>
+	
+<!-- !Torrent Template -->
+<script id="tmpl_torrent" type="text/x-handlebars-template">
+
+	<div class="behind">
+		<ul>
+			<li>
+				<a href="#" class="labels"><span class="label">Labels</span></a>
+				<ul class="sub_menu sub_labels hidden" data-current="{{ label }}">
+				</ul>
+			</li>
+			<li><a href="https://remote.utorrent.com/talon/send?btih={{ id }}&dn={{ name }}" class="share" target="_blank"><span class="label">Share</span></a></li>
+			<li><a href="#" class="queue_up send_action" data-action="queueup"><span class="label">Queue Up</span></a></li>
+			<li><a href="#" class="queue_down send_action" data-action="queuedown"><span class="label">Queue Down</span></a></li>
+		</ul>
+	</div>
+
+	<h1>{{ name }}</h1>
+	<div class="byline">
+		{{ _status_byline }}
+	</div>
+	
+	<div class="progress">
+		<span class="in_text">{{ _compact_byline }}</span>
+		<div class="bar" style="width: {{ percent }}%"><span>{{ _compact_byline }}</span></div>
+	</div>
+	
+	<div class="info">
+		<span class="icon downloaded">Downloaded</span> {{parseBytes downloaded}} of {{parseBytes size}} <span class="icon uploaded">Uploaded</span> {{parseBytes uploaded}} <span class="icon ratio"></span> Ratio: {{ ratio }}
+	</div>
+
+</script>
+
+<!-- !Feeds Template -->
+<script id="tmpl_feeds" type="text/x-handlebars-template">
+{{#items}}
+	<div id="feed_{{ id }}" class="feedtorrent" data-feed="{{ feed_id }}">
+		<h1><strong>{{ name }}</strong></h1>
+		<div class="byline">
+			Published: {{ secondsToDate timestamp }} - URL: {{ url }}
+		</div>
+		<div class="controls {{#in_history}}in_history{{/in_history}}">
+			<span class="in_history"></span>
+			<a href="#" data-url="{{ url }}" data-action="add-url" class="download"><span class="img"></span>Add</a>
+		</div>
+	</div>
+{{/items}}
+	<div class="list_message hidden">
+		<p>Empty feed.</p>
+	</div>
+</script>
+
+<!-- !Label Template -->
+<script id="tmpl_label"type="text/x-handlebar-template">
+	<li class="label">
+		<a href="#" data-label="{{ name }}" class="{{#current}}current{{/current}}">
+			<span class="img"></span>{{ name }}{{#no_label}}No Label{{/no_label}} {{#show_count}}<span class="count">{{ count }}</span>{{/show_count}}
+		</a>
+	</li>
+</script>
+
+<!-- !Torrent Label Menu Template -->
+<script id="tmpl_labels_menu"type="text/x-handlebar-template">
+	<li>
+		<a href="#" data-label="_new">New Label&hellip;</a>
+	</li>
+	<li class="divider">&nbsp;</li>
+	{{#labels}}
+	<li>
+		<a href="#" data-label="{{ label }}" class="{{#current}}current{{/current}}">{{ name }}</a>
+	</li>
+	{{/labels}}
+</script>
+
+<!-- !Feed Template -->
+<script id="tmpl_label_feed"type="text/x-handlebar-template">
+{{#items}}
+	<li class="feed"><a href="#" data-feed="{{ id }}" {{#if _current}}class="current"{{/if}}><span class="img"></span>{{ _name }}{{#no_feed}}All Feeds{{/no_feed}} {{#_show_count}}<span class="count">{{ _count }}</span>{{/_show_count}}</a></a></li>
+{{/items}}
+</script>
+
+<!-- !Sub Panel Info Template -->
+<script id="tmpl_subpanel_info" type="text/x-handlbar-template">
+	<section>
+		<h3>Torrent Info</h3>
+		<div class="row col_3">
+			<div class="col">
+				<strong>Size:</strong>
+				{{ parseBytes size }}
+			</div>
+			<div class="col">
+				<strong>Hash:</strong>
+				{{ id }}
+			</div>
+			<div class="col">
+				<strong>App:</strong>
+				{{ app_update_url }}
+			</div>
+		</div>
+		<div class="row col_3">
+			<div class="col">
+				<strong>Name:</strong>
+				{{ name }}
+			</div>
+			<div class="col">
+				<strong>Label:</strong>
+				{{ label }}
+			</div>
+			<div class="col">
+				<strong>Queue position:</strong>
+				{{ queue_position }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<strong>Source URL:</strong>
+				<a href="{{ download_url }}">{{ download_url }}</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<strong>Feed URL:</strong>
+				<a href="{{ rss_feed_url }}">{{ rss_feed_url }}</a>
+			</div>
+		</div>
+	</section>
+	
+	<section>
+		<h3>Network Info</h3>
+		<div class="row col_3">
+			<div class="col">
+				<strong>Downloaded:</strong>
+				{{ parseBytes downloaded }}
+			</div>
+			<div class="col">
+				<strong>Uploaded:</strong>
+				{{ parseBytes uploaded }}
+			</div>
+			<div class="col">
+				<strong>Ratio:</strong>
+				{{ ratio }}
+			</div>
+		</div>	
+		<div class="row col_3">
+			<div class="col">
+				<strong>Down Speed:</strong>
+				{{ parseBytes down_speed }}
+			</div>
+			<div class="col">
+				<strong>Up Speed:</strong>
+				{{ parseBytes up_speed }}
+			</div>
+			<div class="col">
+				<strong>Status:</strong>
+				{{ percent }}%
+			</div>
+		</div>
+		<div class="row col_3">
+			<div class="col">
+				<strong>ETA:</strong>
+				{{ secondsToString eta }}
+			</div>
+			<div class="col">
+				<strong>Added:</strong>
+				{{ relativeDate added_on }}
+			</div>
+			<div class="col">
+				<strong>Completed:</strong>
+				{{ relativeDate completed_on }}
+			</div>
+		</div>
+		<div class="row col_3">
+			<div class="col">
+				<strong>Availability:</strong>
+				{{ availability }}
+			</div>
+			<div class="col">
+				<strong>Peers:</strong>
+				{{ peers_connected }} of {{ peers_swarm }}
+			</div>
+			<div class="col">
+				<strong>Seeds:</strong>
+				{{ seeds_connected }} of {{ seeds_swarm }}
+			</div>
+		</div>
+	</section>
+</script>
+
+<!-- !Sub Panel Files Template -->
+<script type="text/x-handlebar-template" id="tmpl_subpanel_files">
+	<ul>
+	{{#items}}
+		<li data-id="{{ id }}">
+			<div class="checkbox" data-value="{{ _checkbox_value }}"></div>
+			<h2>{{ name }}</h2>
+			<div class="info">
+				{{ parseBytes downloaded }} of {{ parseBytes size }} ({{ _percent }}%)
+			</div>
+			<ul class="priority {{ _priority_class }}">
+				<li class="low"><span>Low</span></li>
+				<li class="normal"><span>Neutral</span></li>
+				<li class="high"><span>High</span></li>
+			</ul>
+		</li>
+	{{/items}}
+	</ul>
+</script>
+
+<!-- !Sub Pabel Peers Template -->
+<script type="text/x-handlebar-template" id="tmpl_subpanel_peers">
+	<ul>
+	{{#items}}
+		<li data-id="{{ id }}">
+			<h2><strong>{{ ip }}</strong> ({{ client }}) <span class="percentage">{{ complete }}%</span> Flags: {{ flags }}</h2>
+			<div class="info">
+				Down speed: {{ parseBytes down_speed }}/s - Up speed: {{ parseBytes up_speed }}/s | Downloaded: {{ parseBytes downloaded }}, Uploaded: {{ parseBytes up_speed }}
+			</div>
+		</li>
+	{{/items}}
+	{{^items}}
+		<li class="list_message">
+			<p>No peers connected.</p>
+		</li>
+	{{/items}}
+	</ul>
+</script>
+
+<!-- Options templates -->
+<script type="text/x-handlebar-template" id="tmpl_options_section">
+	{{#if title}}
+	<h3 class="sub">{{ title }}</h3>
+	{{/if}}
+	<ul>
+	{{#elements}}
+		<li class="control {{#if depends}}sub{{/if}}">
+		{{#if control_checkbox}}
+			<label for="{{ checkbox_1 }}">{{ label_1 }}</label>
+			<input type="checkbox" name="{{ checkbox_1 }}" id="{{ checkbox_1 }}" value="true" class="switch" {{#if depends}}data-depends="{{ depends }}"{{/if}} {{#if scope}}data-scope="{{ scope }}"{{/if}}/>
+		{{/if}}
+		{{#if control_checkbox_textbox}}
+			<label for="{{ checkbox_1 }}">{{ label_1 }}</label>
+			<input type="checkbox" name="{{ checkbox_1 }}" id="{{ checkbox_1 }}" value="true" class="switch" />
+			<input type="text" data-depends="{{ checkbox_1 }}" name="{{ textbox_1 }}" id="{{ textbox_1 }}" value="" class="large" />
+		{{/if}}
+		{{#if control_textbox}}
+			<label for="{{ textbox_1 }}">{{ label_1 }}</label>
+			<input type="text" name="{{ textbox_1 }}" id="{{ textbox_1 }}" value="" class="" {{#if depends}}data-depends="{{ depends }}"{{/if}} {{#if scope}}data-scope="{{ scope }}"{{/if}} />
+		{{/if}}
+		{{#if control_textbox_large}}
+			<label for="{{ textbox_1 }}" class="large">{{ label_1 }}</label>
+			<input type="text" name="{{ textbox_1 }}" id="{{ textbox_1 }}" value="" class="large" {{#if scope}}data-scope="{{ scope }}"{{/if}} />
+		{{/if}}
+		{{#if control_textarea}}
+			<label for="{{ textarea_1 }}" class="large">{{ label_1 }}</label>
+			<textarea name="{{ textarea_1 }}" id="{{ textarea_1 }}" value="" class="large" {{#if scope}}data-scope="{{ scope }}"{{/if}} />
+		{{/if}}
+		{{#if control_password}}
+			<label for="{{ password_1 }}">{{ label_1 }}</label>
+			<input type="text" name="{{ password_1 }}" id="{{ password_1 }}" value="" class="" {{#if depends}}data-depends="{{ depends }}"{{/if}} />
+		{{/if}}
+		{{#if control_combo}}
+			<label for="{{ name }}">{{ label_1 }}</label>
+			{{#combo_1}}
+			<select name="{{ name }}" id="{{ name }}" data-scope="{{../scope}}" data-depends="{{ ../depends }}">
+				{{#contents}}
+				<option value="{{ value }}">{{ label }}</option>
+				{{/contents}}
+			</select>
+			{{/combo_1}}
+		{{/if}}
+		{{#if control_html}}
+			{{{ html }}}
+		{{/if}}
+		</li>
+	{{/elements}}
+	</ul>
+</script>
+</body>
+</html>
