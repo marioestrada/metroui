@@ -399,7 +399,7 @@ a {
   position: absolute;
   bottom: 0;
   top: 0;
-  z-index: 9;
+  z-index: 1;
   color: #000;
   overflow: hidden;
   background-image: -webkit-linear-gradient(-45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
@@ -422,7 +422,14 @@ a {
   width: 100%;
 }
 #torrents .torrent.completed {
-  border-color: #fff;
+  border-color: #86c440;
+}
+#torrents .torrent.completed::after {
+  border-top-color: #ccc !important;
+  border-right-color: #ccc !important;
+}
+#torrents .torrent.completed::before {
+  border-color: #ccc !important;
 }
 #torrents .torrent.completed .progress {
   background: #fff;
@@ -462,6 +469,7 @@ a {
   border-bottom: 15px solid transparent;
   border-top: 15px solid #fff;
   border-right: 15px solid #fff;
+  z-index: 10;
 }
 #torrents .torrent .back {
   padding-top: 10px;
@@ -494,6 +502,9 @@ a {
   display: inline-block;
   height: 90px;
   margin-right: 30px;
+}
+.panel li a {
+  font-weight: 400;
 }
 .panel li a:hover .icon {
   background: rgba(255,255,255,0.15);

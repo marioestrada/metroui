@@ -384,7 +384,7 @@ $side_width = 240px
             position absolute
             bottom 0
             top 0
-            z-index 9
+            z-index 1
             color #000
             overflow hidden
             background-image -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
@@ -399,7 +399,14 @@ $side_width = 240px
                 width 100%
 
         &.completed
-            border-color #fff
+            border-color $color_lime
+
+            &::after
+                border-top-color #ccc !important
+                border-right-color #ccc !important
+
+            &::before
+                border-color #ccc !important
 
             .progress
                 background #fff
@@ -432,6 +439,7 @@ $side_width = 240px
                 border-bottom 15px solid transparent
                 border-top 15px solid #fff
                 border-right 15px solid #fff
+                z-index 10
 
         .back
             padding-top 10px
@@ -459,11 +467,10 @@ $side_width = 240px
         text-align center
         display inline-block
         height 90px
-        // float left
         margin-right 30px
-        // line-height 90px
 
         a
+            font-weight 400
             &:hover
                 .icon
                     background rgba(#fff, 0.15)
