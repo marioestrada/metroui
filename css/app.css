@@ -358,6 +358,7 @@ a {
 }
 #sidebar li a {
   font-size: 17px;
+  display: block;
 }
 #panels {
   display: none;

@@ -43,12 +43,13 @@ $(function()
 				selector = $(this).data('show')
 				if(selector.length <= 0)
 					selector = ''
+
 				break
 
 			case 'labels':
 				var label = $(this).data('label')
-				if(label.length > 0)
-					selector = '[data-label=' + label + ']'
+				selector = '[data-label=' + label + ']'
+				
 				break
 		}
 
