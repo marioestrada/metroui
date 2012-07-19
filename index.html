@@ -87,17 +87,33 @@
 			<section class="torrents" data-section="torrents">
 				<h2>Torrents</h2>
 				<ul>
-					<li class="all"><a data-show="" href="#" class="current"><span class="img"></span>All <span class="count hidden">0</span></a></li>
-					<li class="downloading"><a data-show=".downloading" href="#"><span class="img"></span>Downloading <span class="count hidden">0</span></a></li>
-					<li class="seeding"><a data-show=".seeding" href="#"><span class="img"></span>Seeding <span class="count hidden">0</span></a></li>
-					<li class="completed"><a data-show="[data-percent=100]" href="#"><span class="img"></span>Completed <span class="count hidden">0</span></a></li>
+					<li class="all">
+						<a data-show="" href="#" class="current"><span class="img"></span>All <span class="count hidden">0</span></a>
+					</li>
+					<li class="downloading">
+						<a data-show=".downloading" href="#"><span class="img"></span>Downloading <span class="count hidden">0</span></a>
+					</li>
+					<li class="seeding">
+						<a data-show=".seeding" href="#"><span class="img"></span>Seeding <span class="count hidden">0</span></a>
+					</li>
+					<li class="completed">
+						<a data-show="[data-percent=100]" href="#"><span class="img"></span>Completed <span class="count hidden">0</span></a>
+					</li>
 				</ul>
 			</section>
 			
 			<section class="labels" data-section="labels">
 				<h2 class="collapsable">Labels<span class="toggle"></span></h2>
 				<ul>
-					<li class="label"><a href="#" data-label=""><span class="img"></span>No Label</a></li>
+					<li class="label">
+						<a href="#" data-label=""><span class="img"></span>No Label</a>
+					</li>
+					<li class="label">
+						<a href="#" data-label="VODO"><span class="img"></span>VODO</a>
+					</li>
+					<li class="label">
+						<a href="#" data-label="ClearBits"><span class="img"></span>ClearBits</a>
+					</li>
 				</ul>
 			</section>
 			
@@ -159,7 +175,7 @@
 		<h1 class="name">All Torrents</h1>
 		<div class="scrollable vertical content">
 			<!-- Torrent list will be here -->
-			<div class="torrent">
+			<div class="torrent downloading" data-label="VODO" data-percent="35">
 				<div class="progress" style="width: 35%">
 					<div class="spacer">
 					<h1>Zeitgeist Moving Forward, 2011</h1>
@@ -195,7 +211,7 @@
 				</div>
 			</div>
 
-			<div class="torrent seeding">
+			<div class="torrent seeding" data-label="ClearBits" data-percent="15">
 				<div class="progress seeding" style="width: 15%">
 					<div class="spacer">
 					<h1>A Joyful Slog, 2012</h1>
@@ -231,7 +247,7 @@
 				</div>
 		</div>
 
-		<div class="torrent completed">
+		<div class="torrent completed" data-label="VODO" data-percent="100">
 			<div class="progress seeding" style="width: 100%">
 				<div class="spacer">
 				<h1>Kumar&eacute;, 2012</h1>

@@ -397,6 +397,17 @@ $bottom_height = 30px
         &:hover
             background-color rgba(#fff, 0.05)
 
+        // Using it here as a hack for IE detecting :active pseudo-class on it
+        &::before
+            content ''
+            position absolute
+            right 0
+            left 0
+            top 0
+            bottom 0
+            z-index 10
+            background rgba(#fff, 0)
+
         h1
             font-size 18px
             margin-bottom 5px
@@ -404,14 +415,14 @@ $bottom_height = 30px
             // color $color_lime
 
         .byline
-            font-size 13px
+            font-size 12px
             white-space nowrap  
 
             .details
                 font-size 12px
                 display inline-block
                 margin-bottom 6px
-                opacity 0.7
+                opacity 0.8
                 text-indent 3px
                 // font-weight 600
 
@@ -508,14 +519,7 @@ $bottom_height = 30px
 
         &.selected
             &::before
-                content ''
-                position absolute
-                right 0
-                left 0
-                top 0
-                bottom 0
                 border 2px solid #fff
-                z-index 10
 
             &::after
                 content ''
