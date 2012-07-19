@@ -192,7 +192,7 @@ body
 
 body
     background-color $color_bg
-    angled_gradient -45deg, rgba(255,255,255,0), rgba(255,255,255,0.2)
+    angled_gradient -45deg, rgba($color_green,0), rgba($color_green,0.35)
     color #fff
     unselectable()
 
@@ -207,7 +207,7 @@ button
     background $color_green
     color #fff
     border 0
-    height 28px
+    height 30px
 
 input
     border 0
@@ -217,7 +217,7 @@ input
 
     &:focus
         outline none
-        box_shadow 0 0 0 2px $color_green //lighten($color_purple, 40%)
+        box_shadow 0 0 0 2px $color_green inset//lighten($color_purple, 40%)
 
 
     &:-ms-input-placeholder
@@ -303,13 +303,13 @@ $bottom_height = 30px
             margin-right 20px
 
     #search_field
+        margin-right 20px;
         #search
             width 250px
 
         button
             width 30px
-            position relative
-            left -31px
+            border 1px solid #fff
 
 #app_title
     font-family 'Helvetica Neue', Helvetica, Arial, sans-serif

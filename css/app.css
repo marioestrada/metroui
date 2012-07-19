@@ -171,11 +171,11 @@ body {
 }
 body {
   background-color: #01210b;
-  background-image: -webkit-linear-gradient(-45deg, rgba(255,255,255,0), rgba(255,255,255,0.2));
-  background-image: -moz-linear-gradient(-45deg, rgba(255,255,255,0), rgba(255,255,255,0.2));
-  background-image: -ms-linear-gradient(135deg, rgba(255,255,255,0), rgba(255,255,255,0.2));
-  background-image: -o-linear-gradient(-45deg, rgba(255,255,255,0), rgba(255,255,255,0.2));
-  background-image: linear-gradient(135deg, rgba(255,255,255,0), rgba(255,255,255,0.2));
+  background-image: -webkit-linear-gradient(-45deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
+  background-image: -moz-linear-gradient(-45deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
+  background-image: -ms-linear-gradient(135deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
+  background-image: -o-linear-gradient(-45deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
+  background-image: linear-gradient(135deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
   color: #fff;
   -webkit-user-select: none;
   -moz-user-select: -moz-none;
@@ -194,7 +194,7 @@ button {
   background: #00853f;
   color: #fff;
   border: 0;
-  height: 28px;
+  height: 30px;
 }
 input {
   border: 0;
@@ -204,11 +204,11 @@ input {
 }
 input:focus {
   outline: none;
-  -webkit-box-shadow: 0 0 0 2px #00853f;
-  -moz-box-shadow: 0 0 0 2px #00853f;
-  -ms-box-shadow: 0 0 0 2px #00853f;
-  -o-box-shadow: 0 0 0 2px #00853f;
-  box-shadow: 0 0 0 2px #00853f;
+  -webkit-box-shadow: 0 0 0 2px #00853f inset;
+  -moz-box-shadow: 0 0 0 2px #00853f inset;
+  -ms-box-shadow: 0 0 0 2px #00853f inset;
+  -o-box-shadow: 0 0 0 2px #00853f inset;
+  box-shadow: 0 0 0 2px #00853f inset;
 }
 input:-ms-input-placeholder {
   color: #01210b;
@@ -296,13 +296,15 @@ a {
 #controls_top .controls_last ul {
   margin-right: 20px;
 }
+#controls_top #search_field {
+  margin-right: 20px;
+}
 #controls_top #search_field #search {
   width: 250px;
 }
 #controls_top #search_field button {
   width: 30px;
-  position: relative;
-  left: -31px;
+  border: 1px solid #fff;
 }
 #app_title {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
