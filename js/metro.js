@@ -267,7 +267,6 @@ var TorrentRow = Backbone.View.extend({
         attr.percent = attr.progress / 10
 
         attr.statuses = this.mapStatuses(attr.status)
-        console.log(attr)
 
         var complete = attr.percent >= 100;
         var data = attr.percent;
