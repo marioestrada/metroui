@@ -416,13 +416,7 @@ a {
   -ms-transition: -ms-transform 0.05s linear;
   -o-transition: -o-transform 0.05s linear;
   transition: transform 0.05s linear;
-}
-#torrents .torrent:active {
-  -webkit-transform: scale(0.985);
-  -moz-transform: scale(0.985);
-  -ms-transform: scale(0.985);
-  -o-transform: scale(0.985);
-  transform: scale(0.985);
+  -webkit-backface-visibility: hidden;
 }
 #torrents .torrent:hover {
   background-color: rgba(255,255,255,0.05);
@@ -535,6 +529,20 @@ a {
   -ms-animation: none;
   -o-animation: none;
   animation: none;
+}
+#torrents .torrent.paused,
+#torrents .torrent.stopped {
+  border-color: #999;
+}
+#torrents .torrent.paused .progress,
+#torrents .torrent.stopped .progress {
+  background: #999;
+}
+#torrents .torrent.waiting {
+  border-color: #39f;
+}
+#torrents .torrent.waiting .progress {
+  background: #ccc;
 }
 #torrents .torrent.seeding {
   border-color: #86c440;

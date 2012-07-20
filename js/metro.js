@@ -1,28 +1,6 @@
 (function($, Handlebars)
 {
 
-window.btapp = new Btapp()
-
-var Templates;
-
-$(function()
-{
-    Templates = {
-        torrent_row: Handlebars.compile($('#tmpl_torrent').html())
-    }
-
-    btapp.connect({}, {
-        poll_frequency: 1000,
-        queries: Helpers.poll_queries
-    })
-
-    var torrent = new Torrents();
-
-    var contents = new TorrentsList({ model: torrents });
-    
-    $('#torrents .content').replaceWith(contents.render().el);
-})
-
 var Helpers = {
     poll_queries: [
         'btapp/torrent/all/*/remove/',
@@ -118,30 +96,109 @@ Handlebars.registerHelper('relativeDate', function(seconds)
 })
 Handlebars.registerHelper('secondsToString', Helpers.secondsToString)
 
+var AppView = Backbone.View.extend({
+    events: {
+        'click #sidebar li a': 'filterTorrents'
+    },
+
+    initialize: function()
+    {
+        Templates = {
+            torrent_row: Handlebars.compile($('#tmpl_torrent').html())
+        }
+
+        btapp.connect({}, {
+            poll_frequency: 1000,
+            queries: Helpers.poll_queries
+        })
+
+        this.torrents = new Torrents();
+        this.torrents_contents = new TorrentsList({ model: torrents });
+        
+        $('#torrents .content').replaceWith(this.torrents_contents.render().el);
+    },
+
+    filterTorrents: function(e)
+    {
+        e.preventDefault()
+
+        var el = $(e.currentTarget)
+
+        var section = $(el).closest('section').data('section')
+        var elems
+        var torrents_list = this.torrents_contents.$el.children()
+        var selector = ''
+        
+        switch(section)
+        {
+            case 'torrents':
+                selector = $(el).data('show')
+                if(selector.length <= 0)
+                    selector = ''
+
+                break
+
+            case 'labels':
+                var label = $(el).data('label')
+                selector = '[data-label=' + label + ']'
+                
+                break
+        }
+
+        elems = selector.length > 0 ? torrents_list.filter(selector) : torrents_list
+        
+        torrents_list.removeClass('selected').not(elems).animate({
+            scale: 0.9,
+            opacity: 0,
+            height: 0
+        }, 150, function()
+        {
+            $(this).addClass('hidden')
+        })
+
+        elems.css('height', 75).removeClass('hidden').animate({
+            opacity: 1,
+            scale: 1
+        }, 150)
+    }
+})
+
+var TorrentControls = Backbone.View.extend({
+
+})
+
 var TorrentRow = Backbone.View.extend({
     tagName: 'div',
     className: 'torrent',
     status_classes: 'paused waiting checking downloading seeding done stopped error',
     
     events: {
-        "click": "selected"
+        "click": "selected",
+        'mousedown': 'down',
+        'mouseup': 'up'
     },
 
     initialize: function()
     {
         this.template = Templates.torrent_row
+
+        // this.model.set({ selected: false }, { silent: true })
+        this.model.on('change', this.render, this);
     },
 
     render: function()
     {
-        var dyn_attributes = this.dynamicAttributes()
+        var attr  = this.model.get('properties').attributes
+        var dyn_attributes = this.dynamicAttributes(attr)
 
-        this.$el.attr('data-label', this.model.get('label'))
-        this.$el.attr('data-percent', this.model.get('progress') / 10)
-        console.log(dyn_attributes)
+        this.$el.attr('data-label', attr.label)
+        this.$el.attr('data-percent', attr.progress / 10)
+        
         this.$el.removeClass(this.status_classes)
-            .toggleClass('selected', this.model.get('selected') === true)
+            // .toggleClass('selected', this.$el.hasClass('selected'))
             .addClass(dyn_attributes._torrent_class)
+
+        var animate = this.$el.html() === '';
 
         this.$el.html(
             Templates.torrent_row(
@@ -149,17 +206,38 @@ var TorrentRow = Backbone.View.extend({
             )
         )
 
+        if(animate)
+        {
+            this.$el.css({
+                scale: '0.9',
+                opacity: 0
+            }).animate({
+                scale: 1,
+                opacity: 1
+            }, 200)
+        }
+
         return this
+    },
+
+    down: function()
+    {
+        this.$el.css({ scale: '0.985' })
+    },
+
+    up: function()
+    {
+        this.$el.css({ scale: '1' })
     },
 
     selected: function()
     {
-        this.model.set({ selected: true })
+        this.$el.toggleClass('selected')
     },
 
-    dynamicAttributes: function()
+    dynamicAttributes: function(attr)
     {
-        var attr = this.model.get('properties').attributes
+        // var attr = this.model.get('properties').attributes
         attr.percent = attr.progress / 10
 
         var complete = attr.percent >= 100;
@@ -221,7 +299,8 @@ var TorrentRow = Backbone.View.extend({
             '_percent': attr.progress / 10,
             '_torrent_class': torrent_class,
             '_status_byline': res,
-            '_compact_byline': status_split.length > 1 ? status_split[1] : res
+            '_compact_byline': status_split.length > 1 ? status_split[1] : res,
+            '_ratio': (attr.ratio / 1000).toFixed(2)
         }
 
         return obj_res;
@@ -235,12 +314,12 @@ var TorrentsList = Backbone.View.extend(
 
     initialize: function()
     {
-
         btapp.live('torrent *', function(torrent, torrent_list)
         {
             var view = new TorrentRow({
                 model: torrent
              });
+
             this.$el.append(view.render().el)
         }, this)
     },
@@ -271,14 +350,14 @@ var Torrents = Backbone.Collection.extend({
 $(function()
 {
 
-    $('#torrents').on('click', '.torrent', function(e)
-    {
-        e.preventDefault()
-        // $('.torrent', '#torrents').removeClass('selected')
-        $(this).toggleClass('selected')
+    // $('#torrents').on('click', '.torrent', function(e)
+    // {
+    //     e.preventDefault()
+    //     // $('.torrent', '#torrents').removeClass('selected')
+    //     $(this).toggleClass('selected')
 
-        $('#torrent_controls').toggleClass('open', $('.torrent.selected', '#torrents').length > 0)
-    })
+    //     $('#torrent_controls').toggleClass('open', $('.torrent.selected', '#torrents').length > 0)
+    // })
 
     $('#controls_top').on('click', '.sub ul a', function(e)
     {
@@ -298,48 +377,16 @@ $(function()
             opacity: 1
         }, 200)
     })
+})
 
-    $('#sidebar').on('click', 'a', function(e)
-    {
-        e.preventDefault()
+window.btapp = new Btapp()
 
-        var section = $(this).closest('section').data('section')
-        var elems
-        var torrents_list = $('#torrents').children('.content').children()
-        var selector = ''
+var Templates
+var App
 
-        switch(section)
-        {
-            case 'torrents':
-                selector = $(this).data('show')
-                if(selector.length <= 0)
-                    selector = ''
-
-                break
-
-            case 'labels':
-                var label = $(this).data('label')
-                selector = '[data-label=' + label + ']'
-                
-                break
-        }
-
-        elems = selector.length > 0 ? torrents_list.filter(selector) : torrents_list
-        
-        torrents_list.not(elems).animate({
-            scale: 0.9,
-            opacity: 0,
-            height: 0
-        }, 150, function()
-        {
-            $(this).addClass('hidden')
-        })
-
-        elems.css('height', 75).removeClass('hidden').animate({
-            opacity: 1,
-            scale: 1
-        }, 150)
-    })
+$(function()
+{
+    App = new AppView({ el: $('body') });
 })
 
 })(jQuery, Handlebars);

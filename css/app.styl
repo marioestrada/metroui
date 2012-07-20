@@ -394,9 +394,10 @@ $bottom_height = 30px
         height 75px
         cursor pointer
         vendor_transition(transform, 0.05s linear)
+        -webkit-backface-visibility hidden
 
-        &:active
-            transform(scale(0.985))
+        // &:active
+        //     transform(scale(0.985))
 
         &:hover
             background-color rgba(#fff, 0.05)
@@ -513,6 +514,19 @@ $bottom_height = 30px
             .progress
                 background #fff
                 anim(none)
+
+        &.paused,
+        &.stopped
+            border-color #999
+
+            .progress
+                background #999
+
+        &.waiting
+            border-color $color_light_blue
+
+            .progress
+                background #ccc
 
         &.seeding
             border-color $color_lime

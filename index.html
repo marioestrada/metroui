@@ -187,113 +187,7 @@
 	<section id="torrents" class="main_content loading perspective">
 		<h1 class="name">All Torrents</h1>
 		<div class="scrollable vertical content">
-			<!-- Torrent list will be here -->
-			<div class="torrent downloading" data-label="VODO" data-percent="35">
-				<div class="progress" style="width: 35%">
-					<div class="spacer">
-					<h1>Zeitgeist Moving Forward, 2011</h1>
-					<div class="tag">
-						<!-- <span class="icon tag"></span> VODO -->
-					</div>
-
-					<div class="byline">
-						<span class="details">
-							Downloading from 10 peers - D: 563 b/s U: 6 b/s ETA: 2w 2d
-						</span><br />
-						<span class="icon downloaded">Downloaded</span> 400 MB of 1.73 GB
-						<span class="icon uploaded">Uploaded</span> 10.27 MB
-						<span class="icon ratio">Ratio</span> Ratio: 0.02
-					</div>
-					</div>
-				</div>
-
-				<div class="back">
-					<h1>Zeitgeist Moving Forward, 2011</h1>
-					<div class="tag">
-						<span class="icon tag"></span> VODO
-					</div>
-
-					<div class="byline">
-						<span class="details">
-							Downloading from 10 peers - D: 563 b/s U: 6 b/s ETA: 2w 2d
-						</span><br />
-						<span class="icon downloaded">Downloaded</span> 400 MB of 1.73 GB
-						<span class="icon uploaded">Uploaded</span> 10.27 MB
-						<span class="icon ratio">Ratio</span> Ratio: 0.02
-					</div>
-				</div>
-			</div>
-
-			<div class="torrent seeding" data-label="ClearBits" data-percent="15">
-				<div class="progress seeding" style="width: 15%">
-					<div class="spacer">
-					<h1>A Joyful Slog, 2012</h1>
-					<div class="tag">
-						<!-- <span class="icon tag"></span> VODO -->
-					</div>
-
-					<div class="byline">
-						<span class="details">
-							Seeding to 8 peers - U: 3.2 Kb/s ETA: 5d
-						</span><br />
-						<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
-						<span class="icon uploaded">Uploaded</span> 8.57 MB
-						<span class="icon ratio">Ratio</span> Ratio: 0.13
-					</div>
-					</div>
-				</div>
-
-				<div class="back">
-					<h1>A Joyful Slog, 2012</h1>
-					<div class="tag">
-						<span class="icon tag"></span> ClearBits
-					</div>
-
-					<div class="byline">
-						<span class="details">
-							Seeding to 8 peers - U: 3.2 Kb/s ETA: 5d
-						</span><br />
-						<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
-						<span class="icon uploaded">Uploaded</span> 8.57 MB
-						<span class="icon ratio">Ratio</span> Ratio: 0.13
-					</div>
-				</div>
-		</div>
-
-		<div class="torrent completed" data-label="VODO" data-percent="100">
-			<div class="progress seeding" style="width: 100%">
-				<div class="spacer">
-				<h1>Kumar&eacute;, 2012</h1>
-				<div class="tag">
-					<span class="icon tag"></span> VODO
-				</div>
-
-				<div class="byline">
-					<span class="details">
-						Completed
-					</span><br />
-					<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
-					<span class="icon uploaded">Uploaded</span> 8.57 MB
-					<span class="icon ratio">Ratio</span> Ratio: 0.13
-				</div>
-				</div>
-			</div>
-
-			<div class="back">
-				<h1>Kumar&eacute;, 2012</h1>
-				<div class="tag">
-					<span class="icon tag"></span> VODO
-				</div>
-
-				<div class="byline">
-					<span class="details">
-						Completed
-					</span><br />
-					<span class="icon downloaded">Downloaded</span> 700 MB of 700 GB
-					<span class="icon uploaded">Uploaded</span> 8.57 MB
-					<span class="icon ratio">Ratio</span> Ratio: 0.13
-				</div>
-			</div>
+			<p class="message">Waiting for data&hellip;</p>
 		</div>
 	</section>
 	
@@ -401,7 +295,7 @@
 				</span><br />
 				<span class="icon downloaded">Downloaded</span> {{ parseBytes downloaded }} of {{ parseBytes size }}
 				<span class="icon uploaded">Uploaded</span> {{ parseBytes uploaded }}
-				<span class="icon ratio">Ratio</span> Ratio: {{ ratio }}
+				<span class="icon ratio">Ratio</span> Ratio: {{ _ratio }}
 			</div>
 		</div>
 	</div>
@@ -418,7 +312,7 @@
 			</span><br />
 			<span class="icon downloaded">Downloaded</span> {{ parseBytes downloaded }} of {{ parseBytes size }}
 			<span class="icon uploaded">Uploaded</span> {{ parseBytes uploaded }}
-			<span class="icon ratio">Ratio</span> Ratio: {{ ratio }}
+			<span class="icon ratio">Ratio</span> Ratio: {{ _ratio }}
 		</div>
 	</div>
 
