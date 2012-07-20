@@ -48,6 +48,7 @@
 	<script src="https://raw.github.com/bittorrenttorque/backbrace/master/backbrace.js"></script>
 
 	<script src="js/vendor/transformjs.js"></script>
+	<script src="js/vendor/handlebars.js"></script>
 	<script src="js/metro.js"></script>
 	<!--<script src="js/vendor/lab.js"></script>
 	<script>
@@ -83,7 +84,7 @@
 			<ul>
 				<li id="search_field" class="small_on_landscape">
 					<form action="http://search.utorrent.com/search.php" method="get" target="_blank">
-						<input type="text" name="q" id="search" placeholder="Search" value="" /><button type="submit"><span class="img"></span>S</button>
+						<input type="text" name="q" id="search" placeholder="Search" value="" /><button type="submit"><span class="img"></span>s</button>
 						<input type="hidden" name="e" id="" value="http://www.bittorrent.com/search?client=utorrent154B&amp;search=" />
 					</form>
 				</li>
@@ -297,7 +298,7 @@
 	</section>
 	
 	<footer id="status">
-		D: 5 Kb/s U: 3 Kb/s
+		<strong>D:</strong> 5 Kb/s <strong>U:</strong> 3 Kb/s
 	</footer>
 
 	<section id="torrent_controls" class="panel">
@@ -387,31 +388,38 @@
 <!-- !Torrent Template -->
 <script id="tmpl_torrent" type="text/x-handlebars-template">
 
-	<div class="behind">
-		<ul>
-			<li>
-				<a href="#" class="labels"><span class="label">Labels</span></a>
-				<ul class="sub_menu sub_labels hidden" data-current="{{ label }}">
-				</ul>
-			</li>
-			<li><a href="https://remote.utorrent.com/talon/send?btih={{ id }}&dn={{ name }}" class="share" target="_blank"><span class="label">Share</span></a></li>
-			<li><a href="#" class="queue_up send_action" data-action="queueup"><span class="label">Queue Up</span></a></li>
-			<li><a href="#" class="queue_down send_action" data-action="queuedown"><span class="label">Queue Down</span></a></li>
-		</ul>
+	<div class="progress" style="width: {{ progress }}%">
+		<div class="spacer">
+			<h1>{{ name }}</h1>
+			<div class="tag">
+				<!-- <span class="icon tag"></span> {{ label }} -->
+			</div>
+
+			<div class="byline">
+				<span class="details">
+					{{ _status_byline }}
+				</span><br />
+				<span class="icon downloaded">Downloaded</span> {{ parseBytes downloaded }} of {{ parseBytes size }}
+				<span class="icon uploaded">Uploaded</span> {{ parseBytes uploaded }}
+				<span class="icon ratio">Ratio</span> Ratio: {{ ratio }}
+			</div>
+		</div>
 	</div>
 
-	<h1>{{ name }}</h1>
-	<div class="byline">
-		{{ _status_byline }}
-	</div>
-	
-	<div class="progress">
-		<span class="in_text">{{ _compact_byline }}</span>
-		<div class="bar" style="width: {{ percent }}%"><span>{{ _compact_byline }}</span></div>
-	</div>
-	
-	<div class="info">
-		<span class="icon downloaded">Downloaded</span> {{parseBytes downloaded}} of {{parseBytes size}} <span class="icon uploaded">Uploaded</span> {{parseBytes uploaded}} <span class="icon ratio"></span> Ratio: {{ ratio }}
+	<div class="back">
+		<h1>{{ name }}</h1>
+		<div class="tag">
+			<span class="icon tag"></span> {{ label }}
+		</div>
+
+		<div class="byline">
+			<span class="details">
+				{{ _status_byline }}
+			</span><br />
+			<span class="icon downloaded">Downloaded</span> {{ parseBytes downloaded }} of {{ parseBytes size }}
+			<span class="icon uploaded">Uploaded</span> {{ parseBytes uploaded }}
+			<span class="icon ratio">Ratio</span> Ratio: {{ ratio }}
+		</div>
 	</div>
 
 </script>

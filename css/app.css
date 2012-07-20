@@ -201,6 +201,12 @@ input {
   height: 30px;
   font-size: 14px;
   padding-left: 5px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  -webkit-background-clip: padding-box;
 }
 input:focus {
   outline: none;
@@ -305,6 +311,8 @@ a {
 #controls_top #search_field button {
   width: 30px;
   border: 1px solid #fff;
+  font-family: 'Pictograms';
+  font-size: 20px;
 }
 #app_title {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -496,11 +504,11 @@ a {
   -ms-background-size: 40px 40px;
   -o-background-size: 40px 40px;
   background-size: 40px 40px;
-  -webkit-animation: progress-bg-in 1s linear infinite;
-  -moz-animation: progress-bg-in 1s linear infinite;
-  -ms-animation: progress-bg-in 1s linear infinite;
-  -o-animation: progress-bg-in 1s linear infinite;
-  animation: progress-bg-in 1s linear infinite;
+  -webkit-animation: progress-bg-in 1.5s linear infinite;
+  -moz-animation: progress-bg-in 1.5s linear infinite;
+  -ms-animation: progress-bg-in 1.5s linear infinite;
+  -o-animation: progress-bg-in 1.5s linear infinite;
+  animation: progress-bg-in 1.5s linear infinite;
 }
 #torrents .torrent .progress .spacer {
   padding-top: 10px;
@@ -510,17 +518,17 @@ a {
 #torrents .torrent .progress .icon::after {
   color: #000 !important;
 }
-#torrents .torrent.completed {
+#torrents .torrent.done {
   border-color: #86c440;
 }
-#torrents .torrent.completed::after {
-  border-top-color: #ccc !important;
-  border-right-color: #ccc !important;
+#torrents .torrent.done::after {
+  border-top-color: #ddd !important;
+  border-right-color: #ddd !important;
 }
-#torrents .torrent.completed::before {
-  border-color: #ccc !important;
+#torrents .torrent.done::before {
+  border-color: #ddd !important;
 }
-#torrents .torrent.completed .progress {
+#torrents .torrent.done .progress {
   background: #fff;
   -webkit-animation: none;
   -moz-animation: none;
@@ -533,11 +541,11 @@ a {
 }
 #torrents .torrent.seeding .progress {
   background-color: #86c440;
-  -webkit-animation: progress-bg-out 1s linear infinite;
-  -moz-animation: progress-bg-out 1s linear infinite;
-  -ms-animation: progress-bg-out 1s linear infinite;
-  -o-animation: progress-bg-out 1s linear infinite;
-  animation: progress-bg-out 1s linear infinite;
+  -webkit-animation: progress-bg-out 1.5s linear infinite;
+  -moz-animation: progress-bg-out 1.5s linear infinite;
+  -ms-animation: progress-bg-out 1.5s linear infinite;
+  -o-animation: progress-bg-out 1.5s linear infinite;
+  animation: progress-bg-out 1.5s linear infinite;
 }
 #torrents .torrent.selected::before {
   border: 2px solid #fff;
@@ -552,6 +560,17 @@ a {
   border-top: 15px solid #fff;
   border-right: 15px solid #fff;
   z-index: 10;
+}
+#torrents .torrent.selected .back::after {
+  position: absolute;
+  content: '%';
+  font-family: 'Pictograms';
+  right: 2px;
+  top: 0;
+  font-size: 20px;
+  color: #000;
+  z-index: 99;
+  opacity: 0.8;
 }
 #torrents .torrent .back {
   padding-top: 10px;
@@ -569,6 +588,9 @@ a {
   left: 0;
   right: 0;
 }
+#status strong {
+  font-weight: 600;
+}
 .panel {
   position: absolute;
   right: 0;
@@ -578,14 +600,14 @@ a {
   border-top: 2px solid #000;
   background: #86c440;
   font-size: 12px;
-  -webkit-transition: bottom 0.2s ease-out;
-  -moz-transition: bottom 0.2s ease-out;
-  -ms-transition: bottom 0.2s ease-out;
-  -o-transition: bottom 0.2s ease-out;
-  transition: bottom 0.2s ease-out;
+  -webkit-transition: bottom 0.135s ease-out;
+  -moz-transition: bottom 0.135s ease-out;
+  -ms-transition: bottom 0.135s ease-out;
+  -o-transition: bottom 0.135s ease-out;
+  transition: bottom 0.135s ease-out;
 }
 .panel.open {
-  bottom: -2px;
+  bottom: 0;
 }
 .panel .start {
   margin-left: 30px;
@@ -602,6 +624,22 @@ a {
 }
 .panel li a:hover .icon {
   background: rgba(255,255,255,0.15);
+}
+.panel li a.pause .icon::after {
+  background: #fff;
+  top: 7px;
+  left: 10px;
+  height: 22px;
+  width: 5px;
+}
+.panel li a.pause .icon::before {
+  background: #fff;
+  position: absolute;
+  content: '';
+  top: 7px;
+  right: 10px;
+  height: 22px;
+  width: 5px;
 }
 .panel li a.remove .icon::after {
   top: -3px;

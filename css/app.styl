@@ -214,6 +214,7 @@ input
     height 30px
     font-size: 14px
     padding-left 5px
+    rounded(0)
 
     &:focus
         outline none
@@ -310,6 +311,8 @@ $bottom_height = 30px
         button
             width 30px
             border 1px solid #fff
+            font-family 'Pictograms'
+            font-size 20px
 
 #app_title
     font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
@@ -486,7 +489,7 @@ $bottom_height = 30px
             background-image -ms-linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
             background-image linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
             bg_size(40px 40px)
-            anim(progress-bg-in 1s linear infinite)
+            anim(progress-bg-in 1.5s linear infinite)
 
             .spacer
                 padding-top 10px
@@ -497,15 +500,15 @@ $bottom_height = 30px
                 &::after
                     color #000 !important
 
-        &.completed
+        &.done
             border-color $color_lime
 
             &::after
-                border-top-color #ccc !important
-                border-right-color #ccc !important
+                border-top-color #ddd !important
+                border-right-color #ddd !important
 
             &::before
-                border-color #ccc !important
+                border-color #ddd !important
 
             .progress
                 background #fff
@@ -516,7 +519,7 @@ $bottom_height = 30px
 
             .progress
                 background-color $color_lime
-                anim(progress-bg-out 1s linear infinite)
+                anim(progress-bg-out 1.5s linear infinite)
 
         &.selected
             &::before
@@ -532,6 +535,19 @@ $bottom_height = 30px
                 border-top 15px solid #fff
                 border-right 15px solid #fff
                 z-index 10
+
+            .back
+                &::after
+                    position absolute
+                    content '%'
+                    font-family 'Pictograms'
+                    right 2px
+                    top 0
+                    font-size 20px
+                    color #000
+                    z-index 99
+                    opacity 0.8
+                    // color $color_light_blue
 
         .back
             padding-top 10px
@@ -549,6 +565,9 @@ $bottom_height = 30px
     left 0
     right 0
 
+    strong
+        font-weight 600
+
 .panel
     position absolute
     right 0
@@ -558,10 +577,10 @@ $bottom_height = 30px
     border-top 2px solid #000
     background $color_lime
     font-size 12px
-    trans(bottom 0.2s ease-out)
+    trans(bottom 0.135s ease-out)
 
     &.open
-        bottom -2px
+        bottom 0
 
     .start
         margin-left 30px
@@ -578,6 +597,22 @@ $bottom_height = 30px
             &:hover
                 .icon
                     background rgba(#fff, 0.15)
+
+            &.pause
+                .icon::after
+                    background #fff
+                    top 7px
+                    left 10px
+                    height 22px
+                    width 5px
+                .icon::before
+                    background #fff
+                    position absolute
+                    content ''
+                    top 7px
+                    right 10px
+                    height 22px
+                    width 5px
 
             &.remove
                 .icon::after
