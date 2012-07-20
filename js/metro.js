@@ -128,7 +128,7 @@ var AppView = Backbone.View.extend({
         var elems
         var torrents_list = this.torrents_contents.$el.children()
         var selector = ''
-        
+
         switch(section)
         {
             case 'torrents':
@@ -184,6 +184,9 @@ var TorrentRow = Backbone.View.extend({
 
         // this.model.set({ selected: false }, { silent: true })
         this.model.on('change', this.render, this);
+        this.model.live('properties', _.bind(function(properties) {
+            properties.on('change', this.render, this);
+        }, this));
     },
 
     render: function()
@@ -233,6 +236,8 @@ var TorrentRow = Backbone.View.extend({
     selected: function()
     {
         this.$el.toggleClass('selected')
+
+        $('#torrent_controls').toggleClass('open', $('.torrent.selected', '#torrents').length > 0)
     },
 
     dynamicAttributes: function(attr)

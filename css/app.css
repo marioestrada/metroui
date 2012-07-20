@@ -503,6 +503,11 @@ a {
   -ms-animation: progress-bg-in 1.5s linear infinite;
   -o-animation: progress-bg-in 1.5s linear infinite;
   animation: progress-bg-in 1.5s linear infinite;
+  -webkit-transition: width 0.05 linear;
+  -moz-transition: width 0.05 linear;
+  -ms-transition: width 0.05 linear;
+  -o-transition: width 0.05 linear;
+  transition: width 0.05 linear;
 }
 #torrents .torrent .progress .spacer {
   padding-top: 10px;
