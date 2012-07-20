@@ -45,7 +45,7 @@ var Helpers = {
         return d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
     },
 
-    secondsToString: function(seconds)
+    secondsToString: function(data, empty_infinity)
     {
         if (data == -1 || !data)
             return "\u221E";
@@ -184,9 +184,17 @@ var TorrentRow = Backbone.View.extend({
 
         // this.model.set({ selected: false }, { silent: true })
         this.model.on('change', this.render, this);
+
         this.model.live('properties', _.bind(function(properties) {
             properties.on('change', this.render, this);
         }, this));
+
+        this.model.on('destroy', _.bind(function()
+        {
+            this.remove();
+        }, this));
+
+        this.bits = ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded'];
     },
 
     render: function()
@@ -240,10 +248,26 @@ var TorrentRow = Backbone.View.extend({
         $('#torrent_controls').toggleClass('open', $('.torrent.selected', '#torrents').length > 0)
     },
 
+    mapStatuses: function(status)
+    {
+        var statuses = [];
+        
+        _.map(this.bits, function(value, index)
+        {
+            if(Math.pow(2, index) & status)
+                statuses.push(value);
+        });
+        
+        return statuses;
+    },
+
     dynamicAttributes: function(attr)
     {
         // var attr = this.model.get('properties').attributes
         attr.percent = attr.progress / 10
+
+        attr.statuses = this.mapStatuses(attr.status)
+        console.log(attr)
 
         var complete = attr.percent >= 100;
         var data = attr.percent;
