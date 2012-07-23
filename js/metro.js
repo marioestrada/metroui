@@ -23,66 +23,66 @@ var Helpers = {
 
     parseBytes: function(size, precision)
     {
-        var i;
-        var sizes = ["b", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+        var i
+        var sizes = ["b", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
         if(size <= 0 || !size)
-            return('0 b');
+            return('0 b')
         else{
-            i = Math.floor(Math.log(size) / Math.log(1024));
-            size = size / Math.pow(1024, i);
-            rounded = (Math.round(size * 100)) / 100;
-            return rounded + " " + sizes[i];
+            i = Math.floor(Math.log(size) / Math.log(1024))
+            size = size / Math.pow(1024, i)
+            rounded = (Math.round(size * 100)) / 100
+            return rounded + " " + sizes[i]
         }
     },
 
     secondsToDate: function(seconds)
     {
         if(!seconds)
-            return 'n/a';
+            return 'n/a'
         
-        var d = new Date(seconds * 1000);
+        var d = new Date(seconds * 1000)
         
-        return d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
+        return d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear()
     },
 
     secondsToString: function(data, empty_infinity)
     {
         if (data == -1 || !data)
-            return "\u221E";
+            return "\u221E"
         
-        var secs = Number(data);
+        var secs = Number(data)
         
         if(secs > 63072000)
-            return empty_infinity ? '' : "\u221E";
+            return empty_infinity ? '' : "\u221E"
         
-        var div, y, w, d, h, m, s, output = "";
+        var div, y, w, d, h, m, s, output = ""
         
-        y = Math.floor(secs / 31536000);
-        div = secs % 31536000;
-        w = Math.floor(div / 604800);
-        div = div % 604800;
-        d = Math.floor(div / 86400);
-        div = div % 86400;
-        h = Math.floor(div / 3600);
-        div = div % 3600;
-        m = Math.floor(div / 60);
-        s = div % 60;
+        y = Math.floor(secs / 31536000)
+        div = secs % 31536000
+        w = Math.floor(div / 604800)
+        div = div % 604800
+        d = Math.floor(div / 86400)
+        div = div % 86400
+        h = Math.floor(div / 3600)
+        div = div % 3600
+        m = Math.floor(div / 60)
+        s = div % 60
         
         if (y > 0)
         {
-            output = "%dy %dw".replace(/%d/, y).replace(/%d/, w);
+            output = "%dy %dw".replace(/%d/, y).replace(/%d/, w)
         }else if(w > 0){
-            output = "%dw %dd".replace(/%d/, w).replace(/%d/, d);
+            output = "%dw %dd".replace(/%d/, w).replace(/%d/, d)
         }else if(d > 0){
-            output = "%dd %dh".replace(/%d/, d).replace(/%d/, h);
+            output = "%dd %dh".replace(/%d/, d).replace(/%d/, h)
         }else if(h > 0){
-            output = "%dh %dm".replace(/%d/, h).replace(/%d/, m);
+            output = "%dh %dm".replace(/%d/, h).replace(/%d/, m)
         }else if(m > 0){
-            output = "%dm %ds".replace(/%d/, m).replace(/%d/, s);
+            output = "%dm %ds".replace(/%d/, m).replace(/%d/, s)
         }else{
-            output = "%ds".replace(/%d/, s);
+            output = "%ds".replace(/%d/, s)
         }
-        return output;
+        return output
     }
 }
 
@@ -90,9 +90,9 @@ Handlebars.registerHelper('parseBytes', Helpers.parseBytes)
 Handlebars.registerHelper('secondsToDate', Helpers.secondsToDate)
 Handlebars.registerHelper('relativeDate', function(seconds)
 {
-    var d = new Date();
-    seconds = d.getTime() / 1000 - seconds;
-    return Helpers.secondsToString(seconds);
+    var d = new Date()
+    seconds = d.getTime() / 1000 - seconds
+    return Helpers.secondsToString(seconds)
 })
 Handlebars.registerHelper('secondsToString', Helpers.secondsToString)
 
@@ -109,13 +109,15 @@ var AppView = Backbone.View.extend({
 
         btapp.connect({}, {
             poll_frequency: 1000,
-            queries: Helpers.poll_queries
+            queries: Helpers.poll_queries,
+            pairing_type: 'native',
+            plugin: false
         })
 
-        this.torrents = new Torrents();
-        this.torrents_contents = new TorrentsList({ model: torrents });
+        this.torrents = new Torrents()
+        this.torrents_contents = new TorrentsList({ model: torrents })
         
-        $('#torrents .content').replaceWith(this.torrents_contents.render().el);
+        $('#torrents .content').replaceWith(this.torrents_contents.render().el)
     },
 
     filterTorrents: function(e)
@@ -182,19 +184,19 @@ var TorrentRow = Backbone.View.extend({
     {
         this.template = Templates.torrent_row
 
-        // this.model.set({ selected: false }, { silent: true })
-        this.model.on('change', this.render, this);
+        this.model.on('change', this.render, this)
+
+        this.model.on('all', console.log, console)
+
+        this.model.on('destroy', function(){ debugger; console.warn('hey'); this.remove() }, this)
 
         this.model.live('properties', _.bind(function(properties) {
-            properties.on('change', this.render, this);
-        }, this));
+            properties.on('change', this.render, this)
+            properties.on('all', console.log, console)
+            properties.on('destroy', this.remove, this)
+        }, this))
 
-        this.model.on('destroy', _.bind(function()
-        {
-            this.remove();
-        }, this));
-
-        this.bits = ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded'];
+        this.bits = ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded']
     },
 
     render: function()
@@ -206,10 +208,9 @@ var TorrentRow = Backbone.View.extend({
         this.$el.attr('data-percent', attr.progress / 10)
         
         this.$el.removeClass(this.status_classes)
-            // .toggleClass('selected', this.$el.hasClass('selected'))
             .addClass(dyn_attributes._torrent_class)
 
-        var animate = this.$el.html() === '';
+        var animate = this.$el.html() === ''
 
         this.$el.html(
             Templates.torrent_row(
@@ -250,39 +251,38 @@ var TorrentRow = Backbone.View.extend({
 
     mapStatuses: function(status)
     {
-        var statuses = [];
+        var statuses = []
         
         _.map(this.bits, function(value, index)
         {
             if(Math.pow(2, index) & status)
-                statuses.push(value);
-        });
+                statuses.push(value)
+        })
         
-        return statuses;
+        return statuses
     },
 
     dynamicAttributes: function(attr)
     {
-        // var attr = this.model.get('properties').attributes
         attr.percent = attr.progress / 10
 
         attr.statuses = this.mapStatuses(attr.status)
 
-        var complete = attr.percent >= 100;
-        var data = attr.percent;
-        var forcestart = !_.contains(attr.statuses, 'queued') && _.contains(attr.statuses, 'started');
-        var res, torrent_class;
+        var complete = attr.percent >= 100
+        var data = attr.percent
+        var forcestart = !_.contains(attr.statuses, 'queued') && _.contains(attr.statuses, 'started')
+        var res, torrent_class
         
         if(_.contains(attr.statuses, 'paused'))
         {
-            res = 'Paused';
-            torrent_class = 'paused';
+            res = 'Paused'
+            torrent_class = 'paused'
         }
 
         if(_.contains(attr.statuses, 'checking'))
         {
-            res = "Checked %:.1d%%".replace(/%:\.1d%/, (data / 10).toFixed(1));
-            torrent_class = 'checking waiting';
+            res = "Checked %:.1d%%".replace(/%:\.1d%/, (data / 10).toFixed(1))
+            torrent_class = 'checking waiting'
         }
         
         if(!res && complete)
@@ -291,37 +291,36 @@ var TorrentRow = Backbone.View.extend({
             {
                 if(_.contains(attr.statuses, 'started'))
                 {
-                    res = 'Seeding to ' + (attr.peers_connected || 0) + ' peers';
-                    res += ' - U: ' + Helpers.parseBytes(attr.up_speed) + '/s';
-                    res += ' ETA: ' + Helpers.secondsToString(attr.eta);
-                    torrent_class = 'seeding';
+                    res = 'Seeding to ' + (attr.peers_connected || 0) + ' peers'
+                    res += ' - U: ' + Helpers.parseBytes(attr.up_speed) + '/s'
+                    res += ' ETA: ' + Helpers.secondsToString(attr.eta)
+                    torrent_class = 'seeding'
                 }else{
-                    res = "Queued Seed";
-                    torrent_class = 'seeding waiting';
+                    res = "Queued Seed"
+                    torrent_class = 'seeding waiting'
                 }
             }else{
-                res = "Finished";
-                torrent_class = 'done';
+                res = "Finished"
+                torrent_class = 'done'
             }
         }else if(!res){
             if (_.contains(attr.statuses, 'queued') && !_.contains(attr.statuses, 'started'))
             {
-                res = "Queued, position: " + attr.queue_position;
-                torrent_class = 'waiting';
+                res = "Queued, position: " + attr.queue_position
+                torrent_class = 'waiting'
             }else if(!_.contains(attr.statuses, 'queued') && !_.contains(attr.statuses, 'started')){
-                res = "Stopped" + ' ' + data / 10 + "%";
-                torrent_class = 'stopped';
+                res = "Stopped" + ' ' + data / 10 + "%"
+                torrent_class = 'stopped'
             }else{
-                //res = 'Downloading ' + data / 10 + '%';
-                res = forcestart ? '[F] ' : '';
-                res += 'Downloading from ' + (attr.seeds_connected || 0) + ' peers';
-                res += ' - D: ' + Helpers.parseBytes(attr.down_speed) + '/s U: ' + Helpers.parseBytes(attr.up_speed) + '/s';
-                res += ' ETA: ' + Helpers.secondsToString(attr.eta);
-                torrent_class = 'downloading';
+                res = forcestart ? '[F] ' : ''
+                res += 'Downloading from ' + (attr.seeds_connected || 0) + ' peers'
+                res += ' - D: ' + Helpers.parseBytes(attr.down_speed) + '/s U: ' + Helpers.parseBytes(attr.up_speed) + '/s'
+                res += ' ETA: ' + Helpers.secondsToString(attr.eta)
+                torrent_class = 'downloading'
             }
         }
         
-        var status_split = res.split(' - ');
+        var status_split = res.split(' - ')
         
         var obj_res = {
             '_percent': attr.progress / 10,
@@ -331,7 +330,7 @@ var TorrentRow = Backbone.View.extend({
             '_ratio': (attr.ratio / 1000).toFixed(2)
         }
 
-        return obj_res;
+        return obj_res
     }
 })
 
@@ -346,7 +345,7 @@ var TorrentsList = Backbone.View.extend(
         {
             var view = new TorrentRow({
                 model: torrent
-             });
+             })
 
             this.$el.append(view.render().el)
         }, this)
@@ -377,16 +376,6 @@ var Torrents = Backbone.Collection.extend({
 
 $(function()
 {
-
-    // $('#torrents').on('click', '.torrent', function(e)
-    // {
-    //     e.preventDefault()
-    //     // $('.torrent', '#torrents').removeClass('selected')
-    //     $(this).toggleClass('selected')
-
-    //     $('#torrent_controls').toggleClass('open', $('.torrent.selected', '#torrents').length > 0)
-    // })
-
     $('#controls_top').on('click', '.sub ul a', function(e)
     {
         e.preventDefault()
@@ -414,7 +403,7 @@ var App
 
 $(function()
 {
-    App = new AppView({ el: $('body') });
+    App = new AppView({ el: $('body') })
 })
 
 })(jQuery, Handlebars);
