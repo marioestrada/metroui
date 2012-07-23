@@ -110,12 +110,28 @@ var AppView = Backbone.View.extend({
         btapp.connect({}, {
             poll_frequency: 1000,
             queries: Helpers.poll_queries,
-            pairing_type: 'native',
-            plugin: false
+            // pairing_type: 'native',
+            // plugin: false,
+            product: 'uTorrent'
         })
 
-        // this.torrents = new Torrents()
-        this.torrents_contents = new TorrentsList({ model: new Backbone.Collection() })
+        // btapp.live('sync', function(torrent_list)
+        // {
+        //     var up = 0
+        //     var down = 0
+
+        //     btapp.get('torrent').each(function(torrent)
+        //     {
+        //         console.log(torrent)
+        //         up += torrent.get('upload_speed')
+        //         down += torrent.get('download_speed')
+        //     })
+        // }, this);
+
+        this.torrents = new Torrents()
+        this.torrents_contents = new TorrentsList({
+            model: torrents
+        })
         
         $('#torrents .content').replaceWith(this.torrents_contents.render().el)
     },
@@ -186,14 +202,11 @@ var TorrentRow = Backbone.View.extend({
 
         this.model.on('change', this.render, this)
 
-        this.model.on('all', console.log, console)
-
-        this.model.on('destroy', function(){ debugger; console.warn('hey'); this.remove() }, this)
+        this.model.on('destroy', this.remove, this)
 
         this.model.live('properties', _.bind(function(properties) {
             properties.on('change', this.render, this)
-            // properties.on('all', console.log, console)
-            // properties.on('destroy', this.remove, this)
+            console.log(properties)
         }, this))
 
         this.bits = ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded']
@@ -201,9 +214,12 @@ var TorrentRow = Backbone.View.extend({
 
     render: function()
     {
+        if(!this.model.get('properties'))
+            return this;
+
         var attr  = this.model.get('properties').attributes
         var dyn_attributes = this.dynamicAttributes(attr)
-
+        
         this.$el.attr('data-label', attr.label)
         this.$el.attr('data-percent', attr.progress / 10)
         
@@ -214,7 +230,7 @@ var TorrentRow = Backbone.View.extend({
 
         this.$el.html(
             Templates.torrent_row(
-                _.extend(this.model.get('properties').attributes, dyn_attributes)
+                _.extend(dyn_attributes, attr)
             )
         )
 
@@ -264,33 +280,32 @@ var TorrentRow = Backbone.View.extend({
 
     dynamicAttributes: function(attr)
     {
-        attr.percent = attr.progress / 10
-        console.log(attr)
+        var percent = attr.progress / 10
 
-        attr.statuses = this.mapStatuses(attr.status)
+        var statuses = this.mapStatuses(attr.status)
 
-        var complete = attr.percent >= 100
-        var data = attr.percent
-        var forcestart = !_.contains(attr.statuses, 'queued') && _.contains(attr.statuses, 'started')
+        var complete = percent >= 100
+        var data = percent
+        var forcestart = !_.contains(statuses, 'queued') && _.contains(statuses, 'started')
         var res, torrent_class
         
-        if(_.contains(attr.statuses, 'paused'))
+        if(_.contains(statuses, 'paused'))
         {
             res = 'Paused'
             torrent_class = 'paused'
         }
 
-        if(_.contains(attr.statuses, 'checking'))
+        if(_.contains(statuses, 'checking'))
         {
-            res = "Checked %:.1d%%".replace(/%:\.1d%/, attr.percent.toFixed(1))
+            res = "Checked %:.1d%%".replace(/%:\.1d%/, percent.toFixed(1))
             torrent_class = 'checking waiting'
         }
         
         if(!res && complete)
         { 
-            if (_.contains(attr.statuses, 'queued'))
+            if (_.contains(statuses, 'queued'))
             {
-                if(_.contains(attr.statuses, 'started'))
+                if(_.contains(statuses, 'started'))
                 {
                     res = 'Seeding to ' + (attr.peers_connected || 0) + ' peers'
                     res += ' - U: ' + Helpers.parseBytes(attr.upload_speed) + '/s'
@@ -305,11 +320,11 @@ var TorrentRow = Backbone.View.extend({
                 torrent_class = 'done'
             }
         }else if(!res){
-            if (_.contains(attr.statuses, 'queued') && !_.contains(attr.statuses, 'started'))
+            if (_.contains(statuses, 'queued') && !_.contains(statuses, 'started'))
             {
                 res = "Queued, position: " + attr.queue_order
                 torrent_class = 'waiting'
-            }else if(!_.contains(attr.statuses, 'queued') && !_.contains(attr.statuses, 'started')){
+            }else if(!_.contains(statuses, 'queued') && !_.contains(statuses, 'started')){
                 res = "Stopped" + ' ' + data / 10 + "%"
                 torrent_class = 'stopped'
             }else{
@@ -328,7 +343,8 @@ var TorrentRow = Backbone.View.extend({
             '_torrent_class': torrent_class,
             '_status_byline': res,
             '_compact_byline': status_split.length > 1 ? status_split[1] : res,
-            '_ratio': (attr.ratio / 1000).toFixed(2)
+            '_ratio': (attr.ratio / 1000).toFixed(2),
+            '_statuses': statuses
         }
 
         return obj_res

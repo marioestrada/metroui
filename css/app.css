@@ -388,15 +388,14 @@ a {
 }
 .main_content .name,
 .main_content .content {
-  -webkit-animation: metroin 0.3s ease-out;
-  -moz-animation: metroin 0.3s ease-out;
-  -ms-animation: metroin 0.3s ease-out;
-  -o-animation: metroin 0.3s ease-out;
-  animation: metroin 0.3s ease-out;
-  -webkit-animation-delay: 0.15s;
+  -webkit-animation: metroin 0.3s ease-out 0.25s;
+  -moz-animation: metroin 0.3s ease-out 0.25s;
+  -ms-animation: metroin 0.3s ease-out 0.25s;
+  -o-animation: metroin 0.3s ease-out 0.25s;
+  animation: metroin 0.3s ease-out 0.25s;
   -webkit-animation-fill-mode: both;
-  -ms-animation-delay: 0.15s;
   -ms-animation-fill-mode: both;
+  animation-fill-mode: both;
   -webkit-transform-origin: left center;
   -moz-transform-origin: left center;
   -ms-transform-origin: left center;
@@ -484,6 +483,7 @@ a {
 }
 #torrents .torrent .progress {
   background-color: #39f;
+  min-width: 5px;
   position: absolute;
   bottom: 0;
   top: 0;

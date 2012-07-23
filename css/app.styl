@@ -377,11 +377,10 @@ $bottom_height = 30px
 
     .name,
     .content
-        anim(metroin 0.3s ease-out)
-        -webkit-animation-delay 0.15s
+        anim(metroin 0.3s ease-out 0.25s)
         -webkit-animation-fill-mode both
-        -ms-animation-delay 0.15s
         -ms-animation-fill-mode both
+        animation-fill-mode both
         transform_origin(left center)
 
 #torrents
@@ -480,6 +479,7 @@ $bottom_height = 30px
 
         .progress
             background-color $color_light_blue
+            min-width 5px
             position absolute
             bottom 0
             top 0
