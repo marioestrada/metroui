@@ -265,6 +265,7 @@ var TorrentRow = Backbone.View.extend({
     dynamicAttributes: function(attr)
     {
         attr.percent = attr.progress / 10
+        console.log(attr)
 
         attr.statuses = this.mapStatuses(attr.status)
 
@@ -292,7 +293,7 @@ var TorrentRow = Backbone.View.extend({
                 if(_.contains(attr.statuses, 'started'))
                 {
                     res = 'Seeding to ' + (attr.peers_connected || 0) + ' peers'
-                    res += ' - U: ' + Helpers.parseBytes(attr.up_speed) + '/s'
+                    res += ' - U: ' + Helpers.parseBytes(attr.upload_speed) + '/s'
                     res += ' ETA: ' + Helpers.secondsToString(attr.eta)
                     torrent_class = 'seeding'
                 }else{
@@ -306,7 +307,7 @@ var TorrentRow = Backbone.View.extend({
         }else if(!res){
             if (_.contains(attr.statuses, 'queued') && !_.contains(attr.statuses, 'started'))
             {
-                res = "Queued, position: " + attr.queue_position
+                res = "Queued, position: " + attr.queue_order
                 torrent_class = 'waiting'
             }else if(!_.contains(attr.statuses, 'queued') && !_.contains(attr.statuses, 'started')){
                 res = "Stopped" + ' ' + data / 10 + "%"
@@ -314,7 +315,7 @@ var TorrentRow = Backbone.View.extend({
             }else{
                 res = forcestart ? '[F] ' : ''
                 res += 'Downloading from ' + (attr.seeds_connected || 0) + ' peers'
-                res += ' - D: ' + Helpers.parseBytes(attr.down_speed) + '/s U: ' + Helpers.parseBytes(attr.up_speed) + '/s'
+                res += ' - D: ' + Helpers.parseBytes(attr.download_speed) + '/s U: ' + Helpers.parseBytes(attr.upload_speed) + '/s'
                 res += ' ETA: ' + Helpers.secondsToString(attr.eta)
                 torrent_class = 'downloading'
             }
