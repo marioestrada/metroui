@@ -114,8 +114,8 @@ var AppView = Backbone.View.extend({
             plugin: false
         })
 
-        this.torrents = new Torrents()
-        this.torrents_contents = new TorrentsList({ model: torrents })
+        // this.torrents = new Torrents()
+        this.torrents_contents = new TorrentsList({ model: new Backbone.Collection() })
         
         $('#torrents .content').replaceWith(this.torrents_contents.render().el)
     },
@@ -192,8 +192,8 @@ var TorrentRow = Backbone.View.extend({
 
         this.model.live('properties', _.bind(function(properties) {
             properties.on('change', this.render, this)
-            properties.on('all', console.log, console)
-            properties.on('destroy', this.remove, this)
+            // properties.on('all', console.log, console)
+            // properties.on('destroy', this.remove, this)
         }, this))
 
         this.bits = ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded']
@@ -281,7 +281,7 @@ var TorrentRow = Backbone.View.extend({
 
         if(_.contains(attr.statuses, 'checking'))
         {
-            res = "Checked %:.1d%%".replace(/%:\.1d%/, (data / 10).toFixed(1))
+            res = "Checked %:.1d%%".replace(/%:\.1d%/, attr.percent.toFixed(1))
             torrent_class = 'checking waiting'
         }
         
