@@ -140,10 +140,11 @@ var AppView = Backbone.View.extend({
 
         this.torrents = new Torrents()
         this.torrents_contents = new TorrentsList({
-            model: torrents
+            model: torrents,
+            el: $('#torrents .content')
         })
         
-        $('#torrents .content').replaceWith(this.torrents_contents.render().el)
+        //$('#torrents .content').replaceWith(this.torrents_contents.render().el)
     },
 
     runAction: function(e)
@@ -189,6 +190,7 @@ var AppView = Backbone.View.extend({
 
     filterTorrents: function(e)
     {
+
         e.preventDefault()
 
         var el = $(e.currentTarget)
@@ -229,6 +231,8 @@ var AppView = Backbone.View.extend({
             opacity: 1,
             scale: 1
         }, 150)
+
+        this.torrents_contents.setName(el.data('title'))
     }
 })
 
@@ -416,11 +420,10 @@ var TorrentRow = Backbone.View.extend({
 
 var TorrentsList = Backbone.View.extend(
 {
-    tagName: 'div',
-    className: 'content',
-
     initialize: function()
     {
+        this.$el.html('')
+
         btapp.live('torrent *', function(torrent, torrent_list)
         {
             var view = new TorrentRow({
@@ -429,6 +432,29 @@ var TorrentsList = Backbone.View.extend(
 
             this.$el.append(view.render().el)
         }, this)
+
+        this.name_el = this.$el.siblings('.name')
+        this.parent_el = this.$el.parent()
+    },
+
+    setName: function(name)
+    {
+        var new_name = this.name_el.clone()
+        var old_name = this.name_el
+        var _this = this
+        
+        this.name_el = new_name
+
+        old_name.addClass('old')
+            .animate({
+                opacity: 0,
+                translateX: '-=50'
+            }, 300, function()
+            {
+                $(this).remove()
+            })
+
+        new_name.html(name).prependTo(this.parent_el)
     },
 
     getSelected: function()
@@ -441,11 +467,6 @@ var TorrentsList = Backbone.View.extend(
             }, [])
 
         return selected_hashes 
-    },
-
-    render: function()
-    {
-        return this
     }
 })
 

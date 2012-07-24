@@ -363,11 +363,11 @@ a {
 }
 #sidebar li {
   padding: 2px 5px 2px 30px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-size: 17px;
 }
 #sidebar li a {
-  font-size: 17px;
+  font-size: 15px;
   display: block;
 }
 #panels {
@@ -383,8 +383,19 @@ a {
 .main_content .name {
   font-size: 32px;
   font-weight: 300;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: #ccc;
+}
+.main_content .name.old {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  -webkit-animation: none;
+  -moz-animation: none;
+  -ms-animation: none;
+  -o-animation: none;
+  animation: none;
 }
 .main_content .name,
 .main_content .content {

@@ -352,11 +352,11 @@ $bottom_height = 30px
 
     li
         padding 2px 5px 2px 30px
-        margin-bottom 5px
+        margin-bottom 10px
         font-size 17px
 
         a
-            font-size 17px
+            font-size 15px
             display block
 
 #panels
@@ -372,8 +372,15 @@ $bottom_height = 30px
     .name
         font-size 32px
         font-weight 300
-        margin-bottom 10px
+        margin-bottom 15px
         color #ccc
+
+        &.old
+            position absolute
+            left 0
+            top 0
+            right 0
+            anim(none)
 
     .name,
     .content
