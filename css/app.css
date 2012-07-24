@@ -654,6 +654,11 @@ a {
   height: 22px;
   width: 5px;
 }
+.panel li a.play .icon::after {
+  content: '>';
+  top: -3px;
+  left: -1px;
+}
 .panel li a.remove .icon::after {
   top: -3px;
   content: 'X';
