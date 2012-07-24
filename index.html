@@ -64,9 +64,27 @@
 			<ul>
 				<li class="sub"><a href="#"><span class="icon" style="font-weight: 600; font-size: 44px; float: left; margin-right: 10px">+</span>Add</a>
 					<ul>
-						<li><a href="#">Torrent URL</a></li>
-						<li><a href="#">Feed URL</a></li>
+						<li><a href="#" data-action="add-torrent">Torrent URL</a></li>
+						<li><a href="#" data-action="add-feed">Feed URL</a></li>
 					</ul>
+
+					<div id="add-torrent" class="sub-panel hidden">
+						<h3>Add Torrent</h3>
+						<input type="text" placeholder="Torrent URL" />
+						<footer>
+							<button class="default add">Add</button>
+							<button class="cancel">Cancel</button>
+						</footer>
+					</div>
+
+					<div id="add-feed" class="sub-panel hidden">
+						<h3>Add Feed</h3>
+						<input type="text" placeholder="Feed URL" />
+						<footer>
+							<button class="default add">Add</button>
+							<button class="cancel">Cancel</button>
+						</footer>
+					</div>
 				</li>
 			</ul>
 		</section>

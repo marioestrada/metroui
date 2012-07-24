@@ -208,6 +208,8 @@ button
     color #fff
     border 0
     height 30px
+    cursor pointer
+    padding 0 15px
 
 input
     border 0
@@ -258,6 +260,30 @@ $bottom_height = 30px
                 background #e0e0e0
                 min-width 200px
 
+        .sub-panel
+            color #000
+            width 350px
+            background #e0e0e0
+            border 2px solid #000
+            padding 10px
+
+            h3
+                line-height 20px
+                margin-bottom 5px
+
+            input
+                width 100%
+
+            footer
+                margin-top 10px
+                overflow auto
+
+                button
+                    float right
+
+                    &:not(.default)
+                        background #666
+
         a
             font-size 25px
             font-weight 300
@@ -304,12 +330,14 @@ $bottom_height = 30px
             margin-right 20px
 
     #search_field
-        margin-right 20px;
+        margin-right 20px
+
         #search
             width 250px
 
         button
             width 30px
+            padding 0
             border 1px solid #fff
             font-family 'Pictograms'
             font-size 20px

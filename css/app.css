@@ -195,6 +195,8 @@ button {
   color: #fff;
   border: 0;
   height: 30px;
+  cursor: pointer;
+  padding: 0 15px;
 }
 input {
   border: 0;
@@ -248,6 +250,30 @@ a {
   border: 2px solid #000;
   background: #e0e0e0;
   min-width: 200px;
+}
+#controls_top li .sub-panel {
+  color: #000;
+  width: 350px;
+  background: #e0e0e0;
+  border: 2px solid #000;
+  padding: 10px;
+}
+#controls_top li .sub-panel h3 {
+  line-height: 20px;
+  margin-bottom: 5px;
+}
+#controls_top li .sub-panel input {
+  width: 100%;
+}
+#controls_top li .sub-panel footer {
+  margin-top: 10px;
+  overflow: auto;
+}
+#controls_top li .sub-panel footer button {
+  float: right;
+}
+#controls_top li .sub-panel footer button:not(.default) {
+  background: #666;
 }
 #controls_top li a {
   font-size: 25px;
@@ -310,6 +336,7 @@ a {
 }
 #controls_top #search_field button {
   width: 30px;
+  padding: 0;
   border: 1px solid #fff;
   font-family: 'Pictograms';
   font-size: 20px;

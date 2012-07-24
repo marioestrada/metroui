@@ -1,6 +1,8 @@
 (function($, Handlebars)
 {
 
+var Templates
+var App
 var Helpers = {
     poll_queries: [
         'btapp/torrent/all/*/remove/',
@@ -156,6 +158,10 @@ var AppView = Backbone.View.extend({
                 _this.sidebar_el.find('.actual').trigger('click', [true])
             }, _this)
         });
+
+        this.top_controls = new TopControls({
+            el: $('#controls_top')
+        })
 
         this.torrents = new Torrents()
         this.torrents_contents = new TorrentsList({
@@ -501,6 +507,80 @@ var TorrentsList = Backbone.View.extend(
     }
 })
 
+var TopControls = Backbone.View.extend({
+    events: {
+        'click .sub > a:first': 'openSub',
+        'click .sub ul a': 'runAction',
+        'click .sub-panel .cancel': 'cancelSubPanel'
+    },
+
+    initialize: function()
+    {
+    },
+
+    cancelSubPanel: function(e)
+    {
+        var me = $(e.currentTarget)
+
+        me.closest('.sub-panel')
+            .animate({
+                opacity: 0,
+                rotateZ: -0.75,
+                translateY: '+=200'
+            }, 250, function()
+            {
+                $(this).addClass('hidden')
+                    .css({
+                        opacity: 1,
+                        rotateZ: 0,
+                        translateY: 0
+                    })
+            })
+    },
+
+    openSub: function(e)
+    {
+        e.preventDefault()
+
+        var me = $(e.currentTarget)
+
+        me.parent().toggleClass('open')
+        me.next('ul').css({
+            scale: 0.8,
+            opacity: 0
+        }).animate({
+            scale: 1,
+            opacity: 1
+        }, 200) 
+    },
+
+    runAction: function(e)
+    {
+        e.preventDefault()
+
+        var me = $(e.currentTarget)
+        
+        me.closest('.sub').removeClass('open')
+        console.log(me)
+        switch(me.data('action'))
+        {
+            case 'add-torrent':
+            case 'add-feed':
+                $('#' + me.data('action'))
+                    .removeClass('hidden')
+                    .css({
+                        scale: 0.8,
+                        opacity: 0
+                    }).animate({
+                        scale: 1,
+                        opacity: 1
+                    }, 200)
+
+            break;
+        }
+    }
+})
+
 var Torrent = Backbone.Model.extend({
     bits: ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded'],
 
@@ -511,39 +591,10 @@ var Torrent = Backbone.Model.extend({
 })
 
 var Torrents = Backbone.Collection.extend({
-    model: Torrent,
-
-    initialize: function()
-    {
-    }
-})
-
-$(function()
-{
-    $('#controls_top').on('click', '.sub ul a', function(e)
-    {
-        e.preventDefault()
-        $(this).closest('.sub').removeClass('open')
-    })
-
-    $('#controls_top').on('click', '.sub > a:first', function(e)
-    {
-        e.preventDefault()
-        $(this).parent().toggleClass('open')
-        $(this).next('ul').css({
-            scale: 0.8,
-            opacity: 0
-        }).animate({
-            scale: 1,
-            opacity: 1
-        }, 200)
-    })
+    model: Torrent
 })
 
 window.btapp = new Btapp()
-
-var Templates
-var App
 
 $(function()
 {
