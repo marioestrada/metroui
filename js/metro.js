@@ -117,18 +117,26 @@ var AppView = Backbone.View.extend({
             product: 'uTorrent'
         })
 
-        // btapp.live('sync', function(torrent_list)
-        // {
-        //     var up = 0
-        //     var down = 0
+        btapp.on('sync', function()
+        {
+            var up_el = $('#up_speed')
+            var down_el = $('#down_speed')
+            
+            _.defer(function()
+            {
+                var up = 0
+                var down = 0
 
-        //     btapp.get('torrent').each(function(torrent)
-        //     {
-        //         console.log(torrent)
-        //         up += torrent.get('upload_speed')
-        //         down += torrent.get('download_speed')
-        //     })
-        // }, this);
+                btapp.get('torrent').each(function(torrent)
+                {
+                    up += torrent.get('properties').get('upload_speed')
+                    down += torrent.get('properties').get('download_speed')
+                })
+
+                up_el.html(Helpers.parseBytes(up))
+                down_el.html(Helpers.parseBytes(down))
+            })
+        });
 
         this.torrents = new Torrents()
         this.torrents_contents = new TorrentsList({
