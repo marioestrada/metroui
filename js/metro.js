@@ -26,8 +26,9 @@ var Helpers = {
         var i
         var sizes = ["b", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
         if(size <= 0 || !size)
+        {
             return('0 b')
-        else{
+        }else{
             i = Math.floor(Math.log(size) / Math.log(1024))
             size = size / Math.pow(1024, i)
             rounded = (Math.round(size * 100)) / 100
@@ -147,6 +148,9 @@ var AppView = Backbone.View.extend({
         var method
         var set_property
 
+        if(el.hasClass('disabled'))
+            return
+
         switch(action)
         {
             case 'pause':
@@ -167,9 +171,11 @@ var AppView = Backbone.View.extend({
             var torrent = btapp.get('torrent').get(id)
 
             if(method)
+            {
                 torrent[method]()
-            else if(set_property)
+            }else if(set_property){
                 torrent.save(set_property.property, set_property.value)
+            }
         })
     },
 
@@ -300,7 +306,18 @@ var TorrentRow = Backbone.View.extend({
     {
         this.$el.toggleClass('selected')
 
-        $('#torrent_controls').toggleClass('open', $('.torrent.selected', '#torrents').length > 0)
+        var selected_els = $('.torrent.selected', '#torrents')
+
+        $('#torrent_controls').toggleClass('open', selected_els.length > 0)
+
+        if(selected_els.length > 1)
+        {
+            $('#torrent_controls').find('[data-multiple=false]').addClass('disabled')
+        }else if(selected_els.length == 1){
+            $('#torrent_controls').find('[data-multiple]').removeClass('disabled')
+        }else{
+            $('#torrent_controls').find('[data-multiple]').addClass('disabled')
+        }
     },
 
     mapStatuses: function(status)

@@ -188,7 +188,7 @@ body
     overflow hidden
 
 .perspective
-    pers(3200px)
+    pers(1600px)
 
 body
     background-color $color_bg
@@ -255,7 +255,7 @@ $bottom_height = 30px
                 display none
                 top 35px
                 border 2px solid #000
-                background #fff
+                background #d0d0d0
                 min-width 200px
 
         a
@@ -275,7 +275,7 @@ $bottom_height = 30px
                 color #000
 
                 &:hover
-                    background #ddd
+                    background #fff
 
     .controls_first,
     .controls_middle,
@@ -609,9 +609,20 @@ $bottom_height = 30px
 
         a
             font-weight 400
+            display block
+            trans(all 0.05s ease-out)
+
+            &:active
+                transform(scale(0.9))
+
             &:hover
                 .icon
                     background rgba(#fff, 0.15)
+
+            &.disabled
+                opacity 0.5
+                cursor normal
+                pointer-events none
 
             &.pause
                 .icon::after
