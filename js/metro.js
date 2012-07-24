@@ -144,7 +144,6 @@ var AppView = Backbone.View.extend({
         var el = $(e.currentTarget)
         var action = el.data('action')
         var selected = this.torrents_contents.getSelected()
-        console.log(selected)
         var method
         var set_property
 
@@ -163,15 +162,14 @@ var AppView = Backbone.View.extend({
                 break
         }
 
-        btapp.get('torrent').each(function(torrent)
+        _.each(selected, function(id)
         {
-            if(_.indexOf(selected, torrent.id) > -1)
-            {
-                if(method)
-                    torrent[method]()
-                else if(set_property)
-                    torrent.save(set_property.property, set_property.value)
-            }
+            var torrent = btapp.get('torrent').get(id)
+
+            if(method)
+                torrent[method]()
+            else if(set_property)
+                torrent.save(set_property.property, set_property.value)
         })
     },
 
