@@ -211,7 +211,7 @@ var AppView = Backbone.View.extend({
 
             case 'labels':
                 var label = $(el).data('label')
-                selector = '[data-label=' + label + ']'
+                selector = label.length > 0 ? '[data-label=' + label + ']' : ':not([data-label])'
                 
                 break
         }
