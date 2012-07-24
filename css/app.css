@@ -541,7 +541,7 @@ a {
 }
 #torrents .torrent.paused .progress,
 #torrents .torrent.stopped .progress {
-  background: #999;
+  background: #bbb;
 }
 #torrents .torrent.waiting {
   border-color: #39f;
