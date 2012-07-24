@@ -370,6 +370,10 @@ a {
   font-size: 15px;
   display: block;
 }
+#sidebar li a .count {
+  font-weight: 600;
+  font-size: 16px;
+}
 #panels {
   display: none;
 }
@@ -709,6 +713,8 @@ a {
   content: 'o';
 }
 .panel li a.info .icon::after {
+  left: -2px;
+  font-size: 39px;
   content: '=';
 }
 .panel li .icon {

@@ -117,6 +117,21 @@ var AppView = Backbone.View.extend({
             product: 'uTorrent'
         })
 
+        btapp.on('plugin:plugin_installed', function()
+        {
+            this.torrents_contents.setMessage('Checking plugin&hellip;')
+        }, this)
+
+        btapp.on('pairing:attempt', function()
+        {
+            this.torrents_contents.setMessage('Pairing with client&hellip;')
+        }, this)
+
+        btapp.on('client:connected', function()
+        {
+            this.torrents_contents.setMessage('Client connected&hellip;')
+        }, this)
+
         btapp.on('sync', function()
         {
             var up_el = $('#up_speed')
@@ -143,8 +158,6 @@ var AppView = Backbone.View.extend({
             model: torrents,
             el: $('#torrents .content')
         })
-        
-        //$('#torrents .content').replaceWith(this.torrents_contents.render().el)
     },
 
     runAction: function(e)
@@ -422,19 +435,26 @@ var TorrentsList = Backbone.View.extend(
 {
     initialize: function()
     {
-        this.$el.html('')
+        this.name_el = this.$el.siblings('.name')
+        this.parent_el = this.$el.parent()
+        this.message_el = this.$el.find('.message')
 
         btapp.live('torrent *', function(torrent, torrent_list)
         {
+            this.message_el.remove()
+
             var view = new TorrentRow({
                 model: torrent
              })
 
             this.$el.append(view.render().el)
         }, this)
+    },
 
-        this.name_el = this.$el.siblings('.name')
-        this.parent_el = this.$el.parent()
+    setMessage: function(message)
+    {
+        console.log(message)
+        this.message_el.html(message)
     },
 
     setName: function(name)

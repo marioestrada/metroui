@@ -316,7 +316,6 @@ $bottom_height = 30px
 
 #app_title
     font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
-    // font-weight bold
     font-size 38px !important
 
     .logo
@@ -358,6 +357,10 @@ $bottom_height = 30px
         a
             font-size 15px
             display block
+
+            .count
+                font-weight 600
+                font-size 16px
 
 #panels
     display none
@@ -680,6 +683,8 @@ $bottom_height = 30px
 
             &.info
                 .icon::after
+                    left -2px
+                    font-size 39px
                     content '='
 
         .icon
