@@ -237,14 +237,16 @@ var AppView = Backbone.View.extend({
 
         elems = selector.length > 0 ? torrents_list.filter(selector) : torrents_list
         
-        torrents_list.removeClass('selected').not(elems).animate({
-            scale: 0.9,
-            opacity: 0,
-            height: 0
-        }, 150, function()
-        {
-            $(this).addClass('hidden')
-        })
+        torrents_list.not(elems)
+            .removeClass('selected')
+            .animate({
+                scale: 0.9,
+                opacity: 0,
+                height: 0
+            }, 150, function()
+            {
+                $(this).addClass('hidden')
+            })
 
         elems.css('height', 75).removeClass('hidden').animate({
             opacity: 1,
@@ -297,6 +299,7 @@ var TorrentRow = Backbone.View.extend({
         this.$el.attr('data-label', attr.label)
             .attr('data-percent', attr.progress / 10)
             .attr('data-hash', attr.hash)
+            .toggleClass('selected', this.$el.hasClass('selected'))
         
         this.$el.removeClass(this.status_classes)
             .addClass(dyn_attributes._torrent_class)
