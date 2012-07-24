@@ -98,7 +98,8 @@ Handlebars.registerHelper('secondsToString', Helpers.secondsToString)
 
 var AppView = Backbone.View.extend({
     events: {
-        'click #sidebar li a': 'filterTorrents'
+        'click #sidebar li a': 'filterTorrents',
+        'click #torrent_controls a': 'runAction'
     },
 
     initialize: function()
@@ -134,6 +135,44 @@ var AppView = Backbone.View.extend({
         })
         
         $('#torrents .content').replaceWith(this.torrents_contents.render().el)
+    },
+
+    runAction: function(e)
+    {
+        e.preventDefault()
+
+        var el = $(e.currentTarget)
+        var action = el.data('action')
+        var selected = this.torrents_contents.getSelected()
+        console.log(selected)
+        var method
+        var set_property
+
+        switch(action)
+        {
+            case 'pause':
+                method = 'pause'
+                break
+
+            case 'play':
+                method = 'start'
+                break
+
+            case 'remove':
+                method = 'remove'
+                break
+        }
+
+        btapp.get('torrent').each(function(torrent)
+        {
+            if(_.indexOf(selected, torrent.id) > -1)
+            {
+                if(method)
+                    torrent[method]()
+                else if(set_property)
+                    torrent.save(set_property.property, set_property.value)
+            }
+        })
     },
 
     filterTorrents: function(e)
@@ -181,10 +220,6 @@ var AppView = Backbone.View.extend({
     }
 })
 
-var TorrentControls = Backbone.View.extend({
-
-})
-
 var TorrentRow = Backbone.View.extend({
     tagName: 'div',
     className: 'torrent',
@@ -206,7 +241,11 @@ var TorrentRow = Backbone.View.extend({
 
         this.model.live('properties', _.bind(function(properties) {
             properties.on('change', this.render, this)
-            console.log(properties)
+
+            // properties.each(function()
+            // {
+
+            // })
         }, this))
 
         this.bits = ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded']
@@ -221,7 +260,8 @@ var TorrentRow = Backbone.View.extend({
         var dyn_attributes = this.dynamicAttributes(attr)
         
         this.$el.attr('data-label', attr.label)
-        this.$el.attr('data-percent', attr.progress / 10)
+            .attr('data-percent', attr.progress / 10)
+            .attr('data-hash', attr.hash)
         
         this.$el.removeClass(this.status_classes)
             .addClass(dyn_attributes._torrent_class)
@@ -366,6 +406,18 @@ var TorrentsList = Backbone.View.extend(
 
             this.$el.append(view.render().el)
         }, this)
+    },
+
+    getSelected: function()
+    {
+        var selected_els = this.$el.children('.selected')
+        var selected_hashes = _.reduce(selected_els, function(memo, el)
+            {
+                memo.push($(el).attr('data-hash'))
+                return memo
+            }, [])
+
+        return selected_hashes 
     },
 
     render: function()

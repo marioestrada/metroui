@@ -187,15 +187,16 @@
 
 	<section id="torrent_controls" class="panel">
 		<ul class="start">
-			<li><a href="#" class="pause"><span class="icon"></span><br />Pause</a></li>
-			<li><a href="#" class="remove"><span class="icon"></span><br />Remove</a></li>
-			<li><a href="#" class="queue-up"><span class="icon"></span><br />Queue Up</a></li>
-			<li><a href="#" class="queue-down"><span class="icon"></span><br />Queue Down</a></li>
+			<li><a href="#" data-action="play" data-multiple="true" class="play"><span class="icon"></span><br />Play</a></li>
+			<li><a href="#" data-action="pause" data-multiple="true" class="pause"><span class="icon"></span><br />Pause</a></li>
+			<li><a href="#" data-action="remove" data-multiple="true" class="remove"><span class="icon"></span><br />Remove</a></li>
+			<li><a href="#" data-action="queue-up" data-multiple="false" class="queue-up"><span class="icon"></span><br />Queue Up</a></li>
+			<li><a href="#" data-action="queue-down" data-multiple="false" class="queue-down"><span class="icon"></span><br />Queue Down</a></li>
 		</ul>
 		<ul class="end">
-			<li><a href="#" class="label"><span class="icon"></span><br />Label</a></li>
-			<li><a href="#" class="share"><span class="icon"></span><br />Share</a></li>
-			<li><a href="#" class="info"><span class="icon"></span><br />Info</a></li>
+			<li><a href="#" data-action="label" data-multiple="false" class="label"><span class="icon"></span><br />Label</a></li>
+			<li><a href="#" data-action="share" data-multiple=" false" class="share"><span class="icon"></span><br />Share</a></li>
+			<li><a href="#" data-action="info" data-multiple="false" class="info"><span class="icon"></span><br />Info</a></li>
 		</ul>
 	</section>
 
