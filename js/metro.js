@@ -553,7 +553,7 @@ var TopControls = Backbone.View.extend({
             .animate({
                 opacity: 0,
                 rotateZ: -0.75,
-                translateY: '+=200'
+                translateY: '+=300'
             }, 250, function()
             {
                 $(this).addClass('hidden')
