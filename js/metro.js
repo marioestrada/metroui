@@ -105,6 +105,8 @@ var AppView = Backbone.View.extend({
 
     initialize: function()
     {
+        var _this = this
+
         Templates = {
             torrent_row: Handlebars.compile($('#tmpl_torrent').html())
         }
@@ -137,7 +139,7 @@ var AppView = Backbone.View.extend({
             var up_el = $('#up_speed')
             var down_el = $('#down_speed')
             
-            _.defer(function()
+            _.defer(function(_this)
             {
                 var up = 0
                 var down = 0
@@ -150,7 +152,9 @@ var AppView = Backbone.View.extend({
 
                 up_el.html(Helpers.parseBytes(up))
                 down_el.html(Helpers.parseBytes(down))
-            })
+
+                _this.sidebar_el.find('.actual').trigger('click', [true])
+            }, _this)
         });
 
         this.torrents = new Torrents()
@@ -158,6 +162,8 @@ var AppView = Backbone.View.extend({
             model: torrents,
             el: $('#torrents .content')
         })
+
+        this.sidebar_el = $('#sidebar')
     },
 
     runAction: function(e)
@@ -203,10 +209,10 @@ var AppView = Backbone.View.extend({
 
     filterTorrents: function(e)
     {
-
         e.preventDefault()
 
-        var el = $(e.currentTarget)
+        this.sidebar_el.find('.actual').removeClass('actual')
+        var el = $(e.currentTarget).addClass('actual')
 
         var section = $(el).closest('section').data('section')
         var elems
@@ -453,15 +459,17 @@ var TorrentsList = Backbone.View.extend(
 
     setMessage: function(message)
     {
-        console.log(message)
         this.message_el.html(message)
     },
 
     setName: function(name)
     {
-        var new_name = this.name_el.clone()
+        var new_name = this.name_el.clone().html(name)
         var old_name = this.name_el
         var _this = this
+
+        if(new_name.text() === old_name.text())
+            return
         
         this.name_el = new_name
 
@@ -474,7 +482,7 @@ var TorrentsList = Backbone.View.extend(
                 $(this).remove()
             })
 
-        new_name.html(name).prependTo(this.parent_el)
+        new_name.prependTo(this.parent_el)
     },
 
     getSelected: function()
