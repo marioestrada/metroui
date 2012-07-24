@@ -511,11 +511,38 @@ var TopControls = Backbone.View.extend({
     events: {
         'click .sub > a:first': 'openSub',
         'click .sub ul a': 'runAction',
-        'click .sub-panel .cancel': 'cancelSubPanel'
+        'click .sub-panel .cancel': 'cancelSubPanel',
+        'click .sub-panel .add': 'addUrl'
     },
 
     initialize: function()
     {
+    },
+
+    addUrl: function(e)
+    {
+        var me = $(e.currentTarget)
+        var sub_panel = me.closest('.sub-panel')
+        var url = sub_panel.find('input').val()
+
+        switch(me.data('action'))
+        {
+            case 'add-torrent':
+                btapp.get('add').torrent(url)
+                break
+
+            case 'add-feed':
+                btapp.get('add').rss_feed(url)
+                break
+        }
+
+        sub_panel.animate({
+            opacity: 0,
+            scale: 0.8
+        }, 200, function()
+        {
+            $(this).addClass('hidden')
+        })
     },
 
     cancelSubPanel: function(e)
