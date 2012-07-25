@@ -254,10 +254,12 @@ var AppView = Backbone.View.extend({
                 $(this).addClass('hidden')
             })
 
-        elems.css('height', 75).removeClass('hidden').animate({
-            opacity: 1,
-            scale: 1
-        }, 150)
+        elems.css('height', 75)
+            .removeClass('hidden')
+            .animate({
+                opacity: 1,
+                scale: 1
+            }, 150)
 
         this.torrents_contents.setName(el.data('title'))
     }
@@ -282,13 +284,9 @@ var TorrentRow = Backbone.View.extend({
 
         this.model.on('destroy', this.remove, this)
 
-        this.model.live('properties', _.bind(function(properties) {
+        this.model.live('properties', _.bind(function(properties)
+        {
             properties.on('change', this.render, this)
-
-            // properties.each(function()
-            // {
-
-            // })
         }, this))
 
         this.bits = ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded']
