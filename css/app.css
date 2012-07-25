@@ -337,6 +337,8 @@ a {
 }
 #controls_top #search_field button {
   width: 30px;
+  top: -1px;
+  position: relative;
   padding: 0;
   border: 1px solid #fff;
   font-family: 'Pictograms';

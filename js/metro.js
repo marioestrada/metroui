@@ -197,6 +197,7 @@ var AppView = Backbone.View.extend({
 
             case 'remove':
                 method = 'remove'
+                _.delay(function(){ $('#torrent_controls').removeClass('open') }, 300)
                 break
         }
 
