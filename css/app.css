@@ -532,19 +532,6 @@ a {
   z-index: 1;
   color: #000;
   overflow: hidden;
-  background-image: -webkit-linear-gradient(-45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
-  background-image: -ms-linear-gradient(-45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(-45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
-  -webkit-background-size: 40px 40px;
-  -moz-background-size: 40px 40px;
-  -ms-background-size: 40px 40px;
-  -o-background-size: 40px 40px;
-  background-size: 40px 40px;
-  -webkit-animation: progress-bg-in 1.5s linear infinite;
-  -moz-animation: progress-bg-in 1.5s linear infinite;
-  -ms-animation: progress-bg-in 1.5s linear infinite;
-  -o-animation: progress-bg-in 1.5s linear infinite;
-  animation: progress-bg-in 1.5s linear infinite;
   -webkit-transition: width 0.05 linear;
   -moz-transition: width 0.05 linear;
   -ms-transition: width 0.05 linear;
@@ -558,6 +545,44 @@ a {
 }
 #torrents .torrent .progress .icon::after {
   color: #000 !important;
+}
+#torrents .torrent.downloading .progress {
+  background-image: -webkit-linear-gradient(45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  background-image: -ms-linear-gradient(225deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(225deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  -webkit-animation: progress-bg-in 1.5s linear infinite;
+  -moz-animation: progress-bg-in 1.5s linear infinite;
+  -ms-animation: progress-bg-in 1.5s linear infinite;
+  -o-animation: progress-bg-in 1.5s linear infinite;
+  animation: progress-bg-in 1.5s linear infinite;
+  -webkit-background-size: 40px 40px;
+  -moz-background-size: 40px 40px;
+  -ms-background-size: 40px 40px;
+  -o-background-size: 40px 40px;
+  background-size: 40px 40px;
+}
+#torrents .torrent.seeding {
+  border-color: #86c440;
+}
+#torrents .torrent.seeding .progress {
+  background-color: #86c440;
+  background-image: -webkit-linear-gradient(-45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(-45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  background-image: -ms-linear-gradient(135deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(-45deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.075) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.075) 50%, rgba(255,255,255,0.075) 75%, transparent 75%, transparent);
+  -webkit-animation: progress-bg-out 1.5s linear infinite;
+  -moz-animation: progress-bg-out 1.5s linear infinite;
+  -ms-animation: progress-bg-out 1.5s linear infinite;
+  -o-animation: progress-bg-out 1.5s linear infinite;
+  animation: progress-bg-out 1.5s linear infinite;
+  -webkit-background-size: 40px 40px;
+  -moz-background-size: 40px 40px;
+  -ms-background-size: 40px 40px;
+  -o-background-size: 40px 40px;
+  background-size: 40px 40px;
 }
 #torrents .torrent.done {
   border-color: #86c440;
@@ -590,17 +615,6 @@ a {
 }
 #torrents .torrent.waiting .progress {
   background: #ccc;
-}
-#torrents .torrent.seeding {
-  border-color: #86c440;
-}
-#torrents .torrent.seeding .progress {
-  background-color: #86c440;
-  -webkit-animation: progress-bg-out 1.5s linear infinite;
-  -moz-animation: progress-bg-out 1.5s linear infinite;
-  -ms-animation: progress-bg-out 1.5s linear infinite;
-  -o-animation: progress-bg-out 1.5s linear infinite;
-  animation: progress-bg-out 1.5s linear infinite;
 }
 #torrents .torrent.selected::before {
   border: 2px solid #fff;

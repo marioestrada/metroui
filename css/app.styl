@@ -50,7 +50,7 @@ linear_gradient(start, stop)
     background-image -webkit-gradient(linear, left top, left bottom, from(start), to(stop))
     background-image -webkit-linear-gradient(top, start, stop)
     background-image -moz-linear-gradient(top, start, stop)
-    background-image -ms-linear-gradient(top, start, stop)
+    background-image -ms-linear-gradient(to bottom, start, stop)
     background-image -o-linear-gradient(top, start, stop)
     background-image linear-gradient(to bottom, start, stop)
 
@@ -61,6 +61,14 @@ angled_gradient(angle, start, stop)
     background-image -o-linear-gradient(angle, start, stop)
     background-image linear-gradient(180 + angle, start, stop)
 
+full_angled_gradient(angle, args...)
+    new_args = unquote(join(', ', args))
+    background-image -webkit-linear-gradient(angle, new_args)
+    background-image -moz-linear-gradient(angle, new_args)
+    background-image -ms-linear-gradient(180 + angle, new_args)
+    background-image -o-linear-gradient(angle, new_args)
+    background-image linear-gradient(180 + angle, new_args)
+
 trans()
     -webkit-transition: arguments
     -moz-transition: arguments
@@ -69,8 +77,8 @@ trans()
     transition: arguments
 
 vendor_transition(property, args...)
-    -webkit-transition: s('-webkit-%s', property)args
-    -moz-transition: s('-moz-%s', property)args
+    -webkit-transition: s('-webkit-%s', property) args
+    -moz-transition: s('-moz-%s', property) args
     -ms-transition: s('-ms-%s', property) args
     -o-transition: s('-o-%s', property)args
     transition: s('%s', property) args
@@ -524,11 +532,6 @@ $bottom_height = 30px
             z-index 1
             color #000
             overflow hidden
-            background-image -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
-            background-image -ms-linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
-            background-image linear-gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
-            bg_size(40px 40px)
-            anim(progress-bg-in 1.5s linear infinite)
             trans(width 0.05 linear)
 
             .spacer
@@ -539,6 +542,21 @@ $bottom_height = 30px
             .icon
                 &::after
                     color #000 !important
+
+        &.downloading
+            .progress
+                full_angled_gradient(45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
+                anim(progress-bg-in 1.5s linear infinite)
+                bg_size(40px 40px)
+
+        &.seeding
+            border-color $color_lime
+
+            .progress
+                background-color $color_lime
+                full_angled_gradient(-45deg, rgba(255, 255, 255, .075) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .075) 50%, rgba(255, 255, 255, .075) 75%, transparent 75%, transparent)
+                anim(progress-bg-out 1.5s linear infinite)
+                bg_size(40px 40px)
 
         &.done
             border-color $color_lime
@@ -566,13 +584,6 @@ $bottom_height = 30px
 
             .progress
                 background #ccc
-
-        &.seeding
-            border-color $color_lime
-
-            .progress
-                background-color $color_lime
-                anim(progress-bg-out 1.5s linear infinite)
 
         &.selected
             &::before
