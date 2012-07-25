@@ -1,3 +1,6 @@
 [submodule "js/vendor/btapp"]
 	path = js/vendor/btapp
 	url = git://github.com/bittorrenttorque/btapp.git
+[submodule "js/vendor/backbrace"]
+	path = js/vendor/backbrace
+	url = git@github.com:bittorrenttorque/backbrace.git
