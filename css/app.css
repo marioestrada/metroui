@@ -271,6 +271,7 @@ a {
 }
 #controls_top li .sub-panel footer button {
   float: right;
+  margin-right: 10px;
 }
 #controls_top li .sub-panel footer button:not(.default) {
   background: #666;
