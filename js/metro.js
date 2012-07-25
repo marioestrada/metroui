@@ -3,6 +3,7 @@
 
 var Templates
 var App
+
 var Helpers = {
     poll_queries: [
         'btapp/torrent/all/*/remove/',
@@ -157,7 +158,7 @@ var AppView = Backbone.View.extend({
 
                 _this.sidebar_el.find('.actual').trigger('click', [true])
             }, _this)
-        });
+        })
 
         this.top_controls = new TopControls({
             el: $('#controls_top')
@@ -197,7 +198,7 @@ var AppView = Backbone.View.extend({
 
             case 'remove':
                 method = 'remove'
-                _.delay(function(){ $('#torrent_controls').removeClass('open') }, 300)
+                _.delay(function(){ $('#torrent_controls').removeClass('open') }, 250)
                 break
         }
 
@@ -296,7 +297,7 @@ var TorrentRow = Backbone.View.extend({
     render: function()
     {
         if(!this.model.get('properties'))
-            return this;
+            return this
 
         var attr  = this.model.get('properties').attributes
         var dyn_attributes = this.dynamicAttributes(attr)
@@ -514,10 +515,6 @@ var TopControls = Backbone.View.extend({
         'click .sub-panel .add': 'addUrl'
     },
 
-    initialize: function()
-    {
-    },
-
     addUrl: function(e)
     {
         var me = $(e.currentTarget)
@@ -604,7 +601,7 @@ var TopControls = Backbone.View.extend({
                         opacity: 1
                     }, 200)
 
-            break;
+            break
         }
     }
 })
@@ -626,7 +623,11 @@ window.btapp = new Btapp()
 
 $(function()
 {
-    App = new AppView({ el: $('body') })
+    App = new AppView({
+        el: $('body')
+    })
+
+    window.app = App
 })
 
 })(jQuery, Handlebars);
