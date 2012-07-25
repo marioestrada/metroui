@@ -551,7 +551,7 @@ var TopControls = Backbone.View.extend({
             .animate({
                 opacity: 0,
                 rotateZ: -0.75,
-                translateY: '+=300'
+                translateY: '+=200'
             }, 250, function()
             {
                 $(this).addClass('hidden')
@@ -566,6 +566,8 @@ var TopControls = Backbone.View.extend({
     openSub: function(e)
     {
         e.preventDefault()
+
+        this.$el.find('.sub-panel').addClass('hidden')
 
         var me = $(e.currentTarget)
 
