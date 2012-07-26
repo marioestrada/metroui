@@ -418,9 +418,11 @@ $bottom_height = 30px
 .main_content
     position absolute
     left $sidebar_width
-    bottom $bottom_height
+    bottom 0 //$bottom_height
+    // padding-bottom $bottom_height + 10
     top $top_height - 20px
     right 0
+    overflow hidden
 
     .name
         font-size 32px
@@ -435,6 +437,15 @@ $bottom_height = 30px
             right 0
             anim(none)
 
+    .content
+        position absolute
+        left 0
+        right 0
+        bottom 0
+        top 32 + 15px
+        padding-bottom $bottom_height
+        overflow scroll
+
     .name,
     .content
         anim(metroin 0.3s ease-out 0.25s)
@@ -447,6 +458,47 @@ $bottom_height = 30px
         .name,
         .content
             anim(none)
+
+#feeds
+    .feed_torrent
+        position relative
+        background rgba(#fff, 0.075)
+        margin-bottom 10px
+        padding 10px
+        height 62px
+        overflow hidden
+
+        h1
+            font-size 18px
+            line-height 22px
+            margin-bottom 5px
+
+        .byline
+            font-size 11px
+            line-height 15px
+
+            em
+                font-weight 300
+
+        h1, 
+        .byline
+            white-space nowrap
+            text-overflow ellipsis
+            overflow hidden
+
+        .controls
+            position absolute
+            right 10px
+            top 50%
+            margin-top -15px
+
+            a
+                background $color_green
+                display block
+                padding 0 15px
+                height 30px
+                line-height 30px
+                margin-left 10px
 
 #torrents
     .torrent
@@ -480,18 +532,25 @@ $bottom_height = 30px
 
         h1
             font-size 18px
-            margin-bottom 5px
-            white-space nowrap
+            line-height 22px
+            margin-top -2px
+            margin-bottom 3px
             // color $color_lime
+
+        h1, 
+        .byline
+            white-space nowrap
+            // text-overflow ellipsis
+            // overflow hidden
 
         .byline
             font-size 12px
-            white-space nowrap  
+            line-height 15px
 
             .details
                 font-size 12px
                 display inline-block
-                margin-bottom 6px
+                margin-bottom 2px
                 opacity 0.8
                 text-indent 3px
                 // font-weight 600
@@ -508,7 +567,7 @@ $bottom_height = 30px
                 &::after
                     position absolute
                     left 0
-                    top -4px
+                    top 0
                     width 16px
                     height 16px
                     font-family 'Pictograms'
@@ -641,7 +700,7 @@ $bottom_height = 30px
     position absolute
     font-weight 300
     font-size 13px
-    background rgba(#000, 0.3)
+    background rgba(darken($color_green, 80%), 0.7)
     text-align center
     height $bottom_height
     line-height $bottom_height
@@ -661,10 +720,15 @@ $bottom_height = 30px
     border-top 2px solid #000
     background $color_lime
     font-size 12px
-    trans(bottom 0.135s ease-out)
+    trans(bottom 0.2s ease-out)
 
     &.open
         bottom 0
+
+        li
+            opacity 1
+            transform translateX(0)
+            trans(all .2s ease-out 0.2s)
 
     .start
         margin-left 30px
@@ -675,6 +739,8 @@ $bottom_height = 30px
         display inline-block
         height 90px
         margin-right 30px
+        opacity 0
+        transform translateX(5px)
 
         a
             font-weight 400

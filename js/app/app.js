@@ -94,11 +94,6 @@ var MainApp = Backbone.View.extend({
     {
         var _this = this
 
-        Templates = {
-            torrent_row: Handlebars.compile($('#tmpl_torrent').html()),
-            feed_list: Handlebars.compile($('#tmpl_feed_list').html())
-        }
-
         btapp.connect({}, {
             poll_frequency: 1000,
             queries: Helpers.poll_queries,
@@ -138,9 +133,12 @@ var MainApp = Backbone.View.extend({
             _.defer(_this.calculateTotals, _this)
         })
 
-        this.torrents = new Torrents()
         this.torrents_contents = new TorrentsList({
             el: $('#torrents .content')
+        })
+
+        this.feed_torrents_list = new FeedTorrentsList({
+            el: $('#feeds .content')
         })
 
         this.top_controls = new TopControls({
@@ -216,10 +214,54 @@ var MainApp = Backbone.View.extend({
     }
 })
 
+var FeedTorrentRow = Backbone.View.extend({
+    tadName: 'div',
+    className: 'feed_torrent',
+
+    events: {
+        'click .download': 'addTorrent'
+    },
+
+    initialize: function()
+    {
+        this.template = Templates.feed_torrent_row
+
+        this.model.on('change', this.render, this)
+
+        this.model.on('destroy', this.remove, this)
+
+        this.model.live('properties', _.bind(function(properties)
+        {
+            properties.on('change', this.render, this)
+        }, this))
+    },
+
+    render: function()
+    {
+        this.$el.attr('data-feed', this.model.get('id'))
+
+        this.$el.html(
+            Templates.feed_torrent_row(
+                this.model.get('properties').attributes
+            )
+        )
+
+        return this
+    },
+
+    addTorrent: function(e)
+    {
+        e.preventDefault()
+        console.log(this.model.get('properties').get('url'))
+        btapp.get('add').torrent(this.model.get('properties').get('url'))
+    }
+})
+
 var TorrentRow = Backbone.View.extend({
     tagName: 'div',
     className: 'torrent',
     status_classes: 'paused waiting checking downloading seeding done stopped error',
+    bits: ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded'],
     
     events: {
         "click": "selected",
@@ -239,8 +281,6 @@ var TorrentRow = Backbone.View.extend({
         {
             properties.on('change', this.render, this)
         }, this))
-
-        this.bits = ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded']
     },
 
     render: function()
@@ -669,6 +709,23 @@ var FeedList = Backbone.View.extend({
     }
 })
 
+var FeedTorrentsList = Backbone.View.extend({
+    initialize: function()
+    {
+        btapp.live('rss_feed * item *', function(feed_torrent)
+        {
+            if(feed_torrent === 'item')
+                return
+
+            var view = new FeedTorrentRow({
+                model: feed_torrent
+             })
+
+            this.$el.append(view.render().el)
+        }, this)
+    }
+})
+
 var Torrent = Backbone.Model.extend({
 })
 
@@ -680,6 +737,12 @@ window.btapp = new Btapp()
 
 $(function()
 {
+    Templates = {
+        torrent_row: Handlebars.compile($('#tmpl_torrent').html()),
+        feed_torrent_row: Handlebars.compile($('#tmpl_feed_torrent').html()),
+        feed_list: Handlebars.compile($('#tmpl_feed_list').html())
+    }
+
     App = new MainApp({
         el: $('body')
     })

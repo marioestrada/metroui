@@ -203,6 +203,12 @@
 		</div>
 	</section>
 	
+	<section id="feeds" class="main_content perspective hidden">
+		<h1 class="name">All Feeds</h1>
+		<div class="scrollable vertical content">
+		</div>
+	</section>
+
 	<footer id="status">
 		<strong>D:</strong> <span id="down_speed">&hellip;</span>/s <strong>U:</strong> <span id="up_speed">&hellip;</span>/s
 	</footer>
@@ -332,21 +338,14 @@
 </script>
 
 <!-- !Feeds Template -->
-<script id="tmpl_feeds" type="text/x-handlebars-template">
-{{#items}}
-	<div id="feed_{{ id }}" class="feedtorrent" data-feed="{{ feed_id }}">
-		<h1><strong>{{ name }}</strong></h1>
-		<div class="byline">
-			Published: {{ secondsToDate timestamp }} - URL: {{ url }}
-		</div>
-		<div class="controls {{#in_history}}in_history{{/in_history}}">
-			<span class="in_history"></span>
-			<a href="#" data-url="{{ url }}" data-action="add-url" class="download"><span class="img"></span>Add</a>
-		</div>
+<script id="tmpl_feed_torrent" type="text/x-handlebars-template">
+	<h1>{{ name }}</h1>
+	<div class="byline">
+		<em>Published:</em> {{ secondsToDate timestamp }} - <em>URL:</em> {{ url }}
 	</div>
-{{/items}}
-	<div class="list_message hidden">
-		<p>Empty feed.</p>
+	<div class="controls {{#in_history}}in_history{{/in_history}}">
+		<span class="in_history"></span>
+		<a href="#" data-url="{{ url }}" data-action="add-url" class="download"><span class="img"></span>Add</a>
 	</div>
 </script>
 
