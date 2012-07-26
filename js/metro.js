@@ -6,22 +6,7 @@ var App
 
 var Helpers = {
     poll_queries: [
-        'btapp/torrent/all/*/remove/',
-        'btapp/torrent/all/*/open_containing/',
-        'btapp/torrent/all/*/properties/all/uri/', 
-        'btapp/torrent/all/*/properties/all/name/', 
-        'btapp/torrent/all/*/properties/all/eta/', 
-        'btapp/torrent/all/*/properties/all/size/', 
-        'btapp/torrent/all/*/properties/all/progress/', 
-        'btapp/torrent/all/*/properties/all/added_on/', 
-        'btapp/browseforfiles/',
-        'btapp/create/', 
-        'btapp/settings/', 
-        'btapp/add/',
-        'btapp/events/',
-        'btapp/connect_remote/',
-        'btapp/stash/',
-        'btapp/showview/'
+        'btapp/'
     ], 
 
     parseBytes: function(size, precision)
@@ -100,9 +85,8 @@ Handlebars.registerHelper('relativeDate', function(seconds)
 })
 Handlebars.registerHelper('secondsToString', Helpers.secondsToString)
 
-var AppView = Backbone.View.extend({
+var MainApp = Backbone.View.extend({
     events: {
-        'click #sidebar li a': 'filterTorrents',
         'click #torrent_controls a': 'runAction'
     },
 
@@ -111,7 +95,8 @@ var AppView = Backbone.View.extend({
         var _this = this
 
         Templates = {
-            torrent_row: Handlebars.compile($('#tmpl_torrent').html())
+            torrent_row: Handlebars.compile($('#tmpl_torrent').html()),
+            feed_list: Handlebars.compile($('#tmpl_feed_list').html())
         }
 
         btapp.connect({}, {
@@ -122,55 +107,61 @@ var AppView = Backbone.View.extend({
             product: 'uTorrent'
         })
 
-        btapp.on('plugin:plugin_installed', function()
-        {
-            this.torrents_contents.setMessage('Checking plugin&hellip;')
-        }, this)
+        // btapp.on('all', console.log, console)
 
-        btapp.on('pairing:attempt', function()
-        {
-            this.torrents_contents.setMessage('Pairing with client&hellip;')
-        }, this)
+        var message = {
+            'plugin:plugin_installed': 'Checking plugin&hellip;',
+            'pairing:attempt': 'Pairing with client&hellip;',
+            'client:connected': 'Client connected. Waiting for torrents&hellip;',
+        }
 
-        btapp.on('client:connected', function()
+        _.each(message, function(message, key)
         {
-            this.torrents_contents.setMessage('Client connected&hellip;')
+            btapp.on(key, function()
+            {
+                this.torrents_contents.setMessage(message)
+                btapp.off(key)
+            }, this)
         }, this)
 
         btapp.on('sync', function()
-        {
-            var up_el = $('#up_speed')
-            var down_el = $('#down_speed')
-            
-            _.defer(function(_this)
-            {
-                var up = 0
-                var down = 0
+        {   
+            _.defer(_this.calculateTotals, _this)
+        })
 
-                btapp.get('torrent').each(function(torrent)
-                {
-                    up += torrent.get('properties').get('upload_speed')
-                    down += torrent.get('properties').get('download_speed')
-                })
-
-                up_el.html(Helpers.parseBytes(up))
-                down_el.html(Helpers.parseBytes(down))
-
-                _this.sidebar_el.find('.actual').trigger('click', [true])
-            }, _this)
+        this.torrents = new Torrents()
+        this.torrents_contents = new TorrentsList({
+            el: $('#torrents .content')
         })
 
         this.top_controls = new TopControls({
             el: $('#controls_top')
         })
 
-        this.torrents = new Torrents()
-        this.torrents_contents = new TorrentsList({
-            model: torrents,
-            el: $('#torrents .content')
+        this.sidebar = new Sidebar({
+            el: $('#sidebar')
+        }, {
+            app: this //Not working for some reason
+        })
+    },
+
+    calculateTotals: function(_this)
+    {
+        var up_el = $('#up_speed')
+        var down_el = $('#down_speed')
+        var up = 0
+        var down = 0
+
+        btapp.get('torrent').each(function(torrent)
+        {
+            up += torrent.get('properties').get('upload_speed')
+            down += torrent.get('properties').get('download_speed')
         })
 
-        this.sidebar_el = $('#sidebar')
+        up_el.html(Helpers.parseBytes(up))
+        down_el.html(Helpers.parseBytes(down))
+
+        _this.sidebar.$el.find('.actual').trigger('click', [true])
     },
 
     runAction: function(e)
@@ -213,57 +204,6 @@ var AppView = Backbone.View.extend({
                 torrent.save(set_property.property, set_property.value)
             }
         })
-    },
-
-    filterTorrents: function(e)
-    {
-        e.preventDefault()
-
-        this.sidebar_el.find('.actual').removeClass('actual')
-        var el = $(e.currentTarget).addClass('actual')
-
-        var section = $(el).closest('section').data('section')
-        var elems
-        var torrents_list = this.torrents_contents.$el.children()
-        var selector = ''
-
-        switch(section)
-        {
-            case 'torrents':
-                selector = $(el).data('show')
-                if(selector.length <= 0)
-                    selector = ''
-
-                break
-
-            case 'labels':
-                var label = $(el).data('label')
-                selector = label.length > 0 ? '[data-label=' + label + ']' : ':not([data-label])'
-                
-                break
-        }
-
-        elems = selector.length > 0 ? torrents_list.filter(selector) : torrents_list
-        
-        torrents_list.not(elems)
-            .removeClass('selected')
-            .animate({
-                scale: 0.9,
-                opacity: 0,
-                height: 0
-            }, 150, function()
-            {
-                $(this).addClass('hidden')
-            })
-
-        elems.css('height', 75)
-            .removeClass('hidden')
-            .animate({
-                opacity: 1,
-                scale: 1
-            }, 150)
-
-        this.torrents_contents.setName(el.data('title'))
     }
 })
 
@@ -454,7 +394,7 @@ var TorrentsList = Backbone.View.extend(
         this.parent_el = this.$el.parent()
         this.message_el = this.$el.find('.message')
 
-        btapp.live('torrent *', function(torrent, torrent_list)
+        btapp.live('torrent *', function(torrent)
         {
             this.message_el.remove()
 
@@ -504,6 +444,73 @@ var TorrentsList = Backbone.View.extend(
             }, [])
 
         return selected_hashes 
+    }
+})
+
+var Sidebar = Backbone.View.extend({
+    events: {
+        'click ul:not(.feed) a': 'filterTorrents'
+    },
+
+    initialize: function()
+    {
+        this.feed_list = new FeedList({
+            el: this.$('.feeds')
+        })
+    },
+
+    filterTorrents: function(e)
+    {
+        if(!this.app)
+            this.app = App
+
+        e.preventDefault()
+
+        this.$el.find('.actual').removeClass('actual')
+        var el = $(e.currentTarget).addClass('actual')
+
+        var section = $(el).closest('section').data('section')
+        var elems
+        var torrents_list = this.app.torrents_contents.$el.children()
+        var selector = ''
+
+        switch(section)
+        {
+            case 'torrents':
+                selector = $(el).data('show')
+                if(selector.length <= 0)
+                    selector = ''
+
+                break
+
+            case 'labels':
+                var label = $(el).data('label')
+                selector = label.length > 0 ? '[data-label=' + label + ']' : ':not([data-label])'
+                
+                break
+        }
+
+        elems = selector.length > 0 ? torrents_list.filter(selector) : torrents_list
+        
+        torrents_list.not(elems)
+            .removeClass('selected')
+            .animate({
+                scale: 0.9,
+                opacity: 0,
+                height: 0
+            }, 150, function()
+            {
+                $(this).addClass('hidden')
+            })
+
+        elems.css('height', 75)
+            .removeClass('hidden')
+            .animate({
+                opacity: 1,
+                scale: 1
+            }, 150)
+
+        this.app.torrents_contents.setName(el.data('title'))
     }
 })
 
@@ -586,7 +593,7 @@ var TopControls = Backbone.View.extend({
         var me = $(e.currentTarget)
         
         me.closest('.sub').removeClass('open')
-        console.log(me)
+        
         switch(me.data('action'))
         {
             case 'add-torrent':
@@ -606,13 +613,28 @@ var TopControls = Backbone.View.extend({
     }
 })
 
-var Torrent = Backbone.Model.extend({
-    bits: ['started', 'checking', 'start after check', 'checked', 'error', 'paused', 'queued', 'loaded'],
-
+var FeedList = Backbone.View.extend({
     initialize: function()
     {
-        this.set({ selected: false })
+        this.feeds = []
+
+        this.list_contents = this.$('ul:first')
+
+        btapp.live('rss_feed *', function(feed, rss_feed)
+        {
+            this.feeds.push(feed.attributes)
+
+            this.render()
+        }, this)
+    },
+
+    render: function()
+    {
+        this.list_contents.html(Templates.feed_list({ items: this.feeds }))
     }
+})
+
+var Torrent = Backbone.Model.extend({
 })
 
 var Torrents = Backbone.Collection.extend({
@@ -623,7 +645,7 @@ window.btapp = new Btapp()
 
 $(function()
 {
-    App = new AppView({
+    App = new MainApp({
         el: $('body')
     })
 

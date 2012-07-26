@@ -203,6 +203,7 @@ input {
   height: 30px;
   font-size: 14px;
   padding-left: 5px;
+  border: 2px solid #fff;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   -ms-border-radius: 0;
@@ -212,11 +213,7 @@ input {
 }
 input:focus {
   outline: none;
-  -webkit-box-shadow: 0 0 0 2px #00853f inset;
-  -moz-box-shadow: 0 0 0 2px #00853f inset;
-  -ms-box-shadow: 0 0 0 2px #00853f inset;
-  -o-box-shadow: 0 0 0 2px #00853f inset;
-  box-shadow: 0 0 0 2px #00853f inset;
+  border-color: #00853f !important;
 }
 input:-ms-input-placeholder {
   color: #01210b;
@@ -248,8 +245,9 @@ a {
   display: none;
   top: 35px;
   border: 2px solid #000;
-  background: #e0e0e0;
+  background: #fff;
   min-width: 200px;
+  padding: 5px 0;
 }
 #controls_top li .sub-panel {
   color: #000;
@@ -293,7 +291,7 @@ a {
   color: #000;
 }
 #controls_top li li a:hover {
-  background: #fff;
+  background: #e0e0e0;
 }
 #controls_top .controls_first,
 #controls_top .controls_middle,
@@ -455,6 +453,7 @@ a {
   overflow: hidden;
   height: 75px;
   cursor: pointer;
+  background-color: rgba(255,255,255,0.025);
   -webkit-transition: -webkit-transform 0.05s linear;
   -moz-transition: -moz-transform 0.05s linear;
   -ms-transition: -ms-transform 0.05s linear;
@@ -528,7 +527,7 @@ a {
 }
 #torrents .torrent .progress {
   background-color: #39f;
-  min-width: 5px;
+  min-width: 1px;
   position: absolute;
   bottom: 0;
   top: 0;

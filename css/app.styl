@@ -224,12 +224,13 @@ input
     height 30px
     font-size: 14px
     padding-left 5px
+    border 2px solid #fff
     rounded(0)
 
     &:focus
         outline none
-        box_shadow 0 0 0 2px $color_green inset//lighten($color_purple, 40%)
-
+        //box_shadow 0 0 0 2px $color_green inset
+        border-color $color_green !important
 
     &:-ms-input-placeholder
         color $color_bg
@@ -265,8 +266,9 @@ $bottom_height = 30px
                 display none
                 top 35px
                 border 2px solid #000
-                background #e0e0e0
+                background #fff
                 min-width 200px
+                padding 5px 0
 
         .sub-panel
             color #000
@@ -310,7 +312,7 @@ $bottom_height = 30px
                 color #000
 
                 &:hover
-                    background #fff
+                    background #e0e0e0
 
     .controls_first,
     .controls_middle,
@@ -441,6 +443,7 @@ $bottom_height = 30px
         overflow hidden
         height 75px
         cursor pointer
+        background-color rgba(#fff, 0.025)
         vendor_transition(transform, 0.05s linear)
         -webkit-backface-visibility hidden
 
@@ -528,7 +531,7 @@ $bottom_height = 30px
 
         .progress
             background-color $color_light_blue
-            min-width 5px
+            min-width 1px
             position absolute
             bottom 0
             top 0

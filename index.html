@@ -44,10 +44,10 @@
 
 	<script src="https://raw.github.com/andris9/jStorage/master/jstorage.js"></script>  
 
-	<script src="http://torque.bittorrent.com/btapp/btapp.js"></script>  
-	<script src="http://torque.bittorrent.com/btapp/client.btapp.js"></script>  
-	<script src="http://torque.bittorrent.com/btapp/plugin.btapp.js"></script>  
-	<script src="http://torque.bittorrent.com/btapp/pairing.btapp.js"></script>  
+	<script src="js/vendor/btapp.js"></script>  
+	<script src="js/vendor/client.btapp.js"></script>  
+	<script src="js/vendor/plugin.btapp.js"></script>  
+	<script src="js/vendor/pairing.btapp.js"></script>  
 
 	<script src="js/vendor/backbrace/backbrace.js"></script>
 
@@ -145,7 +145,7 @@
 			<section class="feeds" data-section="feeds">
 				<h2 class="collapsable">Feeds<span class="toggle"></span></h2>
 				<ul>
-					<li class="feed"><span class="img"></span>No Feeds</li>
+					<li class="feed"><span class="img"></span><a>No Feeds</a></li>
 				</ul>
 			</section>
 		</div>
@@ -373,9 +373,13 @@
 </script>
 
 <!-- !Feed Template -->
-<script id="tmpl_label_feed"type="text/x-handlebar-template">
+<script id="tmpl_feed_list"type="text/x-handlebar-template">
 {{#items}}
-	<li class="feed"><a href="#" data-feed="{{ id }}" {{#if _current}}class="current"{{/if}}><span class="img"></span>{{ _name }}{{#no_feed}}All Feeds{{/no_feed}} {{#_show_count}}<span class="count">{{ _count }}</span>{{/_show_count}}</a></a></li>
+	<li>
+		<a href="#" data-feed="{{ id }}" {{#if _current}}class="current"{{/if}}>
+			<span class="img"></span>{{ properties.attributes.alias }}{{#no_feed}}All Feeds{{/no_feed}} {{#_show_count}}<span class="count">{{ _count }}</span>{{/_show_count}}
+		</a>
+	</li>
 {{/items}}
 </script>
 
