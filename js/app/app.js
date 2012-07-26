@@ -529,6 +529,19 @@ var TopControls = Backbone.View.extend({
         var input = sub_panel.find('input');
         var url = input.val()
 
+        if(url === '')
+        {
+            input.animate({
+                rotateZ: 0.015
+            }, 50).animate({
+                rotateZ: -0.015
+            }, 50).animate({
+                rotateZ: 0
+            }, 50)
+
+            return
+        }
+
         input.val('')
 
         switch(me.data('action'))
