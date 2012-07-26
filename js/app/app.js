@@ -110,22 +110,31 @@ var MainApp = Backbone.View.extend({
         // btapp.on('all', console.log, console)
 
         var message = {
-            'plugin:plugin_installed': 'Checking plugin&hellip;',
-            'pairing:attempt': 'Pairing with client&hellip;',
-            'client:connected': 'Client connected. Waiting for torrents&hellip;',
+            'plugin:plugin_installed': { message: 'Checking plugin&hellip;' },
+            'pairing:attempt': { message: 'Pairing with client&hellip;' },
+            'client:connected': {
+                message: 'Client connected. Waiting for torrents&hellip;',
+                callback: function()
+                {
+                    $('.main_content').addClass('started')
+                }
+            },
         }
 
-        _.each(message, function(message, key)
+        _.each(message, function(data, key)
         {
             btapp.on(key, function()
             {
-                this.torrents_contents.setMessage(message)
+                this.torrents_contents.setMessage(data.message)
+                if(data.callback)
+                    data.callback()
+
                 btapp.off(key)
             }, this)
         }, this)
 
         btapp.on('sync', function()
-        {   
+        {
             _.defer(_this.calculateTotals, _this)
         })
 
@@ -432,6 +441,13 @@ var TorrentsList = Backbone.View.extend(
             })
 
         new_name.prependTo(this.parent_el)
+            .css({
+                opacity: 0,
+                translateX: '+=50'
+            }).animate({
+                opacity: 1,
+                translateX: 0
+            }, 300)
     },
 
     getSelected: function()

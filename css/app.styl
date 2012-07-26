@@ -147,6 +147,15 @@ anim()
         transform rotateY(0) translateX(0)
         opacity 1
 
+@keyframes namein
+    0%
+        transform rotateY(-90deg) translateX(-200px)
+        opacity 0
+    
+    100%
+        transform rotateY(0) translateX(0)
+        opacity 1
+
 @keyframes progress-bg-in
     0%
         background-position 0 0
@@ -433,6 +442,11 @@ $bottom_height = 30px
         -ms-animation-fill-mode both
         animation-fill-mode both
         transform_origin(left center)
+
+    &.started
+        .name,
+        .content
+            anim(none)
 
 #torrents
     .torrent
