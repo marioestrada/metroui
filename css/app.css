@@ -127,6 +127,7 @@ strong {
 em {
   font-style: italic;
 }
+/* Mixins: CSS3 */
 /* Generic classes */
 .smallscreen {
   display: none !important;
@@ -141,7 +142,6 @@ em {
   font-weight: normal;
   font-style: normal;
 }
-/* Mixins: CSS3 */
 /* Animations */
 /* Variables */
 /* Application */
@@ -808,6 +808,25 @@ a {
     opacity: 1;
   }
 }
+@-moz-keyframes metroin {
+  0% {
+    -webkit-transform: rotateY(90deg) translateX(200px);
+    -moz-transform: rotateY(90deg) translateX(200px);
+    -ms-transform: rotateY(90deg) translateX(200px);
+    -o-transform: rotateY(90deg) translateX(200px);
+    transform: rotateY(90deg) translateX(200px);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: rotateY(0) translateX(0);
+    -moz-transform: rotateY(0) translateX(0);
+    -ms-transform: rotateY(0) translateX(0);
+    -o-transform: rotateY(0) translateX(0);
+    transform: rotateY(0) translateX(0);
+    opacity: 1;
+  }
+}
 @-ms-keyframes metroin {
   0% {
     -webkit-transform: rotateY(90deg) translateX(200px);
@@ -847,6 +866,29 @@ a {
   }
 }
 @-webkit-keyframes metrointop {
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    -webkit-transform: rotateY(110deg) translateX(150px);
+    -moz-transform: rotateY(110deg) translateX(150px);
+    -ms-transform: rotateY(110deg) translateX(150px);
+    -o-transform: rotateY(110deg) translateX(150px);
+    transform: rotateY(110deg) translateX(150px);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: rotateY(0) translateX(0);
+    -moz-transform: rotateY(0) translateX(0);
+    -ms-transform: rotateY(0) translateX(0);
+    -o-transform: rotateY(0) translateX(0);
+    transform: rotateY(0) translateX(0);
+    opacity: 1;
+  }
+}
+@-moz-keyframes metrointop {
   0% {
     opacity: 0;
   }
@@ -924,6 +966,15 @@ a {
     background-position: -40px 0;
   }
 }
+@-moz-keyframes progress-bg-in {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: -40px 0;
+  }
+}
 @-ms-keyframes progress-bg-in {
   0% {
     background-position: 0 0;
@@ -943,6 +994,15 @@ a {
   }
 }
 @-webkit-keyframes progress-bg-out {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 40px 0;
+  }
+}
+@-moz-keyframes progress-bg-out {
   0% {
     background-position: 0 0;
   }

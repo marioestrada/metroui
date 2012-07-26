@@ -1,20 +1,6 @@
-vendors = webkit ms official
+vendors = webkit moz ms official
 
 @import 'reset'
-
-/* Generic classes */
-.smallscreen
-    display none !important
-
-.hidden
-    display none
-
-/* Fonts */
-@font-face 
-    font-family 'Pictograms';
-    src url('fonts/modernpics-webfont.woff') format('woff');
-    font-weight normal
-    font-style normal
 
 /* Mixins: CSS3 */
 border-box()
@@ -124,6 +110,20 @@ anim()
     -ms-animation arguments
     -o-animation arguments
     animation arguments
+
+/* Generic classes */
+.smallscreen
+    display none !important
+
+.hidden
+    display none
+
+/* Fonts */
+@font-face 
+    font-family 'Pictograms';
+    src url('fonts/modernpics-webfont.woff') format('woff');
+    font-weight normal
+    font-style normal
 
 /* Animations */
 @keyframes metroin
