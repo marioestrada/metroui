@@ -526,7 +526,10 @@ var TopControls = Backbone.View.extend({
     {
         var me = $(e.currentTarget)
         var sub_panel = me.closest('.sub-panel')
-        var url = sub_panel.find('input').val()
+        var input = sub_panel.find('input');
+        var url = input.val()
+
+        input.val('')
 
         switch(me.data('action'))
         {
