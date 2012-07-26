@@ -539,13 +539,16 @@ var TopControls = Backbone.View.extend({
                 break
         }
 
-        sub_panel.animate({
-            opacity: 0,
-            scale: 0.8
-        }, 200, function()
-        {
-            $(this).addClass('hidden')
-        })
+        sub_panel
+            .animate({
+                scale: 1.15
+            }, 100).animate({
+                opacity: 0,
+                scale: 0.8
+            }, 200, function()
+            {
+                $(this).addClass('hidden')
+            })
     },
 
     cancelSubPanel: function(e)
