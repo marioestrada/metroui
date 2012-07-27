@@ -1,4 +1,4 @@
-(function($, Handlebars)
+(function($, Backbone, Handlebars)
 {
 
 var Templates
@@ -156,7 +156,6 @@ var MainApp = Backbone.View.extend({
 
     setContext: function(context)
     {
-        console.log(context)
         if(this.context === context)
             return
 
@@ -169,7 +168,7 @@ var MainApp = Backbone.View.extend({
             .animate({
                 opacity: 0,
                 translateX: -10
-            }, 200, function()
+            }, 300, function()
             {
                 $(this).parent().addClass('hidden')
             })
@@ -186,7 +185,7 @@ var MainApp = Backbone.View.extend({
             .children('.content')
                 .css({
                     opacity: 0,
-                    translateX: 30,
+                    translateX: 50,
                     scale: 0.98
                 }).delay(100).animate({
                     opacity: 1,
@@ -478,36 +477,11 @@ var TorrentRow = Backbone.View.extend({
     }
 })
 
-var TorrentsList = Backbone.View.extend(
-{
-    initialize: function()
-    {
-        this.name_el = this.$el.siblings('.name')
-        this.parent_el = this.$el.parent()
-        this.message_el = this.$el.find('.message')
-
-        btapp.live('torrent *', function(torrent)
-        {
-            this.message_el.remove()
-
-            var view = new TorrentRow({
-                model: torrent
-             })
-
-            this.$el.append(view.render().el)
-        }, this)
-    },
-
-    setMessage: function(message)
-    {
-        this.message_el.html(message)
-    },
-
+var ListMixin = {
     setName: function(name)
     {
         var new_name = this.name_el.clone().html(name)
         var old_name = this.name_el
-        var _this = this
 
         if(new_name.text() === old_name.text())
             return
@@ -531,6 +505,32 @@ var TorrentsList = Backbone.View.extend(
                 opacity: 1,
                 translateX: 0
             }, 300)
+    }
+}
+
+var TorrentsList = Backbone.View.extend(
+{
+    initialize: function()
+    {
+        this.name_el = this.$el.siblings('.name')   
+        this.parent_el = this.$el.parent()
+        this.message_el = this.$el.find('.message')
+
+        btapp.live('torrent *', function(torrent)
+        {
+            this.message_el.remove()
+
+            var view = new TorrentRow({
+                model: torrent
+             })
+
+            this.$el.append(view.render().el)
+        }, this)
+    },
+
+    setMessage: function(message)
+    {
+        this.message_el.html(message)
     },
 
     getSelected: function()
@@ -546,9 +546,12 @@ var TorrentsList = Backbone.View.extend(
     }
 })
 
+_.extend(TorrentsList.prototype, ListMixin)
+
 var Sidebar = Backbone.View.extend({
     events: {
         'click ul:not(.feeds) a': 'filterTorrents',
+        'click ul.feeds a': 'filterFeeds',
         'click ul': 'setContext',
         'click ul a': 'setActual'
     },
@@ -577,6 +580,17 @@ var Sidebar = Backbone.View.extend({
     {
         this.$('.actual').removeClass('actual')
         $(e.currentTarget).addClass('actual')
+    },
+
+    filterFeeds: function(e, triggered)
+    {
+        if(!this.app)
+            this.app = App
+
+        e.preventDefault()
+        var el = $(e.currentTarget)
+
+        this.app.feed_torrents_list.setName(el.text(), this)
     },
 
     filterTorrents: function(e, triggered)
@@ -753,7 +767,9 @@ var TopControls = Backbone.View.extend({
 var FeedList = Backbone.View.extend({
     initialize: function()
     {
-        this.feeds = []
+        this.feeds = [{
+            no_feed: true
+        }]
 
         this.list_contents = this.$('ul:first')
 
@@ -774,6 +790,9 @@ var FeedList = Backbone.View.extend({
 var FeedTorrentsList = Backbone.View.extend({
     initialize: function()
     {
+        this.name_el = this.$el.siblings('.name')
+        this.parent_el = this.$el.parent()  
+
         btapp.live('rss_feed * item *', function(feed_torrent)
         {
             if(feed_torrent === 'item')
@@ -787,6 +806,8 @@ var FeedTorrentsList = Backbone.View.extend({
         }, this)
     }
 })
+
+_.extend(FeedTorrentsList.prototype, ListMixin)
 
 var Torrent = Backbone.Model.extend({
 })
@@ -812,4 +833,4 @@ $(function()
     window.app = App
 })
 
-})(jQuery, Handlebars);
+})(jQuery, Backbone, Handlebars);

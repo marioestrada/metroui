@@ -113,7 +113,7 @@
 				<h2>Torrents</h2>
 				<ul>
 					<li class="all">
-						<a data-title="All Torrents" data-show="" href="#" class="current"><span class="img"></span>All <span class="count hidden">0</span></a>
+						<a data-title="All Torrents" data-show="" href="#" class="actual"><span class="img"></span>All <span class="count hidden">0</span></a>
 					</li>
 					<li class="downloading">
 						<a data-title="Downloading Torrents" data-show=".downloading" href="#"><span class="img"></span>Downloading <span class="count hidden">0</span></a>
@@ -375,7 +375,7 @@
 <script id="tmpl_feed_list"type="text/x-handlebar-template">
 {{#items}}
 	<li>
-		<a href="#" data-feed="{{ id }}" {{#if _current}}class="current"{{/if}}>
+		<a href="#" data-feed="{{ id }}">
 			<span class="img"></span>{{ properties.attributes.alias }}{{#no_feed}}All Feeds{{/no_feed}} {{#_show_count}}<span class="count">{{ _count }}</span>{{/_show_count}}
 		</a>
 	</li>
