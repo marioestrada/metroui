@@ -104,13 +104,13 @@ var MainApp = Backbone.View.extend({
 
         this.context = 'torrents'
 
-        // btapp.on('all', console.log, console)
+        btapp.on('all', console.log, console)
 
         var message = {
             'plugin:plugin_installed': { message: 'Checking plugin&hellip;' },
             'pairing:attempt': { message: 'Pairing with client&hellip;' },
             'client:connected': {
-                message: 'Client connected. Waiting for torrents&hellip;',
+                message: 'Client connected. Ready for torrents&hellip;',
                 callback: function()
                 {
                     $('.main_content').addClass('started')
@@ -122,7 +122,7 @@ var MainApp = Backbone.View.extend({
         {
             btapp.on(key, function()
             {
-                this.torrents_contents.setMessage(data.message)
+                this.torrents_list.setMessage(data.message)
                 if(data.callback)
                     data.callback()
 
@@ -135,14 +135,6 @@ var MainApp = Backbone.View.extend({
             _.defer(_this.calculateTotals, _this)
         })
 
-        this.torrents_contents = new TorrentsList({
-            el: $('#torrents .content')
-        })
-
-        this.feed_torrents_list = new FeedTorrentsList({
-            el: $('#feeds .content')
-        })
-
         this.top_controls = new TopControls({
             el: $('#controls_top')
         })
@@ -151,6 +143,14 @@ var MainApp = Backbone.View.extend({
             el: $('#sidebar')
         }, {
             app: this //Not working for some reason
+        })
+
+        this.torrents_list = new TorrentsList({
+            el: $('#torrents .content')
+        })
+
+        this.feed_torrents_list = new FeedTorrentsList({
+            el: $('#feeds .content')
         })
     },
 
@@ -163,6 +163,8 @@ var MainApp = Backbone.View.extend({
         var next = $('#' + context)
 
         this.context = context
+
+        this.torrents_list.deselectAll()
 
         current.children()
             .animate({
@@ -219,7 +221,7 @@ var MainApp = Backbone.View.extend({
 
         var el = $(e.currentTarget)
         var action = el.data('action')
-        var selected = this.torrents_contents.getSelected()
+        var selected = this.torrents_list.getSelected()
         var method
         var set_property
 
@@ -376,19 +378,6 @@ var TorrentRow = Backbone.View.extend({
     selected: function()
     {
         this.$el.toggleClass('selected')
-
-        var selected_els = $('.torrent.selected', '#torrents')
-
-        $('#torrent_controls').toggleClass('open', selected_els.length > 0)
-
-        if(selected_els.length > 1)
-        {
-            $('#torrent_controls').find('[data-multiple=false]').addClass('disabled')
-        }else if(selected_els.length == 1){
-            $('#torrent_controls').find('[data-multiple]').removeClass('disabled')
-        }else{
-            $('#torrent_controls').find('[data-multiple]').addClass('disabled')
-        }
     },
 
     mapStatuses: function(status)
@@ -510,6 +499,10 @@ var ListMixin = {
 
 var TorrentsList = Backbone.View.extend(
 {
+    events: {
+        'click .torrent': 'checkSelected'
+    },
+
     initialize: function()
     {
         this.name_el = this.$el.siblings('.name')   
@@ -543,6 +536,29 @@ var TorrentsList = Backbone.View.extend(
             }, [])
 
         return selected_hashes 
+    },
+
+    deselectAll: function()
+    {
+        this.$('.selected').removeClass('selected')
+
+        this.checkSelected()
+    },
+
+    checkSelected: function()
+    {
+        var selected_els = this.$('.selected')
+
+        $('#torrent_controls').toggleClass('open', selected_els.length > 0)
+
+        if(selected_els.length > 1)
+        {
+            $('#torrent_controls').find('[data-multiple=false]').addClass('disabled')
+        }else if(selected_els.length == 1){
+            $('#torrent_controls').find('[data-multiple]').removeClass('disabled')
+        }else{
+            $('#torrent_controls').find('[data-multiple]').addClass('disabled')
+        }
     }
 })
 
@@ -603,7 +619,7 @@ var Sidebar = Backbone.View.extend({
 
         var section = $(el).closest('section').data('section')
         var elems
-        var torrents_list = this.app.torrents_contents.$el.children()
+        var torrents_list = this.app.torrents_list.$el.children()
         var selector = ''
 
         switch(section)
@@ -642,7 +658,7 @@ var Sidebar = Backbone.View.extend({
                 scale: 1
             }, 150)
 
-        this.app.torrents_contents.setName(el.data('title'))
+        this.app.torrents_list.setName(el.data('title'))
     }
 })
 

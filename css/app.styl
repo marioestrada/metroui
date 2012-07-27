@@ -64,10 +64,10 @@ trans()
 
 vendor_transition(property, args...)
     -webkit-transition: s('-webkit-%s', property) args
-    -moz-transition: s('-moz-%s', property) args
-    -ms-transition: s('-ms-%s', property) args
-    -o-transition: s('-o-%s', property)args
-    transition: s('%s', property) args
+    -moz-transition:    s('-moz-%s', property) args
+    -ms-transition:     s('-ms-%s', property) args
+    -o-transition:      s('-o-%s', property)args
+    transition:         s('%s', property) args
 
 transform()
     -webkit-transform: arguments
@@ -418,12 +418,10 @@ $bottom_height = 30px
 .main_content
     position absolute
     left $sidebar_width
-    bottom 0 //$bottom_height
-    // padding-bottom $bottom_height + 10
+    bottom 0
     top $top_height - 20px
     right 0
-    // overflow hidden
-
+    
     .name
         font-size 32px
         font-weight 300
@@ -444,11 +442,11 @@ $bottom_height = 30px
         bottom 0
         top 32 + 15px
         padding-bottom $bottom_height
-        overflow scroll
+        overflow auto
 
     .name,
     .content
-        anim(metroin 0.3s ease-out 0.25s)
+        anim(metroin 0.3s ease-out)
         -webkit-animation-fill-mode both
         -ms-animation-fill-mode both
         animation-fill-mode both
@@ -720,10 +718,10 @@ $bottom_height = 30px
     border-top 2px solid #000
     background $color_lime
     font-size 12px
-    trans(bottom 0.2s ease-out)
+    vendor_transition(transform, 0.2s ease-out)
 
     &.open
-        bottom 0
+        transform translateY(-90px)
 
         li
             opacity 1
