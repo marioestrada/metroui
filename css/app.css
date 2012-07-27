@@ -460,6 +460,7 @@ a {
   animation: none;
 }
 #feeds .feed_torrent {
+  margin-right: 10px;
   position: relative;
   background: rgba(255,255,255,0.075);
   margin-bottom: 10px;
