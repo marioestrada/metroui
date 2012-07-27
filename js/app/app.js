@@ -102,6 +102,8 @@ var MainApp = Backbone.View.extend({
             product: 'uTorrent'
         })
 
+        this.context = 'torrents'
+
         // btapp.on('all', console.log, console)
 
         var message = {
@@ -150,6 +152,47 @@ var MainApp = Backbone.View.extend({
         }, {
             app: this //Not working for some reason
         })
+    },
+
+    setContext: function(context)
+    {
+        console.log(context)
+        if(this.context === context)
+            return
+
+        var current = $('#' + this.context)
+        var next = $('#' + context)
+
+        this.context = context
+
+        current.children()
+            .animate({
+                opacity: 0,
+                translateX: -10
+            }, 200, function()
+            {
+                $(this).parent().addClass('hidden')
+            })
+
+        next.removeClass('hidden')
+            .children('.name')
+                .css({
+                    opacity: 0,
+                    translateX: 30
+                }).animate({
+                    opacity: 1,
+                    translateX: 0
+                }, 300).end()
+            .children('.content')
+                .css({
+                    opacity: 0,
+                    translateX: 30,
+                    scale: 0.98
+                }).delay(100).animate({
+                    opacity: 1,
+                    translateX: 0,
+                    scale: 1
+                }, 300).end()
     },
 
     calculateTotals: function(_this)
@@ -252,7 +295,7 @@ var FeedTorrentRow = Backbone.View.extend({
     addTorrent: function(e)
     {
         e.preventDefault()
-        console.log(this.model.get('properties').get('url'))
+
         btapp.get('add').torrent(this.model.get('properties').get('url'))
     }
 })
@@ -505,7 +548,9 @@ var TorrentsList = Backbone.View.extend(
 
 var Sidebar = Backbone.View.extend({
     events: {
-        'click ul:not(.feed) a': 'filterTorrents'
+        'click ul:not(.feeds) a': 'filterTorrents',
+        'click ul': 'setContext',
+        'click ul a': 'setActual'
     },
 
     initialize: function()
@@ -515,15 +560,32 @@ var Sidebar = Backbone.View.extend({
         })
     },
 
-    filterTorrents: function(e)
+    setContext: function(e, triggered)
+    {
+        var context = $(e.currentTarget).hasClass('feeds') ? 'feeds' : 'torrents'
+
+        if(triggered)
+            return
+
+        if(!this.app)
+            this.app = App
+
+        this.app.setContext(context)
+    },
+
+    setActual: function(e)
+    {
+        this.$('.actual').removeClass('actual')
+        $(e.currentTarget).addClass('actual')
+    },
+
+    filterTorrents: function(e, triggered)
     {
         if(!this.app)
             this.app = App
 
         e.preventDefault()
-
-        this.$el.find('.actual').removeClass('actual')
-        var el = $(e.currentTarget).addClass('actual')
+        var el = $(e.currentTarget)
 
         var section = $(el).closest('section').data('section')
         var elems
