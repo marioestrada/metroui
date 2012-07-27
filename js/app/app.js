@@ -5,6 +5,8 @@ var Templates
 var App
 
 var Helpers = {
+    Mixins: {},
+
     poll_queries: [
         'btapp/'
     ], 
@@ -26,10 +28,10 @@ var Helpers = {
 
     secondsToDate: function(seconds)
     {
-        if(!seconds)
-            return 'n/a'
-        
         var d = new Date(seconds * 1000)
+
+        if(!seconds || isNaN(d))
+            return 'n/a'
         
         return d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear()
     },
@@ -282,11 +284,13 @@ var FeedTorrentRow = Backbone.View.extend({
 
     render: function()
     {
+        var attributes = this.model.get('properties').attributes
+
         this.$el.attr('data-feed', this.model.get('id'))
 
         this.$el.html(
             Templates.feed_torrent_row(
-                this.model.get('properties').attributes
+                _.extend({}, attributes, { in_history: attributes.in_history !== "false" })
             )
         )
 
@@ -466,7 +470,7 @@ var TorrentRow = Backbone.View.extend({
     }
 })
 
-var ListMixin = {
+Helpers.Mixins.List = {
     setName: function(name)
     {
         var new_name = this.name_el.clone().html(name)
@@ -494,6 +498,11 @@ var ListMixin = {
                 opacity: 1,
                 translateX: 0
             }, 300)
+    },
+
+    filterContent: function()
+    {
+
     }
 }
 
@@ -562,7 +571,7 @@ var TorrentsList = Backbone.View.extend(
     }
 })
 
-_.extend(TorrentsList.prototype, ListMixin)
+_.extend(TorrentsList.prototype, Helpers.Mixins.List)
 
 var Sidebar = Backbone.View.extend({
     events: {
@@ -622,6 +631,8 @@ var Sidebar = Backbone.View.extend({
         var torrents_list = this.app.torrents_list.$el.children()
         var selector = ''
 
+        this.app.torrents_list.setName(el.data('title'))
+
         switch(section)
         {
             case 'torrents':
@@ -657,8 +668,6 @@ var Sidebar = Backbone.View.extend({
                 opacity: 1,
                 scale: 1
             }, 150)
-
-        this.app.torrents_list.setName(el.data('title'))
     }
 })
 
@@ -823,7 +832,7 @@ var FeedTorrentsList = Backbone.View.extend({
     }
 })
 
-_.extend(FeedTorrentsList.prototype, ListMixin)
+_.extend(FeedTorrentsList.prototype, Helpers.Mixins.List)
 
 var Torrent = Backbone.Model.extend({
 })

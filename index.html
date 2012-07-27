@@ -343,8 +343,8 @@
 	<div class="byline">
 		<em>Published:</em> {{ secondsToDate timestamp }} - <em>URL:</em> {{ url }}
 	</div>
-	<div class="controls {{#in_history}}in_history{{/in_history}}">
-		<span class="in_history"></span>
+	<div class="controls">
+		{{#in_history}}<span class="in_history">In History</span>{{/in_history}}
 		<a href="#" data-url="{{ url }}" data-action="add-url" class="download"><span class="img"></span>Add</a>
 	</div>
 </script>
