@@ -183,7 +183,6 @@ $color_light_blue = #39f
 $color_bt = $color_purple
 $color_ut = $color_green
 
-$sidebar_width = 250px
 $sidebar_footer_height = 35px
 $controls_height = 45px
 
@@ -208,8 +207,9 @@ body
     pers(1600px)
 
 body
-    background-color $color_bg
-    angled_gradient -45deg, rgba($color_green,0), rgba($color_green,0.35)
+    background darken($color_green, 50%)
+    // background-color $color_bg
+    // angled_gradient -45deg, rgba($color_green,0), rgba($color_green,0.35)
     color #fff
     unselectable()
 
@@ -251,7 +251,7 @@ a
     text-decoration none
 
 $top_height = 130px
-$side_width = 240px
+$side_width = 340px
 $bottom_height = 30px
 
 #controls_top
@@ -338,7 +338,7 @@ $bottom_height = 30px
         position absolute
         top 50px
         bottom 0
-        left $side_width + 20
+        left $side_width + 30
 
     .controls_last
         right 0
@@ -379,10 +379,13 @@ $bottom_height = 30px
 
 #sidebar
     position absolute
-    top $top_height
+    top 0
     left 0
-    bottom $bottom_height
+    bottom 0
+    padding-top $top_height
+    padding-bottom $bottom_height
     width $side_width
+    background darken($color_green, 65%)
 
     .content
         anim(metroin 0.3s ease-out)
@@ -399,25 +402,27 @@ $bottom_height = 30px
     ul
         margin-bottom 20px
 
-    li
+    a
         padding 2px 5px 2px 30px
         margin-bottom 10px
-        font-size 17px
+        font-size 15px
+        display block
 
-        a
-            font-size 15px
-            display block
+        &.current
+            font-weight 600
+            color $color_lime
 
-            .count
-                font-weight 600
-                font-size 16px
+        .count
+            font-weight 600
+            font-size 16px
+            color #fff !important
 
 #panels
     display none
 
 .main_content
     position absolute
-    left $sidebar_width
+    left $side_width + 30
     bottom 0
     top $top_height - 20px
     right 0
@@ -699,13 +704,13 @@ $bottom_height = 30px
     position absolute
     font-weight 300
     font-size 13px
-    background rgba(darken($color_green, 80%), 0.7)
+    background rgba(darken($color_green, 65%), 0.7)
     text-align center
     height $bottom_height
     line-height $bottom_height
     bottom 0
     left 0
-    right 0
+    width $side_width
 
     strong
         font-weight 600

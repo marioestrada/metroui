@@ -214,7 +214,7 @@ var MainApp = Backbone.View.extend({
         up_el.html(Helpers.parseBytes(up))
         down_el.html(Helpers.parseBytes(down))
 
-        _this.sidebar.$el.find('.actual').trigger('click', [true])
+        _this.sidebar.$el.find('.current').trigger('click', [true])
     },
 
     runAction: function(e)
@@ -500,8 +500,25 @@ Helpers.Mixins.List = {
             }, 300)
     },
 
-    filterContent: function(elems, list)
+    filterContent: function(elems, list, height)
     {
+        height = height || 75
+
+        if(list.length > 10)
+        {
+            list.not(elems).addClass('hidden')
+
+            if(elems.css('opacity') < 1)
+                elems.css({
+                    opacity: 1,
+                    scale: 1
+                })
+
+            elems.removeClass('hidden')
+
+            return
+        }
+
         list.not(elems)
             .removeClass('selected')
             .animate({
@@ -513,7 +530,7 @@ Helpers.Mixins.List = {
                 $(this).addClass('hidden')
             })
 
-        elems.css('height', 75)
+        elems.css('height', height)
             .removeClass('hidden')
             .animate({
                 opacity: 1,
@@ -594,7 +611,7 @@ var Sidebar = Backbone.View.extend({
         'click ul:not(.feeds) a': 'filterTorrents',
         'click ul.feeds a': 'filterFeeds',
         'click ul': 'setContext',
-        'click ul a': 'setActual'
+        'click ul a': 'setCurrent'
     },
 
     initialize: function()
@@ -617,10 +634,10 @@ var Sidebar = Backbone.View.extend({
         this.app.setContext(context)
     },
 
-    setActual: function(e)
+    setCurrent: function(e)
     {
-        this.$('.actual').removeClass('actual')
-        $(e.currentTarget).addClass('actual')
+        this.$('.current').removeClass('current')
+        $(e.currentTarget).addClass('current')
     },
 
     filterFeeds: function(e, triggered)
@@ -639,7 +656,7 @@ var Sidebar = Backbone.View.extend({
         
         this.app.feed_torrents_list.setName(el.text(), this)
 
-        this.app.feed_torrents_list.filterContent(elems, feeds_list)
+        this.app.feed_torrents_list.filterContent(elems, feeds_list, 62)
     },
 
     filterTorrents: function(e, triggered)
@@ -675,7 +692,7 @@ var Sidebar = Backbone.View.extend({
 
         elems = selector.length > 0 ? torrents_list.filter(selector) : torrents_list
         
-        this.app.torrents_list.filterContent(elems, torrents_list)
+        this.app.torrents_list.filterContent(elems, torrents_list, 75)
     }
 })
 

@@ -167,12 +167,7 @@ body {
   perspective: 1600px;
 }
 body {
-  background-color: #01210b;
-  background-image: -webkit-linear-gradient(-45deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
-  background-image: -moz-linear-gradient(-45deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
-  background-image: -ms-linear-gradient(135deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
-  background-image: -o-linear-gradient(-45deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
-  background-image: linear-gradient(135deg, rgba(0,133,63,0), rgba(0,133,63,0.35));
+  background: #004320;
   color: #fff;
   -webkit-user-select: none;
   -moz-user-select: -moz-none;
@@ -313,7 +308,7 @@ a {
   position: absolute;
   top: 50px;
   bottom: 0;
-  left: 260px;
+  left: 370px;
 }
 #controls_top .controls_last {
   right: 0;
@@ -358,10 +353,13 @@ a {
 }
 #sidebar {
   position: absolute;
-  top: 130px;
+  top: 0;
   left: 0;
-  bottom: 30px;
-  width: 240px;
+  bottom: 0;
+  padding-top: 130px;
+  padding-bottom: 30px;
+  width: 340px;
+  background: #002f16;
 }
 #sidebar .content {
   -webkit-animation: metroin 0.3s ease-out;
@@ -386,25 +384,27 @@ a {
 #sidebar ul {
   margin-bottom: 20px;
 }
-#sidebar li {
+#sidebar a {
   padding: 2px 5px 2px 30px;
   margin-bottom: 10px;
-  font-size: 17px;
-}
-#sidebar li a {
   font-size: 15px;
   display: block;
 }
-#sidebar li a .count {
+#sidebar a.current {
+  font-weight: 600;
+  color: #86c440;
+}
+#sidebar a .count {
   font-weight: 600;
   font-size: 16px;
+  color: #fff !important;
 }
 #panels {
   display: none;
 }
 .main_content {
   position: absolute;
-  left: 250px;
+  left: 370px;
   bottom: 0;
   top: 110px;
   right: 0;
@@ -711,13 +711,13 @@ a {
   position: absolute;
   font-weight: 300;
   font-size: 13px;
-  background: rgba(0,27,13,0.7);
+  background: rgba(0,47,22,0.7);
   text-align: center;
   height: 30px;
   line-height: 30px;
   bottom: 0;
   left: 0;
-  right: 0;
+  width: 340px;
 }
 #status strong {
   font-weight: 600;
