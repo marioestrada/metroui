@@ -396,8 +396,8 @@ a {
 }
 #sidebar a .count {
   font-weight: 600;
-  font-size: 16px;
-  color: #fff !important;
+  margin-left: 5px;
+  color: rgba(255,255,255,0.7) !important;
 }
 #panels {
   display: none;

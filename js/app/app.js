@@ -134,7 +134,7 @@ var MainApp = Backbone.View.extend({
 
         btapp.on('sync', function()
         {
-            _.defer(_this.calculateTotals, _this)
+            _.defer(_this.refreshTotals, _this)
         })
 
         this.top_controls = new TopControls({
@@ -196,6 +196,38 @@ var MainApp = Backbone.View.extend({
                     translateX: 0,
                     scale: 1
                 }, 300).end()
+    },
+
+    refreshTotals: function(_this)
+    {
+        _this.calculateSidebarCounts(_this)
+        _this.calculateTotals(_this)
+    },
+
+    calculateSidebarCounts: function(_this)
+    {
+        this.sidebar.$('li a').each(function()
+        {
+            var me = $(this)
+            var selector
+            var total
+
+            if(me.data('show') !== undefined)
+            {
+                selector = _this.sidebar.getTorrentsFilterSelector('torrents', me)
+                total = selector.length > 0 ? _this.torrents_list.$(selector).length : _this.torrents_list.$el.children().length
+            }else if(me.data('label') !== undefined){
+
+            }else if(me.data('feed') !== undefined){
+                console.log(_this.feed_torrents_list.feed_map[me.data('feed')])
+                selector = '[data-feed=\'' + _this.feed_torrents_list.feed_map[me.data('feed')] + '\']'
+                total = selector.length > 0 ? _this.feed_torrents_list.$(selector).length : _this.feed_torrents_list.$el.children().length
+            }
+
+            me.children('.count')
+                .toggleClass('hidden', total === 0)
+                .text(total)
+        })
     },
 
     calculateTotals: function(_this)
@@ -649,10 +681,10 @@ var Sidebar = Backbone.View.extend({
         var el = $(e.currentTarget)
 
         var feeds_list = this.app.feed_torrents_list.$el.children()
-        var id = el.data('feed')
+        var feed_id = el.data('feed')
         var elems
 
-        elems = id.length > 0 ? feeds_list.filter('[data-feed=\'' + this.app.feed_torrents_list.feed_map[id] + '\']') : feeds_list
+        elems = feed_id.length > 0 ? feeds_list.filter('[data-feed=\'' + this.app.feed_torrents_list.feed_map[feed_id] + '\']') : feeds_list
         
         this.app.feed_torrents_list.setName(el.text(), this)
 
@@ -674,7 +706,16 @@ var Sidebar = Backbone.View.extend({
 
         this.app.torrents_list.setName(el.data('title'))
 
-        switch(section)
+        selector = this.getTorrentsFilterSelector(section, el)
+
+        elems = selector.length > 0 ? torrents_list.filter(selector) : torrents_list
+        
+        this.app.torrents_list.filterContent(elems, torrents_list, 75)
+    },
+
+    getTorrentsFilterSelector: function(type, el)
+    {
+        switch(type)
         {
             case 'torrents':
                 selector = $(el).data('show')
@@ -690,9 +731,7 @@ var Sidebar = Backbone.View.extend({
                 break
         }
 
-        elems = selector.length > 0 ? torrents_list.filter(selector) : torrents_list
-        
-        this.app.torrents_list.filterContent(elems, torrents_list, 75)
+        return selector
     }
 })
 
