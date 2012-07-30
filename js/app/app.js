@@ -219,8 +219,9 @@ var MainApp = Backbone.View.extend({
             }else if(me.data('label') !== undefined){
 
             }else if(me.data('feed') !== undefined){
-                console.log(_this.feed_torrents_list.feed_map[me.data('feed')])
-                selector = '[data-feed=\'' + _this.feed_torrents_list.feed_map[me.data('feed')] + '\']'
+                var feed_id = me.data('feed')
+
+                selector = feed_id ? '[data-feed=\'' + _this.feed_torrents_list.feed_map[feed_id] + '\']' : ''
                 total = selector.length > 0 ? _this.feed_torrents_list.$(selector).length : _this.feed_torrents_list.$el.children().length
             }
 
@@ -686,7 +687,7 @@ var Sidebar = Backbone.View.extend({
 
         elems = feed_id.length > 0 ? feeds_list.filter('[data-feed=\'' + this.app.feed_torrents_list.feed_map[feed_id] + '\']') : feeds_list
         
-        this.app.feed_torrents_list.setName(el.text(), this)
+        this.app.feed_torrents_list.setName(el.data('title'), this)
 
         this.app.feed_torrents_list.filterContent(elems, feeds_list, 62)
     },
@@ -857,7 +858,11 @@ var FeedList = Backbone.View.extend({
     initialize: function()
     {
         this.feeds = [{
-            no_feed: true // This shows All Feeds
+            properties: {
+                attributes: {
+                    alias: 'All Feeds'
+                }
+            }
         }]
 
         this.list_contents = this.$('ul:first')
