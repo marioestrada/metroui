@@ -394,7 +394,7 @@ $bottom_height = 30px
     h2
         font-size 28px
         padding 3px 20px
-        margin-bottom 10px
+        margin-bottom 7px
         font-weight 300
         color #ccc
         text-transform lowercase
@@ -403,10 +403,13 @@ $bottom_height = 30px
         margin-bottom 20px
 
     a
-        padding 2px 5px 2px 30px
-        margin-bottom 10px
+        padding 7px 5px 9px 30px
+        // margin-bottom 10px
         font-size 15px
         display block
+
+        &:hover
+            background rgba(#fff, 0.1)
 
         &.current
             font-weight 600
@@ -449,6 +452,7 @@ $bottom_height = 30px
         bottom 0
         top 32 + 15px
         padding-bottom $bottom_height
+        padding-right 10px
         overflow auto
 
     .name,
@@ -510,7 +514,7 @@ $bottom_height = 30px
     .torrent
         border-right 5px solid $color_light_blue
         margin-right 10px
-        margin-bottom 5px
+        margin-bottom 10px
         position relative
         overflow hidden
         height 75px

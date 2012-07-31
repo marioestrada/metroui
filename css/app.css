@@ -376,7 +376,7 @@ a {
 #sidebar h2 {
   font-size: 28px;
   padding: 3px 20px;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
   font-weight: 300;
   color: #ccc;
   text-transform: lowercase;
@@ -385,10 +385,12 @@ a {
   margin-bottom: 20px;
 }
 #sidebar a {
-  padding: 2px 5px 2px 30px;
-  margin-bottom: 10px;
+  padding: 7px 5px 9px 30px;
   font-size: 15px;
   display: block;
+}
+#sidebar a:hover {
+  background: rgba(255,255,255,0.1);
 }
 #sidebar a.current {
   font-weight: 600;
@@ -433,6 +435,7 @@ a {
   bottom: 0;
   top: 47px;
   padding-bottom: 30px;
+  padding-right: 10px;
   overflow: auto;
 }
 .main_content .name,
@@ -503,7 +506,7 @@ a {
 #torrents .torrent {
   border-right: 5px solid #39f;
   margin-right: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   position: relative;
   overflow: hidden;
   height: 75px;
