@@ -522,6 +522,16 @@ a {
 #torrents .torrent:hover {
   background-color: rgba(255,255,255,0.05);
 }
+#torrents .torrent::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(255,255,255,0);
+}
 #torrents .torrent h1 {
   font-size: 18px;
   line-height: 22px;

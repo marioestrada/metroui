@@ -526,26 +526,29 @@ $bottom_height = 30px
             background-color rgba(#fff, 0.05)
 
         // Using it here as a hack for IE detecting :active pseudo-class on it
-        // &::before
-        //     content ''
-        //     position absolute
-        //     right 0
-        //     left 0
-        //     top 0
-        //     bottom 0
-        //     z-index 10
-        //     background rgba(#fff, 0)
+        &::before
+            content ''
+            position absolute
+            right 0
+            left 0
+            top 0
+            bottom 0
+            z-index 10
+            background rgba(#fff, 0)
 
         h1
             font-size 18px
             line-height 22px
             margin-top -2px
             margin-bottom 3px
+            // color $color_lime
 
         h1, 
         .byline
             white-space nowrap
-            
+            // text-overflow ellipsis
+            // overflow hidden
+
         .byline
             font-size 12px
             line-height 15px
@@ -556,11 +559,14 @@ $bottom_height = 30px
                 margin-bottom 2px
                 opacity 0.8
                 text-indent 3px
+                // font-weight 600
 
             .icon
                 display inline-block
+                // font-family 'Pictograms'
                 width 16px
                 height 16px
+                // overflow hidden
                 text-indent -1000px
                 position relative
 
@@ -573,6 +579,7 @@ $bottom_height = 30px
                     font-family 'Pictograms'
                     content ''
                     overflow visible
+                    // color #fff
                     text-indent 0
                     font-size 20px
                     text-align center
@@ -595,6 +602,11 @@ $bottom_height = 30px
             right 10px
             top 10px
             font-weight 300
+
+        .back
+            // position absolute
+            // bottom 0
+            // top 0
 
         .progress
             background-color $color_light_blue
@@ -684,6 +696,7 @@ $bottom_height = 30px
                     color #000
                     z-index 99
                     opacity 0.8
+                    // color $color_light_blue
 
         .back
             padding-top 10px
@@ -825,6 +838,8 @@ $bottom_height = 30px
                 content ''
                 font-size 40px
                 text-align center
+
+
 
     .end
         float right
