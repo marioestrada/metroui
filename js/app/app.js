@@ -7,10 +7,6 @@ var App
 var Helpers = {
     Mixins: {},
 
-    poll_queries: [
-        'btapp/'
-    ], 
-
     parseBytes: function(size, precision)
     {
         var i
@@ -96,13 +92,9 @@ var MainApp = Backbone.View.extend({
     {
         var _this = this
 
-        btapp.connect({}, {
-            poll_frequency: 1000,
-            queries: Helpers.poll_queries,
-            // pairing_type: 'native',
-            // plugin: false,
-            product: 'uTorrent'
-        })
+        btapp.connect({
+            queries: [['btapp','torrent'], ['btapp','add']]
+        });
 
         this.context = 'torrents'
 
